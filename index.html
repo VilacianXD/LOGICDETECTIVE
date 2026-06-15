@@ -1,120 +1,763 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Space Adventure Game PWA</title>
-  
-  <!-- Configurações PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#8b5cf6">
-  <link rel="apple-touch-icon" href="icon-192.jpg">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <!-- Estilos -->
-  <link rel="stylesheet" href="style.css">
-  
-  <!-- Fontes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Detective - Um Jogo de Lógica Proposicional</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Vídeo de Fundo Dinâmico -->
-  <div class="video-container">
-    <video autoplay loop muted playsinline id="bg-video">
-      <!-- O usuário colocará o seu próprio vídeo.mp4 aqui -->
-      <source src="bg-video.mp4" type="video/mp4">
+    <div class="stars-bg"></div>
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="noir_fog.mp4" type="video/mp4">
     </video>
-    <!-- Fallback de gradiente caso o vídeo falhe ou esteja carregando -->
-    <div class="video-fallback"></div>
-  </div>
+    <div class="container">
+        <!-- CABEÇALHO GLOBAL -->
+        <header class="app-header">
+            <div class="logo">
+                <img src="noir_logo.png" class="logo-img" alt="Logic Detective Logo">
+                <h1>LOGIC<span>DETECTIVE</span></h1>
+            </div>
+            
+            <div class="header-right-controls" style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: flex-end;">
+                <!-- BOTÃO REGRAS DO JOGO -->
+                <button class="btn btn-secondary" id="btn-header-rules" onclick="openInstructionsScreen()" style="border-color: var(--border-color); color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.75rem; padding: 0.35rem 0.65rem; display: inline-flex; align-items: center; gap: 0.25rem; background: var(--bg-tertiary); border-radius: var(--radius-md); transition: all var(--transition-fast); cursor: pointer; margin-right: 0.5rem;">
+                    📖 Regras do Jogo
+                </button>
 
-  <!-- Tela Principal do App -->
-  <main class="app-container">
-    <header class="app-header">
-      <div class="brand">
-        <span class="badge">PROTÓTIPO</span>
-        <h1>Space Adventure</h1>
-        <p class="subtitle">Desbrave o cosmo em um PWA seguro</p>
-      </div>
-      
-      <!-- Botão de Instalação (PWA) -->
-      <button id="btn-install" class="btn btn-primary btn-install hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Instalar no Dispositivo
-      </button>
-    </header>
+                <!-- BADGE DETETIVE -->
+                <div class="detective-header-badge" id="detective-header-badge" style="display: none; align-items: center; gap: 0.5rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 0.35rem 0.75rem; border-radius: var(--radius-md);">
+                    <img id="header-det-img" src="" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--accent-amber);">
+                    <span id="header-det-name" style="font-family: var(--font-mono); font-size: 0.85rem; font-weight: bold; color: var(--accent-amber);">Detetive</span>
+                    <button class="btn-link" onclick="openCharacterSelection()" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 0.75rem; text-decoration: underline; margin-left: 0.25rem; font-family: var(--font-sans); transition: color var(--transition-fast);">[Alterar]</button>
+                </div>
 
-    <!-- Painel de Estatísticas / Status (Salvo Localmente) -->
-    <section class="status-panel glass">
-      <div class="stat-item">
-        <span class="stat-label">Fase Atual</span>
-        <span class="stat-value" id="current-level-display">Fase 1</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Cristais Coletados</span>
-        <span class="stat-value text-cyan" id="crystals-display">0</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-label">Melhor Pontuação</span>
-        <span class="stat-value text-purple" id="highscore-display">0000</span>
-      </div>
-    </section>
+                <div class="mode-control">
+                    <span class="mode-label">Linguagem das Pistas:</span>
+                    <div class="switch-container">
+                        <span class="switch-option active" id="opt-pt">🗣️ Português</span>
+                        <label class="switch">
+                            <input type="checkbox" id="mode-switch">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="switch-option" id="opt-log">📐 Código Lógico</span>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-    <!-- Menu de Seleção de Fases (Simulando o Jogo) -->
-    <section class="levels-container">
-      <h2>Selecione uma Fase</h2>
-      <div class="levels-grid">
-        <!-- Fase 1 (Sempre Desbloqueada) -->
-        <button class="level-card glass active" data-level="1">
-          <div class="level-num">01</div>
-          <h3>Nebulosa Inicial</h3>
-          <p class="level-status">Disponível</p>
-        </button>
+        <!-- TELA DE APRESENTAÇÃO E SELEÇÃO DE DETETIVE -->
+        <section id="character-selection-screen" class="screen">
+            <div class="char-selection-container">
+                <div class="hero-section" style="margin-bottom: 2rem;">
+                    <p class="subtitle">DEPARTAMENTO DE POLÍCIA DE LOGIC CITY</p>
+                    <h2 class="hero-title">Apresente-se para a Investigação</h2>
+                    <p class="hero-desc">
+                        Selecione o detetive encarregado para assumir o dossiê e assinar os relatórios policiais dos 12 casos.
+                    </p>
+                </div>
 
-        <!-- Fase 2 -->
-        <button class="level-card glass locked" id="level-btn-2" data-level="2" disabled>
-          <div class="level-num">02</div>
-          <h3>Cinturão de Asteroides</h3>
-          <p class="level-status" id="level-status-2">Bloqueado</p>
-        </button>
+                <div class="char-cards-grid">
+                    <!-- DETETIVE MARCELA -->
+                    <div class="char-card" id="char-card-marcela" onclick="selectDetectiveOption('marcela')">
+                        <div class="char-img-wrapper">
+                            <img src="imagens/1ccd43ee-caf4-47d5-aefc-7d2f46f274b92.jpg" alt="Detetive Marcela">
+                        </div>
+                        <div class="char-info">
+                            <h4>Detetive Marcela</h4>
+                            <span class="char-badge">Dedução Condicional</span>
+                            <p>Especialista em lógica formal de álibis e encadeamento de hipóteses. Conhecida pela precisão cirúrgica de seus relatórios proposicionais.</p>
+                        </div>
+                    </div>
 
-        <!-- Fase 3 -->
-        <button class="level-card glass locked" id="level-btn-3" data-level="3" disabled>
-          <div class="level-num">03</div>
-          <h3>Buraco Negro</h3>
-          <p class="level-status" id="level-status-3">Bloqueado</p>
-        </button>
-      </div>
-    </section>
+                    <!-- DETETIVE BRUNO -->
+                    <div class="char-card" id="char-card-bruno" onclick="selectDetectiveOption('bruno')">
+                        <div class="char-img-wrapper">
+                            <img src="imagens/a6a2d04a-05f9-4499-b854-758fb76f527f2.jpg" alt="Detetive Bruno">
+                        </div>
+                        <div class="char-info">
+                            <h4>Detetive Bruno</h4>
+                            <span class="char-badge">Tabelas-Verdade</span>
+                            <p>Veterano em investigações de contradições lógicas e equivalências complexas. Famoso por desmascarar falsos depoimentos com formalismo dedutivo.</p>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Área de Jogo Rápido / Simulação -->
-    <section class="gameplay-simulation glass">
-      <div id="sim-instructions">
-        <h3>Simulação de Gameplay</h3>
-        <p>Clique abaixo para simular que completou a fase atual. Isso desbloqueará novas fases e salvará seu progresso de forma 100% segura no seu navegador.</p>
-        <button id="btn-complete-level" class="btn btn-accent">Simular Vitória (Fase 1)</button>
-      </div>
-      <div id="sim-victory" class="hidden">
-        <h3 class="text-cyan">🏆 Vitória Espacial!</h3>
-        <p>Você completou a fase com sucesso. Seus dados foram sincronizados localmente.</p>
-        <button id="btn-next-level" class="btn btn-primary">Próxima Fase</button>
-      </div>
-    </section>
+                <div class="char-signature-section">
+                    <label for="char-signature-input">🖊️ Nome de Assinatura nos Relatórios:</label>
+                    <div class="signature-input-wrapper">
+                        <input type="text" id="char-signature-input" placeholder="Digite o nome do detetive..." maxlength="40">
+                    </div>
+                    <p class="signature-help">Você pode alterar o nome acima para personalizar a assinatura oficial dos relatórios.</p>
+                </div>
 
-    <!-- Informações de Segurança e Privacidade -->
-    <footer class="app-footer">
-      <p class="security-note">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Segurança Máxima: Este site funciona inteiramente no seu navegador. Nenhuma informação pessoal ou dados de API são transmitidos.
-      </p>
-    </footer>
-  </main>
+                <div style="text-align: center; margin-top: 2.5rem;">
+                    <button class="btn btn-primary btn-large" id="btn-confirm-detective" onclick="confirmDetectiveSelection()">
+                        Assumir Casos 🔎
+                    </button>
+                </div>
+            </div>
+        </section>
 
-  <!-- Script Principal -->
-  <script src="app.js"></script>
+        <!-- TELA DE INSTRUÇÕES (COMO JOGAR) -->
+        <section id="instructions-screen" class="screen">
+            <div class="instructions-container">
+                <div class="hero-section" style="margin-bottom: 2.5rem;">
+                    <p class="subtitle">DEPARTAMENTO DE POLÍCIA DE LOGIC CITY</p>
+                    <h2 class="hero-title">Manual do Investigador Lógico</h2>
+                    <p class="hero-desc">
+                        Antes de assumir o seu primeiro dossiê, leia atentamente as instruções operacionais e as regras de lógica que regem as pistas do caso.
+                    </p>
+                </div>
+
+                <div class="instructions-steps">
+                    <!-- PASSO 1: O OBJETIVO -->
+                    <div class="instruction-card">
+                        <div class="step-num">01</div>
+                        <div class="step-content">
+                            <h4>🔍 O Objetivo da Investigação</h4>
+                            <p>
+                                Seu objetivo é determinar a relação exata entre <strong>Culpado</strong>, <strong>Local do Crime</strong> e <strong>Arma Utilizada</strong> (esta última apenas nos níveis Médio e Difícil).
+                            </p>
+                            <p>
+                                A lógica do caso garante que <strong>cada suspeito pertence a um único local distinto</strong>, e <strong>cada arma pertence a um único suspeito ou local distinto</strong>. Não há duplicidades ou elementos compartilhados na solução.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- PASSO 2: VERDADES LÓGICAS -->
+                    <div class="instruction-card">
+                        <div class="step-num">02</div>
+                        <div class="step-content">
+                            <h4>Premissas Absolutamente Verdadeiras</h4>
+                            <p>
+                                <strong>Importante:</strong> Todas as pistas descritas no dossiê de um caso são <strong>Verdades Lógicas absolutas ($V$)</strong>.
+                            </p>
+                            <p>
+                                Não há depoimentos falsos ou contradições no material de investigação. Cada proposição informada é um fato verídico e imutável. Use essas premissas lógicas para deduzir as conclusões corretas no seu grid.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- PASSO 3: O GRID -->
+                    <div class="instruction-card">
+                        <div class="step-num">03</div>
+                        <div class="step-content">
+                            <h4>📋 O Grid de Eliminação e Dedução</h4>
+                            <p>
+                                Utilize a tabela interativa para organizar suas deduções pessoais. Clique nas células para marcar:
+                            </p>
+                            <p>
+                                &bull; <strong>❌ (Falso):</strong> Descarta uma possibilidade (ex: confirmar que determinado suspeito não esteve em um local).
+                                <br>&bull; <strong>✔️ (Verdadeiro):</strong> Confirma uma correspondência definitiva entre dois elementos.
+                            </p>
+                            <p>
+                                <strong>Importante:</strong> O preenchimento do grid serve apenas como um rascunho de apoio visual para seu raciocínio. As marcações feitas na tabela não são avaliadas pelo sistema e não constituem a resposta final do veredicto.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- PASSO 4: ACUSAÇÃO E VIDAS -->
+                    <div class="instruction-card">
+                        <div class="step-num">04</div>
+                        <div class="step-content">
+                            <h4>⚖️ O Veredicto e Suas Vidas</h4>
+                            <p>
+                                Assim que desvendar o mistério, clique em <strong>Formular Acusação</strong> no painel de jogo para selecionar o Culpado, o Local e a Arma.
+                            </p>
+                            <p>
+                                &bull; <strong>Julgamento:</strong> A denúncia correta encerra o caso. Qualquer erro na reconstituição custará <strong>1 vida (❤️)</strong>. Se o seu contador de vidas zerar, o progresso geral será reiniciado.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2.5rem;">
+                    <button class="btn btn-primary btn-large" id="btn-instructions-forward" onclick="closeInstructionsScreen()">
+                        Entendi, Ir para o Menu 📂
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TELA MENU INICIAL -->
+        <section id="menu-screen" class="screen">
+            <div class="hero-section">
+                <p class="subtitle">AULA PRÁTICA DE LÓGICA PROPOSICIONAL</p>
+                <h2 class="hero-title">Decifre os Casos Usando a Razão</h2>
+                <p class="hero-desc">
+                    Seja bem-vindo, Detetive. Doze mistérios aguardam sua mente analítica. 
+                    Analise as pistas em linguagem natural ou converta-as para lógica simbólica para preencher o grid de dedução e apontar o culpado.
+                </p>
+            </div>
+
+            <div class="difficulty-selection">
+                <h3>Selecione o Nível dos Casos</h3>
+                <div class="cards-grid">
+                    <!-- FÁCIL -->
+                    <div class="diff-card easy" id="card-easy">
+                        <div class="card-badge">FÁCIL</div>
+                        <h4>3 Suspeitos + 3 Locais</h4>
+                        <p>Casos introdutórios. Utilizam negação, conjunção e implicação simples. Ideal para aquecimento.</p>
+                        <div class="cases-list" id="list-easy"></div>
+                        <span class="progress-info" id="prog-easy">0 / 4 resolvidos</span>
+                    </div>
+                    <!-- MÉDIO -->
+                    <div class="diff-card medium locked" id="card-medium">
+                        <div class="card-badge">MÉDIO</div>
+                        <h4>3 Suspeitos + 3 Locais + 3 Armas</h4>
+                        <p>Casos intermediários. Introduzem equivalências, disjunções exclusivas e bicondicionais.</p>
+                        <div class="cases-list" id="list-medium"></div>
+                        <span class="progress-info" id="prog-medium">0 / 4 resolvidos</span>
+                    </div>
+                    <!-- DIFÍCIL -->
+                    <div class="diff-card difficult locked" id="card-difficult">
+                        <div class="card-badge">DIFÍCIL</div>
+                        <h4>4 Suspeitos + 4 Locais + 4 Armas</h4>
+                        <p>Casos complexos. Exigem encadeamentos dedutivos avançados, negação de condicionais e contradições.</p>
+                        <div class="cases-list" id="list-difficult"></div>
+                        <span class="progress-info" id="prog-difficult">0 / 4 resolvidos</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem; margin-bottom: 2rem;">
+                <button class="btn btn-secondary" id="btn-reset-game" onclick="confirmRestartGame()" style="border-color: var(--accent-red); color: var(--accent-red);">🔄 Reiniciar Progresso</button>
+            </div>
+            
+            <footer class="menu-footer">
+                <p>Desenvolvido para a aula de Lógica Proposicional &copy; 2026</p>
+            </footer>
+        </section>
+
+        <!-- TELA DO JOGO (CASO ATIVO) -->
+        <section id="game-screen" class="screen">
+            <div class="game-layout">
+                <!-- COLUNA ESQUERDA: PISTAS E LEGENDA -->
+                <div class="left-panel">
+                    <button class="btn btn-secondary" onclick="backToMenu()">← Voltar ao Menu</button>
+                    
+                    <div class="case-header">
+                        <div class="case-header-top">
+                            <div class="lives-counter" id="lives-counter">❤️❤️❤️</div>
+                            <span class="case-badge" id="case-difficulty-badge">Fácil</span>
+                        </div>
+                        <h3 id="case-title">O Caso do Silêncio na Biblioteca</h3>
+                        <p class="case-step" id="case-index">Caso 1 de 4</p>
+                    </div>
+
+                    <div class="panel-box clues-box">
+                        <h4>📜 Pistas Disponíveis</h4>
+                        <ul id="clues-list" class="clues-list">
+                            <!-- Inserido via JS -->
+                        </ul>
+                    </div>
+
+                    <!-- DOSSIÊ DO INVESTIGADOR (Fichas e Descrições) -->
+                    <div class="panel-box dossier-box" id="dossier-box" style="margin-top: 1rem;">
+                        <h4>📁 Fichas de Investigação (Dossiê)</h4>
+                        <div class="dossier-buttons-flex" style="display: flex; flex-wrap: nowrap; gap: 0.4rem; margin-top: 0.75rem; width: 100%;">
+                            <button class="btn btn-small" id="btn-dossier-victim" onclick="openDossierModal('victim')" style="flex: 1; padding: 0.45rem 0.2rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); transition: var(--transition-fast); text-align: center; white-space: nowrap;">💀 Vítima</button>
+                            <button class="btn btn-small" id="btn-dossier-suspects" onclick="openDossierModal('suspects')" style="flex: 1; padding: 0.45rem 0.2rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); transition: var(--transition-fast); text-align: center; white-space: nowrap;">👥 Suspeitos</button>
+                            <button class="btn btn-small" id="btn-dossier-locations" onclick="openDossierModal('locations')" style="flex: 1; padding: 0.45rem 0.2rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); transition: var(--transition-fast); text-align: center; white-space: nowrap;">📍 Locais</button>
+                            <button class="btn btn-small" id="btn-dossier-weapons" onclick="openDossierModal('weapons')" style="flex: 1; padding: 0.45rem 0.2rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); transition: var(--transition-fast); text-align: center; display: none; white-space: nowrap;">🔪 Objetos</button>
+                        </div>
+                    </div>
+
+                    <div class="panel-box legend-logic-box" id="case-logic-legend" style="display: none;">
+                        <h4>🏷️ Legenda de Símbolos do Caso</h4>
+                        <div class="case-legend-grid" id="case-legend-grid">
+                            <!-- Inserido dinamicamente via JS -->
+                        </div>
+                    </div>
+
+                    <!-- LEGENDA LÓGICA (Exibida dinamicamente no modo lógico) -->
+                    <div class="panel-box legend-box" id="legend-box" style="display: none;">
+                        <h4>📐 Guia de Tradução Lógica</h4>
+                        <div class="legend-grid">
+                            <div class="legend-item"><strong>p, q, r...</strong> Proposições simples (Ex: <em>J_plum</em> = Plum estava no Jardim)</div>
+                            <div class="legend-item"><strong>¬ p</strong> Negação (Não p / É falso que p)</div>
+                            <div class="legend-item"><strong>p ∧ q</strong> Conjunção (p e q)</div>
+                            <div class="legend-item"><strong>p ∨ q</strong> Disjunção (p ou q)</div>
+                            <div class="legend-item"><strong>p ⊕ q</strong> Disjunção Exclusiva (Ou p, ou q)</div>
+                            <div class="legend-item"><strong>p → q</strong> Condicional (Se p, então q)</div>
+                            <div class="legend-item"><strong>p ↔ q</strong> Bicondicional (p se e somente se q)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA: GRID INTERATIVO E RESPOSTA -->
+                <div class="right-panel">
+                    <div class="panel-box grid-box">
+                        <div class="grid-title-container">
+                            <h4>📋 Grid de Dedução Lógica</h4>
+                            <div class="grid-controls" style="display: flex; gap: 0.5rem; align-items: center;">
+                                <button class="btn btn-small" id="btn-zoom-out" title="Diminuir Zoom">➖</button>
+                                <button class="btn btn-small" id="btn-zoom-in" title="Aumentar Zoom">➕</button>
+                                <button class="btn btn-small" id="btn-clear-grid" onclick="clearActiveGrid()">Limpar Grid</button>
+                            </div>
+                        </div>
+                        <p class="grid-instructions">Dica: Passe o mouse ou toque nos nomes curtos para ver o nome completo. Clique nas células: ❌ (falso), ✔️ (verdadeiro) ou vazio.</p>
+                        
+                        <div class="grid-scroll-wrapper">
+                            <div id="grid-container">
+                                <!-- Grid dinâmico via JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="grid-footer-actions">
+                            <button class="btn btn-primary" id="btn-open-accusation" onclick="openAccusationModal()">⚖️ Formular Acusação</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TELA DE FEEDBACK / MODAL (RELATÓRIO POLICIAL DE ACUSAÇÃO) -->
+        <div id="feedback-modal" class="modal">
+            <div class="report-modal-content" style="background-color: var(--bg-secondary); padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+                
+                <div class="police-report-paper" id="feedback-report-paper" style="max-height: 70vh; overflow-y: auto;">
+                    <!-- CARIMBO DE ACUSAÇÃO -->
+                    <div id="feedback-stamp" class="report-stamp">CONFIDENCIAL</div>
+                    
+                    <div class="report-header">
+                        <h2>DEPARTAMENTO DE POLÍCIA</h2>
+                        <h3>RELATÓRIO DE ACUSAÇÃO E INCIDENTE</h3>
+                    </div>
+                    
+                    <table class="report-table">
+                        <!-- Linha 1: Data / Hora -->
+                        <tr>
+                            <td colspan="2">
+                                <div class="field-inline">
+                                    <span class="field-label">DATA:</span>
+                                    <input type="text" class="field-input" id="feedback-report-date" readonly>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="field-inline">
+                                    <span class="field-label">HORA:</span>
+                                    <input type="text" class="field-input" id="feedback-report-time" readonly>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 2: Nº do relatório / ID do Caso -->
+                        <tr>
+                            <td colspan="2">
+                                <div class="field-inline">
+                                    <span class="field-label">Nº ACUSAÇÃO:</span>
+                                    <input type="text" class="field-input" id="feedback-report-number" readonly>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="field-inline">
+                                    <span class="field-label">ID CASO:</span>
+                                    <input type="text" class="field-input" id="feedback-report-case-id" readonly>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 3: Local da ocorrencia -->
+                        <tr>
+                            <td colspan="4">
+                                <div class="field-inline">
+                                    <span class="field-label">LOCAL ACUSADO:</span>
+                                    <input type="text" class="field-input" id="feedback-report-location" readonly style="font-weight: bold;">
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 4: Natureza da ocorrencia -->
+                        <tr>
+                            <td colspan="4">
+                                <div class="field-inline">
+                                    <span class="field-label">NATUREZA DA OCORRÊNCIA:</span>
+                                    <input type="text" class="field-input" id="feedback-report-nature" readonly value="Homicídio Proposicional">
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 5: Nome do suspeito -->
+                        <tr>
+                            <td colspan="4">
+                                <div class="field-inline">
+                                    <span class="field-label">ACUSADO PRINCIPAL:</span>
+                                    <input type="text" class="field-input" id="feedback-report-suspect-name" readonly style="font-weight: bold;">
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 6: sexo, idade, altura -->
+                        <tr>
+                            <td>
+                                <div class="field-inline">
+                                    <span class="field-label">SEXO:</span>
+                                    <input type="text" class="field-input short" id="feedback-report-suspect-sex" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field-inline">
+                                    <span class="field-label">IDADE:</span>
+                                    <input type="text" class="field-input short" id="feedback-report-suspect-age" readonly>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="field-inline">
+                                    <span class="field-label">ALTURA:</span>
+                                    <input type="text" class="field-input short" id="feedback-report-suspect-height" readonly>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 7: nome da vitima -->
+                        <tr>
+                            <td colspan="4">
+                                <div class="field-inline">
+                                    <span class="field-label">NOME DA VÍTIMA:</span>
+                                    <input type="text" class="field-input" id="feedback-report-victim-name" readonly>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 8: sexo, idade, altura -->
+                        <tr>
+                            <td>
+                                <div class="field-inline">
+                                    <span class="field-label">SEXO:</span>
+                                    <input type="text" class="field-input short" id="feedback-report-victim-sex" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="field-inline">
+                                    <span class="field-label">IDADE:</span>
+                                    <input type="text" class="field-input short" id="feedback-report-victim-age" readonly>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="field-inline">
+                                    <span class="field-label">ALTURA:</span>
+                                    <input type="text" class="field-input short" id="feedback-report-victim-height" readonly>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 9: detalhe do incidente/narrativa -->
+                        <tr>
+                            <td colspan="4" class="narrative-cell">
+                                <div class="field-block">
+                                    <span class="field-label">DEMONSTRAÇÃO LOGICAMENTE DEDUZIDA (NARRATIVA):</span>
+                                    <div class="narrative-container">
+                                        <!-- Div para renderizar spans HTML estilizados -->
+                                        <div class="narrative-textarea" id="feedback-report-narrative" style="white-space: pre-wrap; min-height: 200px; height: auto;"></div>
+                                        <div class="narrative-lines">
+                                            <span></span><span></span><span></span><span></span>
+                                            <span></span><span></span><span></span><span></span>
+                                            <span></span><span></span><span></span><span></span>
+                                            <span></span><span></span><span></span><span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 26: Evidencias coletadas -->
+                        <tr>
+                            <td colspan="4">
+                                <div class="field-inline">
+                                    <span class="field-label">EVIDÊNCIAS COLETADAS (ARMA):</span>
+                                    <input type="text" class="field-input" id="feedback-report-evidence" readonly style="font-weight: bold;">
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Linha 27: Assinatura do oficial -->
+                        <tr>
+                            <td colspan="4">
+                                <div class="field-inline signature-field">
+                                    <span class="field-label">ASSINATURA DO DETETIVE ENCARREGADO:</span>
+                                    <input type="text" class="field-input signature-input" id="feedback-report-signature" readonly value="Detetive Antigravity">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="modal-actions" style="justify-content: center; gap: 1rem; padding: 0.5rem 0;">
+                    <button class="btn btn-primary" id="btn-next-case">Próximo Caso →</button>
+                    <button class="btn btn-secondary" id="btn-feedback-close" onclick="closeModal()">Rever Grid</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE EXONERAÇÃO/DEMISSÃO -->
+        <div id="dismissal-modal" class="modal">
+            <div class="modal-content" style="max-width: 450px; border-color: var(--accent-red); box-shadow: 0 0 25px rgba(239, 68, 68, 0.4); text-align: center;">
+                <div class="modal-body text-center" style="display: flex; flex-direction: column; gap: 1.25rem; align-items: center; padding: 1.5rem 1rem;">
+                    <div style="font-size: 4rem; text-shadow: none;">🚫</div>
+                    
+                    <h2 style="color: var(--accent-red); font-family: var(--font-mono); font-weight: bold; letter-spacing: 1px; border-bottom: 2px solid var(--accent-red); padding-bottom: 0.5rem; width: 100%; margin: 0;">
+                        AVISO DE EXONERAÇÃO
+                    </h2>
+                    
+                    <div style="font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.6; text-align: justify; background: rgba(0, 0, 0, 0.2); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--accent-red);">
+                        <p style="margin: 0 0 1rem 0; font-weight: bold; color: var(--accent-red);">DEPARTAMENTO DE POLÍCIA DE LOGIC CITY</p>
+                        <p style="margin: 0 0 1rem 0;">Prezado(a) Detetive,</p>
+                        <p style="margin: 0;">Devido ao acúmulo de erros graves e acusações inconsistentes na reconstituição material dos fatos, suas chances de investigação foram esgotadas. Por ordem superior, você foi <strong>oficialmente demitido do cargo</strong> por insuficiência de provas em investigações de campo.</p>
+                    </div>
+                    
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); font-style: italic; margin: 0.25rem 0;">
+                        "A lógica formal não tolera palpites imprecisos."
+                    </p>
+                    
+                    <div class="modal-actions" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+                        <button class="btn btn-primary" onclick="restartCareer()" style="background-color: var(--accent-red); border-color: var(--accent-red); color: white; width: 100%; font-size: 1rem; font-weight: bold; padding: 0.75rem; border-radius: var(--radius-sm); cursor: pointer;">
+                            Reiniciar Carreira 🔄
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DOSSIÊ DE INVESTIGAÇÃO -->
+        <div id="dossier-modal" class="modal">
+            <div class="modal-content" style="max-width: 500px; border-color: var(--accent-cyan);">
+                <span class="modal-close" onclick="closeDossierModal()">&times;</span>
+                <div class="modal-body text-center">
+                    <div class="modal-icon" style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--accent-amber); text-shadow: none;">📁</div>
+                    <h3 id="dossier-modal-title" style="color: var(--accent-amber); margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-family: var(--font-sans);">📁 Ficha de Investigação</h3>
+                    <div id="dossier-modal-content" class="text-left" style="max-height: 350px; overflow-y: auto; font-size: 0.95rem; line-height: 1.5; color: var(--text-primary); padding-right: 0.25rem; font-family: var(--font-sans);">
+                        <!-- Inserido dinamicamente via JS -->
+                    </div>
+                    <div class="modal-actions" style="margin-top: 1.5rem; justify-content: flex-end;">
+                        <button class="btn btn-primary" onclick="closeDossierModal()">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE ACUSAÇÃO -->
+        <div id="accusation-modal" class="modal">
+            <div class="modal-content" style="max-width: 450px; border-color: var(--accent-red);">
+                <span class="modal-close" onclick="closeAccusationModal()">&times;</span>
+                <div class="modal-body text-left">
+                    <h3 style="margin-bottom: 0.5rem; color: var(--accent-red); display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; font-family: var(--font-sans);">⚖️ Formular Acusação</h3>
+                    <p style="font-family: var(--font-sans); color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.4;">
+                        Selecione a combinação suspeita com base no seu grid e pistas para apresentar a denúncia:
+                    </p>
+                    
+                    <div class="modal-accusation-selectors">
+                        <div class="selector-group-vertical">
+                            <label for="select-suspect">👤 SUSPEITO</label>
+                            <select id="select-suspect">
+                                <option value="">-- Selecione o Suspeito --</option>
+                            </select>
+                        </div>
+                        
+                        <div class="selector-group-vertical">
+                            <label for="select-location">📍 LOCAL</label>
+                            <select id="select-location">
+                                <option value="">-- Selecione o Local --</option>
+                            </select>
+                        </div>
+                        
+                        <div class="selector-group-vertical" id="group-weapon">
+                            <label for="select-weapon">🔪 ARMA</label>
+                            <select id="select-weapon">
+                                <option value="">-- Selecione a Arma --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions-right">
+                        <button class="btn btn-secondary" onclick="closeAccusationModal()">Cancelar</button>
+                        <button class="btn btn-primary" id="btn-submit-accusation" onclick="submitAccusation()">Apresentar Acusação 🔎</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL RELATÓRIO POLICIAL -->
+        <div id="police-report-modal" class="modal">
+            <div class="report-modal-content">
+                <span class="modal-close" onclick="closePoliceReport()">&times;</span>
+                <div class="police-report-paper">
+                    <div class="police-stamp">CONFIDENCIAL</div>
+                    <div class="report-header">
+                        <h2>DEPARTAMENTO DE POLÍCIA</h2>
+                        <h3>RELATÓRIO DE INCIDENTE</h3>
+                    </div>
+                    
+                    <form class="report-form" onsubmit="event.preventDefault();">
+                        <table class="report-table">
+                            <!-- Linha 1: Data / Hora -->
+                            <tr>
+                                <td colspan="2">
+                                    <div class="field-inline">
+                                        <span class="field-label">DATA:</span>
+                                        <input type="text" class="field-input" id="report-date" placeholder="____/____/________">
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="field-inline">
+                                        <span class="field-label">HORA:</span>
+                                        <input type="text" class="field-input" id="report-time" placeholder="____:____">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 2: Nº do relatório / ID do Caso -->
+                            <tr>
+                                <td colspan="2">
+                                    <div class="field-inline">
+                                        <span class="field-label">Nº RELATÓRIO:</span>
+                                        <input type="text" class="field-input" id="report-number" placeholder="RP-XXXXXXXX">
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="field-inline">
+                                        <span class="field-label">ID CASO:</span>
+                                        <input type="text" class="field-input" id="report-case-id" placeholder="#XXXX">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 3: Local da ocorrencia -->
+                            <tr>
+                                <td colspan="4">
+                                    <div class="field-inline">
+                                        <span class="field-label">LOCAL DA OCORRÊNCIA:</span>
+                                        <input type="text" class="field-input" id="report-location" placeholder="Endereço ou descrição do local do crime">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 4: Natureza da ocorrencia -->
+                            <tr>
+                                <td colspan="4">
+                                    <div class="field-inline">
+                                        <span class="field-label">NATUREZA DA OCORRÊNCIA:</span>
+                                        <input type="text" class="field-input" id="report-nature" placeholder="Ex: Homicídio Proposicional, Roubo de Dados, Seqüestro Lógico">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 5: Nome do suspeito -->
+                            <tr>
+                                <td colspan="4">
+                                    <div class="field-inline">
+                                        <span class="field-label">NOME DO SUSPEITO:</span>
+                                        <input type="text" class="field-input" id="report-suspect-name" placeholder="Nome completo do suspeito principal">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 6: sexo, idade, altura -->
+                            <tr>
+                                <td>
+                                    <div class="field-inline">
+                                        <span class="field-label">SEXO:</span>
+                                        <input type="text" class="field-input short" id="report-suspect-sex" placeholder="M/F/O">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="field-inline">
+                                        <span class="field-label">IDADE:</span>
+                                        <input type="text" class="field-input short" id="report-suspect-age" placeholder="anos">
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="field-inline">
+                                        <span class="field-label">ALTURA:</span>
+                                        <input type="text" class="field-input short" id="report-suspect-height" placeholder="m">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 7: nome da vitima -->
+                            <tr>
+                                <td colspan="4">
+                                    <div class="field-inline">
+                                        <span class="field-label">NOME DA VÍTIMA:</span>
+                                        <input type="text" class="field-input" id="report-victim-name" placeholder="Nome completo da vítima do incidente">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 8: sexo, idade, altura -->
+                            <tr>
+                                <td>
+                                    <div class="field-inline">
+                                        <span class="field-label">SEXO:</span>
+                                        <input type="text" class="field-input short" id="report-victim-sex" placeholder="M/F/O">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="field-inline">
+                                        <span class="field-label">IDADE:</span>
+                                        <input type="text" class="field-input short" id="report-victim-age" placeholder="anos">
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="field-inline">
+                                        <span class="field-label">ALTURA:</span>
+                                        <input type="text" class="field-input short" id="report-victim-height" placeholder="m">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 9: detalhe do incidente/narrativa -->
+                            <tr>
+                                <td colspan="4" class="narrative-cell">
+                                    <div class="field-block">
+                                        <span class="field-label">DETALHE DO INCIDENTE / NARRATIVA:</span>
+                                        <div class="narrative-container">
+                                            <!-- Linhas 10 até 25: linhas em branco para preenchimento. -->
+                                            <!-- textarea estilizada com linhas horizontais em CSS -->
+                                            <textarea class="narrative-textarea" id="report-narrative" rows="16" placeholder="Forneça um relato cronológico detalhado e lógico da ocorrência policial..."></textarea>
+                                            <div class="narrative-lines">
+                                                <span></span><span></span><span></span><span></span>
+                                                <span></span><span></span><span></span><span></span>
+                                                <span></span><span></span><span></span><span></span>
+                                                <span></span><span></span><span></span><span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 26: Evidencias coletadas -->
+                            <tr>
+                                <td colspan="4">
+                                    <div class="field-inline">
+                                        <span class="field-label">EVIDÊNCIAS COLETADAS:</span>
+                                        <input type="text" class="field-input" id="report-evidence" placeholder="Objetos, pegadas, bilhetes ou depoimentos apreendidos">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Linha 27: Assinatura do oficial -->
+                            <tr>
+                                <td colspan="4">
+                                    <div class="field-inline signature-field">
+                                        <span class="field-label">ASSINATURA DO OFICIAL RESPONSÁVEL:</span>
+                                        <input type="text" class="field-input signature-input" id="report-signature" placeholder="Inspetor encarregado pelo caso">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

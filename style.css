@@ -1,383 +1,2143 @@
-/* ==========================================
-   SISTEMA DE DESIGN & VARIÁVEIS
-   ========================================== */
+/* ==========================================================================
+   SISTEMA DE DESIGN & CRIAÇÃO DE ESTILOS (LOGIC DETECTIVE)
+   ========================================================================== */
+
 :root {
-  --bg-dark: #06060f;
-  --primary: #8b5cf6;
-  --primary-glow: rgba(139, 92, 246, 0.45);
-  --cyan: #06b6d4;
-  --cyan-glow: rgba(6, 182, 212, 0.4);
-  --accent: #10b981;
-  --accent-glow: rgba(16, 185, 129, 0.3);
-  --text-main: #f3f4f6;
-  --text-muted: #9ca3af;
-  --glass-bg: rgba(13, 13, 27, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-active: rgba(139, 92, 246, 0.35);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Cores de Fundo e Painéis Noir - Cinza Chumbo, Carvão e Sépias */
+    --bg-primary: #0f1012; /* Carvão profundo / Noite chuvosa Noir */
+    --bg-secondary: #171513; /* Cinza sépia quente / Pasta de arquivo antiga escurecida */
+    --bg-tertiary: #211e1a; /* Cinza carvão terroso / Gaveteiro de madeira escura */
+    --border-color: #3b352e; /* Bronze oxidado / Metal envelhecido */
+    
+    /* Cores de Acento */
+    --accent-amber: #ca8a04; /* Luz âmbar quente de abajur de escritório antigo */
+    --accent-red: #7f1d1d; /* Vermelho sangue coagulado / Relatório de crime */
+    --accent-green: #15803d; /* Verde abajur de banqueiro clássico */
+    --accent-cyan: #3b5266; /* Azul-chumbo fosco de casaco de detetive */
+    
+    --text-primary: #eae6df; /* Papel de relatório amarelado envelhecido */
+    --text-secondary: #8c857b; /* Cinza cinza / Poeira / Fumaça de charuto */
+    
+    /* Níveis de Dificuldade */
+    --color-easy: #166534; /* Verde floresta escuro */
+    --color-medium: #b45309; /* Bronze quente */
+    --color-difficult: #991b1b; /* Vermelho chumbo escuro */
+    
+    /* Tipografia Clássica */
+    --font-sans: 'Georgia', 'Times New Roman', serif; /* Romance Noir clássico */
+    --font-mono: 'Courier Prime', monospace; /* Máquina de escrever de relatórios */
+    
+    /* Transições e Bordas */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Sombras e Efeitos Clássicos (Sem brilho neon) */
+    --neon-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    --neon-green-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    --glass-bg: rgba(23, 21, 19, 0.9);
+    --glass-blur: blur(8px);
 }
 
-/* ==========================================
-   RESET & CONFIGURAÇÕES GERAIS
-   ========================================== */
+/* ==========================================================================
+   RESET & ESTILOS GERAIS
+   ========================================================================== */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  overflow-x: hidden;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
-/* ==========================================
-   VÍDEO DE FUNDO & FALLBACK
-   ========================================== */
-.video-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -2;
-  overflow: hidden;
+/* Fundo Noir Sombrio com feixe de luz âmbar sutil */
+.stars-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.05) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.8) 0%, var(--bg-primary) 100%);
+    z-index: -3;
+    pointer-events: none;
 }
 
-#bg-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.35; /* Suave para não competir com a leitura do texto */
-  filter: contrast(1.1) brightness(0.85);
-  transition: opacity 1s ease;
+/* Vídeo de Neblina de Fundo (MP4) */
+.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    pointer-events: none;
+    mix-blend-mode: screen; /* Remove fundos escuros do vídeo e mescla a fumaça */
+    opacity: 0.18; /* Atmosfera Noir sem poluir a leitura das caixas de jogo */
 }
 
-.video-fallback {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -3;
-  /* Gradiente dinâmico com cores espaciais */
-  background: radial-gradient(circle at 30% 20%, #1a103c 0%, #06060f 60%, #020205 100%);
-  background-size: 200% 200%;
-  animation: gradientAnimation 15s ease infinite;
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-@keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* ==========================================
-   LAYOUT DO CONTAINER PRINCIPAL (PWA)
-   ========================================== */
-.app-container {
-  width: 100%;
-  max-width: 800px;
-  margin: 20px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  z-index: 1;
-}
-
-/* Glassmorphism Reutilizável */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px) saturate(120%);
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: var(--transition);
-}
-
-/* ==========================================
-   HEADER
-   ========================================== */
+/* ==========================================================================
+   CABECALHO GLOBAL
+   ========================================================================== */
 .app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
 }
 
-.brand h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-img {
+    height: 5.2rem;
+    width: auto;
+    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 10px rgba(251, 191, 36, 0.4)) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.9));
+    animation: logo-neon-flicker 8s infinite;
+}
+
+@keyframes logo-neon-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 10px rgba(251, 191, 36, 0.4)) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.9));
+    }
+    19%, 24%, 55% {
+        filter: drop-shadow(0 0 1px rgba(251, 191, 36, 0.2)) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.9));
+        opacity: 0.85;
+    }
+    20%, 21% {
+        filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.5)) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.9));
+    }
+    54%, 56% {
+        filter: drop-shadow(0 0 1px rgba(251, 191, 36, 0.2)) drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.9));
+        opacity: 0.85;
+    }
+}
+
+.logo h1 {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+}
+
+.logo h1 span {
+    color: var(--accent-amber);
+    text-shadow: 0 0 4px rgba(251, 191, 36, 0.8), 0 0 10px rgba(251, 191, 36, 0.5), 0 0 20px rgba(217, 119, 6, 0.3), 1px 1px 1px rgba(0, 0, 0, 0.9);
+    animation: neon-flicker 8s infinite;
+}
+
+@keyframes neon-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        color: var(--accent-amber);
+        text-shadow: 0 0 4px rgba(251, 191, 36, 0.8), 0 0 10px rgba(251, 191, 36, 0.5), 0 0 20px rgba(217, 119, 6, 0.3), 1px 1px 1px rgba(0, 0, 0, 0.9);
+    }
+    19%, 24%, 55% {
+        color: #3f2f0a; /* Tom bem apagado de filamento de carbono */
+        text-shadow: none;
+    }
+    20%, 21% {
+        color: var(--accent-amber);
+        text-shadow: 0 0 3px rgba(251, 191, 36, 0.5), 1px 1px 1px rgba(0, 0, 0, 0.9);
+    }
+    54%, 56% {
+        color: #3f2f0a;
+        text-shadow: none;
+    }
+}
+
+/* Switch de Modo */
+.mode-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+}
+
+.mode-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.switch-option {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+    font-weight: 500;
+}
+
+.switch-option.active {
+    color: var(--accent-cyan);
+    font-weight: 700;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bg-tertiary);
+    transition: .4s;
+    border-radius: 34px;
+    border: 1px solid var(--border-color);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: var(--text-primary);
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--bg-tertiary);
+    border-color: var(--accent-amber);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+    background-color: var(--accent-amber);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   TELA DO MENU INICIAL
+   ========================================================================== */
+.screen {
+    display: none;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.screen.active {
+    display: block;
+    opacity: 1;
+}
+
+.hero-section {
+    text-align: center;
+    max-width: 800px;
+    margin: 3rem auto 4rem auto;
 }
 
 .subtitle {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  margin-top: 4px;
+    color: var(--accent-amber);
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
 }
 
-.badge {
-  display: inline-block;
-  background: rgba(139, 92, 246, 0.15);
-  color: var(--primary);
-  border: 1px solid var(--glass-border-active);
-  padding: 4px 10px;
-  border-radius: 99px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--text-primary) 30%, var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* ==========================================
-   BOTÕES E COMPONENTES INTERATIVOS
-   ========================================== */
+.hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.difficulty-selection {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.difficulty-selection h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.diff-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 2.5rem 2rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.diff-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    transition: var(--transition-normal);
+}
+
+/* Cores dos badges e bordas */
+.diff-card.easy::before { background-color: var(--color-easy); }
+.diff-card.medium::before { background-color: var(--color-medium); }
+.diff-card.difficult::before { background-color: var(--color-difficult); }
+
+.diff-card:hover {
+    transform: translateY(-5px);
+    background-color: var(--bg-tertiary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.diff-card.easy:hover { border-color: var(--color-easy); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); }
+.diff-card.medium:hover { border-color: var(--color-medium); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); }
+.diff-card.difficult:hover { border-color: var(--color-difficult); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); }
+
+.card-badge {
+    align-self: flex-start;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.easy .card-badge { background: rgba(74, 222, 128, 0.1); color: var(--color-easy); border: 1px solid rgba(74, 222, 128, 0.2); }
+.medium .card-badge { background: rgba(251, 191, 36, 0.1); color: var(--color-medium); border: 1px solid rgba(251, 191, 36, 0.2); }
+.difficult .card-badge { background: rgba(248, 113, 113, 0.1); color: var(--color-difficult); border: 1px solid rgba(248, 113, 113, 0.2); }
+
+.diff-card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.diff-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+}
+
+.progress-info {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.menu-footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   BOTOES
+   ========================================================================== */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 20px;
-  font-family: var(--font-family);
-  font-size: 0.95rem;
-  font-weight: 600;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
 }
 
 .btn-primary {
-  background: var(--primary);
-  color: #fff;
-  box-shadow: 0 4px 14px 0 var(--primary-glow);
+    background-color: var(--accent-amber);
+    color: #0f1012;
+    border: 1px solid #a16207;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .btn-primary:hover {
-  background: #7c3aed;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 var(--primary-glow);
+    background-color: #eab308;
+    border-color: #ca8a04;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transform: translateY(-1px);
 }
 
-.btn-accent {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: 0 4px 14px 0 var(--accent-glow);
+.btn-secondary {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
 }
 
-.btn-accent:hover {
-  background: #059669;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 var(--accent-glow);
+.btn-secondary:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
 }
 
-.btn:active {
-  transform: translateY(0);
+.btn-small {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
 }
 
-.hidden {
-  display: none !important;
+.btn-small:hover {
+    background-color: rgba(255, 38, 96, 0.1);
+    color: var(--accent-red);
+    border-color: rgba(255, 38, 96, 0.3);
 }
 
-/* ==========================================
-   PAINEL DE ESTATÍSTICAS
-   ========================================== */
-.status-panel {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 20px;
-  gap: 16px;
-  text-align: center;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-}
-
-.stat-value {
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-.text-cyan { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); }
-.text-purple { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
-
-/* ==========================================
-   SELEÇÃO DE FASES (GRID)
-   ========================================== */
-.levels-container h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--text-main);
-  letter-spacing: 0.5px;
-}
-
-.levels-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.level-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 20px;
-  text-align: left;
-  cursor: pointer;
-  width: 100%;
-}
-
-.level-card:not(:disabled):hover {
-  transform: scale(1.03) translateY(-4px);
-  border-color: var(--glass-border-active);
-  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
-}
-
-.level-num {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.15);
-  line-height: 1;
-  margin-bottom: 12px;
-  transition: var(--transition);
-}
-
-.level-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.level-status {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-/* Estados das fases */
-.level-card.active .level-num {
-  color: var(--primary);
-  text-shadow: 0 0 8px var(--primary-glow);
-}
-
-.level-card.active .level-status {
-  color: var(--cyan);
-}
-
-.level-card.completed .level-status {
-  color: var(--accent);
-}
-
-.level-card.locked {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.level-card:disabled {
-  pointer-events: none;
-}
-
-/* ==========================================
-   ÁREA DE SIMULAÇÃO DE GAMEPLAY
-   ========================================== */
-.gameplay-simulation {
-  padding: 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.gameplay-simulation h3 {
-  font-size: 1.2rem;
-  margin-bottom: 6px;
-}
-
-.gameplay-simulation p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  max-width: 500px;
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
-/* ==========================================
-   RODAPÉ E SEGURANÇA
-   ========================================== */
-.app-footer {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.security-note {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: rgba(16, 185, 129, 0.06);
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  padding: 10px 16px;
-  border-radius: 12px;
-  line-height: 1.4;
-}
-
-/* ==========================================
-   RESPONSIVIDADE (MEDIA QUERIES)
-   ========================================== */
-@media (max-width: 600px) {
-  .app-container {
-    margin: 10px;
-    padding: 16px;
-    gap: 16px;
-  }
-  
-  .brand h1 {
-    font-size: 1.8rem;
-  }
-
-  .status-panel {
+/* ==========================================================================
+   LAYOUT DO JOGO (TELA CHEIA NO PC E RESPONSIVO NO CELULAR)
+   ========================================================================== */
+.game-layout {
+    display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 16px;
-  }
+    gap: 1.5rem;
+    align-items: start;
+}
 
-  .levels-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .app-header {
+.left-panel, .right-panel {
+    display: flex;
     flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-install {
-    width: 100%;
-  }
+    gap: 1.25rem;
 }
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1600px;
+        width: 95%;
+        padding: 1rem 1.5rem;
+    }
+    
+    .app-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        flex-shrink: 0;
+    }
+    
+    #game-screen.active {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .game-layout {
+        display: grid;
+        grid-template-columns: 4fr 5fr;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+    
+    .left-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .right-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .grid-box {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .grid-scroll-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+        width: 100%;
+    }
+    
+    .accusation-box {
+        flex-shrink: 0;
+        padding: 0.75rem 1.25rem !important; /* Mais compacto */
+    }
+    
+    .accusation-box h4 {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .accusation-instructions {
+        display: none !important; /* Oculta instrução repetitiva no PC para ganhar espaço vertical */
+    }
+    
+    .accusation-selectors {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important; /* Lado a lado */
+        gap: 0.75rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .selector-group {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.2rem !important;
+    }
+    
+    .selector-group label {
+        width: auto !important;
+        font-size: 0.75rem !important;
+        text-align: left !important;
+    }
+    
+    .selector-group select {
+        padding: 0.45rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    .accusation-box .btn-primary {
+        padding: 0.45rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    /* Grid dinâmico baseado na viewport no PC */
+    .logic-grid {
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+    
+    .logic-grid th.col-header {
+        height: clamp(35px, 6.5vh, 55px) !important;
+        width: clamp(38px, 4.8vw, 58px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
+    }
+    
+    .logic-grid th.col-header span {
+        font-size: clamp(0.65rem, 1vh, 0.75rem) !important;
+    }
+    
+    .logic-grid td.row-header {
+        width: clamp(75px, 8vw, 95px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
+        font-size: clamp(0.65rem, 1vh, 0.75rem) !important;
+        padding: 0.25rem 0.5rem !important;
+    }
+    
+    .logic-grid td.grid-cell {
+        width: clamp(38px, 4.8vw, 58px) !important;
+        height: clamp(26px, 4.8vh, 38px) !important;
+        font-size: clamp(1rem, 2vh, 1.25rem) !important;
+    }
+    
+    .logic-grid th.cat-header.row-cat {
+        width: clamp(20px, 3vh, 30px) !important;
+        font-size: clamp(0.6rem, 0.9vh, 0.7rem) !important;
+    }
+    
+    .logic-grid th.cat-header.col-cat {
+        font-size: clamp(0.6rem, 0.9vh, 0.7rem) !important;
+        padding: 0.25rem !important;
+    }
+    
+    #menu-screen.active {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        margin: 0 auto;
+        padding-bottom: 1.5rem;
+    }
+    
+    .hero-section {
+        text-align: center;
+        margin: 1.5rem auto;
+        max-width: 800px;
+    }
+    
+    .hero-title {
+        font-size: clamp(1.8rem, 3.5vh, 2.8rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-desc {
+        font-size: clamp(0.85rem, 1.8vh, 1.05rem);
+        line-height: 1.6;
+    }
+    
+    .difficulty-selection {
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+    .difficulty-selection h3 {
+        text-align: center;
+        margin-bottom: 1.25rem;
+        font-size: clamp(1.1rem, 2.2vh, 1.4rem);
+    }
+    
+    .cards-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important; /* Sempre 3 colunas por padrão */
+        gap: 1.5rem !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    .diff-card {
+        padding: clamp(1.25rem, 2.2vh, 2rem) 1.5rem !important;
+    }
+    
+    .diff-card h4 {
+        font-size: clamp(1.1rem, 2vh, 1.3rem) !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .diff-card p {
+        font-size: clamp(0.8rem, 1.6vh, 0.95rem) !important;
+        margin-bottom: 1.25rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    .menu-footer {
+        width: 100%;
+        padding: 1rem 0;
+        margin-top: auto;
+        text-align: center;
+        border-top: 1px solid var(--border-color);
+        font-size: 0.85rem;
+    }
+}
+
+@media (min-width: 1024px) and (min-height: 700px) {
+    body.game-active {
+        height: 100vh;
+        max-height: 100vh;
+        overflow: hidden;
+    }
+    
+    body.game-active .container {
+        height: 100vh;
+        max-height: 100vh;
+        overflow: hidden;
+    }
+    
+    body.game-active #game-screen.active {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    body.game-active .game-layout {
+        flex: 1;
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    body.game-active .left-panel {
+        height: 100%;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+    }
+    
+    body.game-active .right-panel {
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    body.game-active .grid-box {
+        flex: 1;
+        overflow: hidden;
+    }
+    
+    body.game-active .grid-scroll-wrapper {
+        flex: 1;
+        overflow: hidden; /* O grid de dedução lógica nunca deve ter barra de rolagem no PC */
+        height: 100%;
+    }
+}
+
+.case-header {
+    margin: 0.5rem 0;
+}
+
+.case-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.case-badge.easy { background: rgba(74, 222, 128, 0.15); color: var(--color-easy); border: 1px solid rgba(74, 222, 128, 0.3); }
+.case-badge.medium { background: rgba(251, 191, 36, 0.15); color: var(--color-medium); border: 1px solid rgba(251, 191, 36, 0.3); }
+.case-badge.difficult { background: rgba(248, 113, 113, 0.15); color: var(--color-difficult); border: 1px solid rgba(248, 113, 113, 0.3); }
+
+#case-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
+}
+
+.case-step {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Painéis de Box */
+.panel-box {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.panel-box h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    border-left: 3px solid var(--accent-cyan);
+    padding-left: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Pistas */
+.clues-box {
+    border-left: 4px solid var(--accent-cyan);
+}
+
+.clues-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.clues-list li {
+    padding: 1rem;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border-left: 3px solid var(--border-color);
+    transition: var(--transition-fast);
+}
+
+/* No modo lógico, usa fonte mono e símbolos destacados */
+.mode-logic-active .clues-list li {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    border-left-color: var(--accent-green);
+    background-color: #151d2c;
+}
+
+.clues-list li strong {
+    color: var(--accent-cyan);
+}
+
+.mode-logic-active .clues-list li strong {
+    color: var(--accent-green);
+}
+
+/* Legenda Lógica */
+.legend-box {
+    border-color: rgba(57, 255, 20, 0.2);
+}
+
+.legend-box h4 {
+    border-left-color: var(--accent-green);
+}
+
+.legend-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.legend-item {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.legend-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.legend-item strong {
+    color: var(--accent-green);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    display: inline-block;
+    width: 70px;
+}
+
+/* ==========================================================================
+   GRID DE DEDUXÃO (TABELA DE INTERAÇÃO)
+   ========================================================================== */
+.grid-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.grid-instructions {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    margin-top: -0.25rem;
+}
+
+.grid-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.logic-grid {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 0.75rem;
+    user-select: none;
+    table-layout: fixed;
+    transform-origin: top left;
+}
+
+.grid-disabled {
+    pointer-events: none !important;
+    opacity: 0.8;
+}
+
+/* Headers do Topo (Colunas) */
+.logic-grid th.col-header {
+    height: 60px;
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-tertiary);
+    vertical-align: middle;
+    text-align: center;
+    padding: 0.2rem;
+}
+
+.logic-grid th.col-header span {
+    display: block;
+    font-weight: 700;
+    color: var(--accent-amber);
+    font-size: 0.75rem;
+    line-height: 1.1;
+    word-wrap: break-word;
+    white-space: normal;
+    text-shadow: 0 0 5px rgba(245, 158, 11, 0.2);
+    font-family: var(--font-mono);
+}
+
+/* Headers de Categoria */
+.logic-grid th.cat-header {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    border: 1px solid var(--border-color);
+    padding: 0.4rem;
+}
+
+.logic-grid th.cat-header.col-cat {
+    text-align: center;
+}
+
+.logic-grid th.cat-header.row-cat {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    width: 30px;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--text-secondary);
+}
+
+/* Headers da Esquerda (Linhas) */
+.logic-grid td.row-header {
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    text-align: right;
+    white-space: nowrap;
+    width: 105px;
+    min-width: 105px;
+    max-width: 105px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.75rem;
+}
+
+/* Células interativas */
+.logic-grid td.grid-cell {
+    border: 1px solid var(--border-color);
+    width: 80px;
+    height: 45px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 900;
+    font-size: 1.3rem;
+    cursor: pointer;
+    background-color: var(--bg-primary);
+    transition: background-color var(--transition-fast);
+}
+
+.logic-grid td.grid-cell:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--accent-amber);
+}
+
+/* Estado de marcações */
+.logic-grid td.grid-cell.cell-x {
+    color: var(--accent-red);
+}
+
+.logic-grid td.grid-cell.cell-check {
+    color: var(--accent-green);
+    background-color: rgba(5, 150, 105, 0.05);
+}
+
+/* Divisores de Categoria */
+.logic-grid th.thick-border-left,
+.logic-grid td.thick-border-left {
+    border-left: 3px solid var(--accent-amber) !important;
+}
+
+.logic-grid tr.thick-border-bottom td,
+.logic-grid tr.thick-border-bottom th {
+    border-bottom: 3px solid var(--accent-amber) !important;
+}
+
+/* Células Bloqueadas */
+.logic-grid td.cell-blocked {
+    background-color: #12100f !important;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 255, 255, 0.02) 5px, rgba(255, 255, 255, 0.02) 10px);
+    cursor: not-allowed;
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   ACUSACAO & FORMULARIO
+   ========================================================================== */
+.accusation-box {
+    border-color: var(--accent-amber);
+}
+
+.accusation-box h4 {
+    border-left-color: var(--accent-amber);
+}
+
+.accusation-instructions {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+}
+
+.accusation-selectors {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.selector-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.selector-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    width: 90px;
+}
+
+.selector-group select {
+    flex-grow: 1;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.selector-group select:focus {
+    border-color: var(--accent-amber);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.accusation-box .btn-primary {
+    background-color: var(--accent-amber);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    width: 100%;
+}
+
+.accusation-box .btn-primary:hover {
+    background-color: #eab308;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   MODAL DE FEEDBACK (CASO RESOLVIDO / ERRO)
+   ========================================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(5, 7, 12, 0.85);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    width: 95%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+    padding: 2.5rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    transform: translateY(20px);
+    transition: transform var(--transition-normal);
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    color: var(--text-secondary);
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.modal-close:hover {
+    color: var(--accent-red);
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+
+.modal-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+.modal-body h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.modal-body p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Caixa de Explicação Lógica */
+.explanation-box {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-green);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.explanation-box h5 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-green);
+    margin-bottom: 0.5rem;
+}
+
+.explanation-box p {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Animações */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   CONFIGURAÇÕES ESPECÍFICAS DE STATUS DO JOGO
+   ========================================================================== */
+.success-theme .modal-icon { color: var(--accent-green); }
+.success-theme h3 { color: var(--accent-green); }
+
+.error-theme .modal-icon { color: var(--accent-red); }
+.error-theme h3 { color: var(--accent-red); }
+.error-theme .explanation-box { border-left-color: var(--accent-red); }
+.error-theme .explanation-box h5 { color: var(--accent-red); }
+
+/* ==========================================================================
+   RESPONSIVIDADE EXTRA
+   ========================================================================== */
+@media (max-width: 576px) {
+    .container {
+        padding: 0.75rem;
+    }
+    
+    .app-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .logo-img {
+        height: 3.8rem;
+    }
+    
+    .mode-control {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .modal-content {
+        padding: 1.5rem;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   ESTILOS DE PROGRESSÃO, VIDAS E BLOQUEIO
+   ========================================================================== */
+.diff-card.locked {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none !important;
+    border-color: #1a2333 !important;
+}
+
+.diff-card.locked:hover {
+    transform: none;
+    box-shadow: none;
+    background: var(--glass-bg);
+}
+
+.diff-card.locked::after {
+    content: "🔒 BLOQUEADO";
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.case-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.lives-counter {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    user-select: none;
+    background: rgba(255, 56, 96, 0.08);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 56, 96, 0.2);
+}
+
+/* Modal Estilo Game Over */
+.gameover-theme .modal-icon {
+    color: var(--accent-red);
+    animation: shake 0.5s ease-in-out;
+}
+
+.gameover-theme h3 {
+    color: var(--accent-red);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+}
+
+/* Modal Estilo Vitória Completa */
+.victory-theme .modal-icon {
+    color: var(--accent-green);
+    font-size: 5rem;
+}
+
+.victory-theme h3 {
+    color: var(--accent-green);
+}
+
+/* Estilos de Explicação Lógica Formatada */
+.logic-code {
+    background-color: rgba(5, 150, 105, 0.12) !important;
+    color: #10b981 !important;
+    padding: 0.15rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: 1px solid rgba(5, 150, 105, 0.25);
+    display: inline-block;
+    margin: 0.1rem 0;
+}
+
+.logic-rule {
+    color: var(--accent-amber) !important;
+    font-weight: 700;
+    text-decoration: underline dotted;
+}
+
+/* Seleção de Casos no Menu */
+.cases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0 1.25rem 0;
+    width: 100%;
+}
+
+.case-btn {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    width: 100%;
+}
+
+.case-btn:hover {
+    border-color: var(--accent-cyan);
+    background-color: rgba(2, 132, 199, 0.1);
+    transform: translateX(3px);
+}
+
+.case-btn.solved {
+    border-color: rgba(5, 150, 105, 0.3);
+    background-color: rgba(5, 150, 105, 0.05);
+    color: var(--text-secondary);
+}
+
+.case-btn.solved:hover {
+    border-color: var(--accent-green);
+    background-color: rgba(5, 150, 105, 0.1);
+    color: var(--text-primary);
+}
+
+.case-btn.failed.failed-sem-provas {
+    border-color: rgba(245, 158, 11, 0.4);
+    background-color: rgba(245, 158, 11, 0.05);
+    color: var(--text-secondary);
+}
+
+.case-btn.failed.failed-sem-provas:hover {
+    border-color: var(--accent-amber);
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--text-primary);
+}
+
+.case-btn.failed.failed-inocente {
+    border-color: rgba(239, 68, 68, 0.4);
+    background-color: rgba(239, 68, 68, 0.05);
+    color: var(--text-secondary);
+}
+
+.case-btn.failed.failed-inocente:hover {
+    border-color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--text-primary);
+}
+
+.case-btn .case-status {
+    font-size: 0.8rem;
+}
+
+/* Dicionário de Símbolos do Caso */
+.legend-logic-box {
+    border-color: rgba(2, 132, 199, 0.2) !important;
+    margin-top: 1rem;
+}
+
+.case-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.case-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+}
+
+.case-legend-item code {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.3rem;
+}
+
+@media (max-width: 991px) {
+    .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+}
+
+/* ==========================================================================
+   MODAL DO RELATÓRIO POLICIAL
+   ========================================================================== */
+#police-report-modal {
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+.report-modal-content {
+    position: relative;
+    margin: 2% auto;
+    width: 95%;
+    max-width: 800px;
+    padding: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+    overflow-y: auto;
+    max-height: 92vh;
+}
+
+.police-report-paper {
+    background-image: url('police_paper.webp');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    padding: 3.5rem 3.5rem;
+    /* Variáveis para opacidade simulada de máquina de escrever */
+    --ink-black: rgba(28, 22, 18, 0.82); /* Rótulos/bordas impressos na ficha */
+    --ink-blue: rgba(16, 36, 84, 0.84);   /* Tinta datilografada azul nos campos */
+    color: var(--ink-black);
+    font-family: 'Courier Prime', Courier, monospace;
+    font-weight: 700;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.report-header {
+    text-align: center;
+    border-bottom: 3px double var(--ink-black);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.report-header h2 {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    margin: 0;
+    color: var(--ink-black);
+    font-weight: 700;
+    text-shadow: 0.3px 0.3px 0.5px rgba(28, 22, 18, 0.15);
+}
+
+.report-header h3 {
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    margin: 0.4rem 0 0 0;
+    color: var(--ink-black);
+    font-weight: 700;
+    text-shadow: 0.3px 0.3px 0.5px rgba(28, 22, 18, 0.12);
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid var(--ink-black);
+}
+
+.report-table td {
+    border: 2px solid var(--ink-black);
+    padding: 0.5rem;
+    vertical-align: middle;
+}
+
+.field-inline {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.field-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    width: 100%;
+}
+
+.field-label {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: var(--ink-black);
+    font-weight: 700;
+    text-shadow: 0.2px 0.2px 0.4px rgba(28, 22, 18, 0.1);
+}
+
+.field-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed var(--ink-black);
+    color: var(--ink-blue);
+    font-family: 'Courier Prime', Courier, monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.05rem 0.2rem;
+    outline: none;
+    /* Leve difusão nas bordas das letras simulando impacto físico da fita de tinta */
+    text-shadow: 0.3px 0.3px 0.6px rgba(16, 36, 84, 0.2);
+}
+
+.field-input.short {
+    max-width: 100px;
+}
+
+.field-input::placeholder {
+    color: rgba(28, 22, 18, 0.35);
+    font-weight: 400;
+}
+
+.narrative-cell {
+    padding: 0.75rem !important;
+}
+
+.narrative-container {
+    position: relative;
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.narrative-textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    resize: none;
+    color: var(--ink-blue);
+    font-family: 'Courier Prime', Courier, monospace;
+    font-size: 0.95rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+    padding: 0;
+    text-shadow: 0.3px 0.3px 0.6px rgba(16, 36, 84, 0.2);
+}
+
+.narrative-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.narrative-lines span {
+    height: 1.5rem;
+    border-bottom: 1px dashed rgba(28, 22, 18, 0.28);
+    box-sizing: border-box;
+}
+
+.signature-field {
+    margin-top: 0.5rem;
+}
+
+.signature-input {
+    font-style: italic;
+    font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+    .police-report-paper {
+        padding: 2rem 1.5rem;
+    }
+    
+    .report-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .report-header h3 {
+        font-size: 0.9rem;
+    }
+    
+    .report-table td {
+        padding: 0.35rem;
+    }
+    
+    .field-label {
+        font-size: 0.75rem;
+    }
+    
+    .field-input {
+        font-size: 0.85rem;
+    }
+}
+
+/* Estilo do Carimbo Confidencial */
+.police-stamp {
+    position: absolute;
+    top: 2.2rem;
+    right: 3rem;
+    border: 3.5px solid rgba(197, 48, 48, 0.65);
+    color: rgba(197, 48, 48, 0.65);
+    font-size: 1.15rem;
+    font-weight: 800;
+    padding: 0.25rem 0.6rem;
+    text-transform: uppercase;
+    transform: rotate(10deg);
+    font-family: 'Courier Prime', Courier, monospace;
+    letter-spacing: 3px;
+    border-radius: 4px;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0.3px 0.3px 0.5px rgba(197, 48, 48, 0.15);
+    background-color: rgba(255, 255, 255, 0.05);
+    z-index: 10;
+}
+
+/* Abas do Dossiê / Ficha de Investigação */
+.dossier-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.dossier-tab-btn {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    font-family: var(--font-sans);
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.dossier-tab-btn:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--accent-amber);
+}
+
+.dossier-tab-btn.active {
+    background: var(--accent-amber);
+    color: var(--bg-primary);
+    border-color: var(--accent-amber);
+}
+
+.dossier-tab-content {
+    display: none;
+    animation: dossierFadeIn 0.25s ease-in-out;
+}
+
+.dossier-tab-content.active {
+    display: block;
+}
+
+@keyframes dossierFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   MODAL DE ACUSAÇÃO (SELETORES VERTICAIS E RODAPÉ)
+   ========================================================================== */
+.modal-accusation-selectors {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.selector-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.selector-group-vertical label {
+    font-weight: bold;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.selector-group-vertical select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--transition-fast);
+}
+
+.selector-group-vertical select:focus {
+    border-color: var(--accent-amber);
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.2);
+}
+
+.modal-actions-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+/* Rodapé do Grid Lógica - Botão Formular Acusação */
+.grid-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.grid-footer-actions .btn-primary {
+    font-family: var(--font-mono);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.65rem 1.25rem;
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   CARIMBOS DE FEEDBACK DA ACUSAÇÃO
+   ========================================================================== */
+.report-stamp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-family: var(--font-mono);
+    font-size: 4rem;
+    font-weight: 950;
+    border: 0.5rem double;
+    padding: 0.5rem 1.5rem;
+    text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    letter-spacing: 3px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.modal.active .report-stamp {
+    animation: stampApprove 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation-delay: 0.35s;
+}
+
+@keyframes stampApprove {
+    0% { transform: translate(-50%, -50%) rotate(-45deg) scale(3); opacity: 0; }
+    100% { transform: translate(-50%, -50%) rotate(-15deg) scale(1); opacity: 0.80; }
+}
+
+.stamp-inocente {
+    color: #b91c1c; /* Vermelho escuro */
+    border-color: #b91c1c;
+    text-shadow: 0 0 2px rgba(185, 28, 28, 0.3);
+}
+
+.stamp-sem-provas {
+    color: #ca8a04; /* Laranja/Amarelo escuro */
+    border-color: #ca8a04;
+    text-shadow: 0 0 2px rgba(202, 138, 4, 0.3);
+}
+
+.stamp-culpado {
+    color: #15803d; /* Verde escuro */
+    border-color: #15803d;
+    text-shadow: 0 0 2px rgba(21, 128, 61, 0.3);
+}
+
+/* ==========================================================================
+   TELA DE SELEÇÃO DE DETETIVE & BADGE
+   ========================================================================== */
+.char-selection-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--neon-shadow);
+}
+
+.char-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 2.5rem 0;
+}
+
+.char-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.25rem;
+    cursor: pointer;
+    transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal), background-color var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.char-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-amber);
+    box-shadow: 0 4px 12px rgba(202, 138, 4, 0.15);
+}
+
+.char-card.selected {
+    border-color: var(--accent-amber);
+    background: rgba(202, 138, 4, 0.04);
+    box-shadow: 0 0 15px rgba(202, 138, 4, 0.1), inset 0 0 10px rgba(202, 138, 4, 0.05);
+}
+
+/* Moldura de Foto de Dossiê Policial */
+.char-img-wrapper {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    background: #eae6df; /* Papel fotográfico antigo */
+    padding: 6px 6px 18px 6px; /* Borda branca maior embaixo para simular polaroid */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid #c8c2b7;
+    transform: rotate(-2deg); /* Leve inclinação para parecer realista */
+    transition: transform var(--transition-normal), filter var(--transition-normal);
+}
+
+/* Inclinações alternadas */
+.char-cards-grid > .char-card:nth-child(even) .char-img-wrapper {
+    transform: rotate(3deg);
+}
+
+.char-card:hover .char-img-wrapper {
+    transform: rotate(0deg) scale(1.03);
+}
+
+.char-card.selected .char-img-wrapper {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7), 0 0 8px rgba(202, 138, 4, 0.3);
+}
+
+.char-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) sepia(20%) contrast(1.1);
+    transition: filter var(--transition-normal);
+    border: 1px solid #171513;
+}
+
+.char-card:hover img,
+.char-card.selected img {
+    filter: grayscale(0%) sepia(0%) contrast(1);
+}
+
+.char-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.char-info h4 {
+    font-size: 1.25rem;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}
+
+.char-card.selected .char-info h4 {
+    color: var(--accent-amber);
+}
+
+.char-badge {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    background: var(--accent-cyan);
+    color: #eae6df;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+    letter-spacing: 1px;
+}
+
+.char-info p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.char-card.selected .char-info p {
+    color: var(--text-primary);
+}
+
+/* Seção de Assinatura */
+.char-signature-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.char-signature-section label {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.signature-input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.signature-input-wrapper::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent-amber);
+    box-shadow: 0 0 4px var(--accent-amber);
+}
+
+#char-signature-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: var(--accent-amber);
+    text-align: center;
+    padding: 0.5rem;
+    letter-spacing: 1px;
+}
+
+#char-signature-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.signature-help {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* Botão grande da tela de seleção */
+.btn-large {
+    padding: 0.75rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: all var(--transition-normal);
+}
+
+.btn-large:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(202, 138, 4, 0.3);
+}
+
+/* Detetive Badge Link hover */
+.detective-header-badge .btn-link:hover {
+    color: var(--text-primary) !important;
+}
+
+/* ==========================================================================
+   TELA DE INSTRUÇÕES (COMO JOGAR)
+   ========================================================================== */
+.instructions-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--neon-shadow);
+}
+
+.instructions-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.instruction-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.instruction-card:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 4px 12px rgba(59, 82, 102, 0.1);
+}
+
+.instruction-card.highlight-box {
+    border: 1.5px solid var(--accent-red);
+    background: rgba(127, 29, 29, 0.05);
+    box-shadow: 0 0 10px rgba(127, 29, 29, 0.1);
+}
+
+.instruction-card.highlight-box:hover {
+    border-color: #ef4444;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.15);
+}
+
+.step-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent-amber);
+    font-family: var(--font-mono);
+    opacity: 0.7;
+    line-height: 1;
+    border-bottom: 2px solid var(--accent-amber);
+    padding-bottom: 0.25rem;
+}
+
+.instruction-card.highlight-box .step-num {
+    color: #ef4444;
+    border-bottom-color: #ef4444;
+}
+
+.step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.step-content h4 {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-weight: bold;
+}
+
+.instruction-card.highlight-box .step-content h4 {
+    color: #fca5a5; /* Vermelho claro para o destaque */
+}
+
+.step-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.instruction-card:hover .step-content p,
+.instruction-card.highlight-box .step-content p {
+    color: var(--text-primary);
+}
+
+.tip-text {
+    margin-top: 0.5rem;
+    background: rgba(202, 138, 4, 0.08);
+    padding: 0.5rem 0.75rem;
+    border-left: 3px solid var(--accent-amber);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary) !important;
+}
+
+
+
+
+
+
