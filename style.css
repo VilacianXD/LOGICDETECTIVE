@@ -1,0 +1,383 @@
+/* ==========================================
+   SISTEMA DE DESIGN & VARIÁVEIS
+   ========================================== */
+:root {
+  --bg-dark: #06060f;
+  --primary: #8b5cf6;
+  --primary-glow: rgba(139, 92, 246, 0.45);
+  --cyan: #06b6d4;
+  --cyan-glow: rgba(6, 182, 212, 0.4);
+  --accent: #10b981;
+  --accent-glow: rgba(16, 185, 129, 0.3);
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --glass-bg: rgba(13, 13, 27, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-active: rgba(139, 92, 246, 0.35);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================
+   RESET & CONFIGURAÇÕES GERAIS
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================
+   VÍDEO DE FUNDO & FALLBACK
+   ========================================== */
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  overflow: hidden;
+}
+
+#bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35; /* Suave para não competir com a leitura do texto */
+  filter: contrast(1.1) brightness(0.85);
+  transition: opacity 1s ease;
+}
+
+.video-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  /* Gradiente dinâmico com cores espaciais */
+  background: radial-gradient(circle at 30% 20%, #1a103c 0%, #06060f 60%, #020205 100%);
+  background-size: 200% 200%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   LAYOUT DO CONTAINER PRINCIPAL (PWA)
+   ========================================== */
+.app-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  z-index: 1;
+}
+
+/* Glassmorphism Reutilizável */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: var(--transition);
+}
+
+/* ==========================================
+   HEADER
+   ========================================== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--primary);
+  border: 1px solid var(--glass-border-active);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+/* ==========================================
+   BOTÕES E COMPONENTES INTERATIVOS
+   ========================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 14px 0 var(--primary-glow);
+}
+
+.btn-primary:hover {
+  background: #7c3aed;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 var(--primary-glow);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 14px 0 var(--accent-glow);
+}
+
+.btn-accent:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 var(--accent-glow);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================
+   PAINEL DE ESTATÍSTICAS
+   ========================================== */
+.status-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 20px;
+  gap: 16px;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.text-cyan { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); }
+.text-purple { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
+
+/* ==========================================
+   SELEÇÃO DE FASES (GRID)
+   ========================================== */
+.levels-container h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.level-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.level-card:not(:disabled):hover {
+  transform: scale(1.03) translateY(-4px);
+  border-color: var(--glass-border-active);
+  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
+}
+
+.level-num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.15);
+  line-height: 1;
+  margin-bottom: 12px;
+  transition: var(--transition);
+}
+
+.level-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.level-status {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Estados das fases */
+.level-card.active .level-num {
+  color: var(--primary);
+  text-shadow: 0 0 8px var(--primary-glow);
+}
+
+.level-card.active .level-status {
+  color: var(--cyan);
+}
+
+.level-card.completed .level-status {
+  color: var(--accent);
+}
+
+.level-card.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.level-card:disabled {
+  pointer-events: none;
+}
+
+/* ==========================================
+   ÁREA DE SIMULAÇÃO DE GAMEPLAY
+   ========================================== */
+.gameplay-simulation {
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.gameplay-simulation h3 {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+
+.gameplay-simulation p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 500px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   RODAPÉ E SEGURANÇA
+   ========================================== */
+.app-footer {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.security-note {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  padding: 10px 16px;
+  border-radius: 12px;
+  line-height: 1.4;
+}
+
+/* ==========================================
+   RESPONSIVIDADE (MEDIA QUERIES)
+   ========================================== */
+@media (max-width: 600px) {
+  .app-container {
+    margin: 10px;
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .brand h1 {
+    font-size: 1.8rem;
+  }
+
+  .status-panel {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .levels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-install {
+    width: 100%;
+  }
+}

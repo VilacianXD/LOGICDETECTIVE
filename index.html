@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Adventure Game PWA</title>
+  
+  <!-- Configurações PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#8b5cf6">
+  <link rel="apple-touch-icon" href="icon-192.jpg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Vídeo de Fundo Dinâmico -->
+  <div class="video-container">
+    <video autoplay loop muted playsinline id="bg-video">
+      <!-- O usuário colocará o seu próprio vídeo.mp4 aqui -->
+      <source src="bg-video.mp4" type="video/mp4">
+    </video>
+    <!-- Fallback de gradiente caso o vídeo falhe ou esteja carregando -->
+    <div class="video-fallback"></div>
+  </div>
+
+  <!-- Tela Principal do App -->
+  <main class="app-container">
+    <header class="app-header">
+      <div class="brand">
+        <span class="badge">PROTÓTIPO</span>
+        <h1>Space Adventure</h1>
+        <p class="subtitle">Desbrave o cosmo em um PWA seguro</p>
+      </div>
+      
+      <!-- Botão de Instalação (PWA) -->
+      <button id="btn-install" class="btn btn-primary btn-install hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Instalar no Dispositivo
+      </button>
+    </header>
+
+    <!-- Painel de Estatísticas / Status (Salvo Localmente) -->
+    <section class="status-panel glass">
+      <div class="stat-item">
+        <span class="stat-label">Fase Atual</span>
+        <span class="stat-value" id="current-level-display">Fase 1</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Cristais Coletados</span>
+        <span class="stat-value text-cyan" id="crystals-display">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Melhor Pontuação</span>
+        <span class="stat-value text-purple" id="highscore-display">0000</span>
+      </div>
+    </section>
+
+    <!-- Menu de Seleção de Fases (Simulando o Jogo) -->
+    <section class="levels-container">
+      <h2>Selecione uma Fase</h2>
+      <div class="levels-grid">
+        <!-- Fase 1 (Sempre Desbloqueada) -->
+        <button class="level-card glass active" data-level="1">
+          <div class="level-num">01</div>
+          <h3>Nebulosa Inicial</h3>
+          <p class="level-status">Disponível</p>
+        </button>
+
+        <!-- Fase 2 -->
+        <button class="level-card glass locked" id="level-btn-2" data-level="2" disabled>
+          <div class="level-num">02</div>
+          <h3>Cinturão de Asteroides</h3>
+          <p class="level-status" id="level-status-2">Bloqueado</p>
+        </button>
+
+        <!-- Fase 3 -->
+        <button class="level-card glass locked" id="level-btn-3" data-level="3" disabled>
+          <div class="level-num">03</div>
+          <h3>Buraco Negro</h3>
+          <p class="level-status" id="level-status-3">Bloqueado</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- Área de Jogo Rápido / Simulação -->
+    <section class="gameplay-simulation glass">
+      <div id="sim-instructions">
+        <h3>Simulação de Gameplay</h3>
+        <p>Clique abaixo para simular que completou a fase atual. Isso desbloqueará novas fases e salvará seu progresso de forma 100% segura no seu navegador.</p>
+        <button id="btn-complete-level" class="btn btn-accent">Simular Vitória (Fase 1)</button>
+      </div>
+      <div id="sim-victory" class="hidden">
+        <h3 class="text-cyan">🏆 Vitória Espacial!</h3>
+        <p>Você completou a fase com sucesso. Seus dados foram sincronizados localmente.</p>
+        <button id="btn-next-level" class="btn btn-primary">Próxima Fase</button>
+      </div>
+    </section>
+
+    <!-- Informações de Segurança e Privacidade -->
+    <footer class="app-footer">
+      <p class="security-note">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Segurança Máxima: Este site funciona inteiramente no seu navegador. Nenhuma informação pessoal ou dados de API são transmitidos.
+      </p>
+    </footer>
+  </main>
+
+  <!-- Script Principal -->
+  <script src="app.js"></script>
+</body>
+</html>
