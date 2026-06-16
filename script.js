@@ -1140,21 +1140,42 @@ function setMode(mode) {
 
 
 
+// Dicionário para rastrear a posição do scroll de cada tela
+const screenScrollPositions = {};
+
 function showScreen(screenId) {
+    // 1. Salva a posição de rolagem atual da tela que está sendo desativada
+    const currentActiveScreen = document.querySelector(".screen.active");
+    if (currentActiveScreen) {
+        screenScrollPositions[currentActiveScreen.id] = window.scrollY;
+    }
+
+    // 2. Remove o estado ativo de todas as telas
     document.querySelectorAll(".screen").forEach(s => {
         s.classList.remove("active");
     });
+    
+    // 3. Ativa a nova tela alvo
     const activeScreen = document.getElementById(screenId);
     if (activeScreen) {
         activeScreen.classList.add("active");
     }
     
-    // Gerenciar classe de tela cheia no body (só ativa no gameplay)
+    // 4. Gerenciar classe de tela cheia no body (só ativa no gameplay)
     if (screenId === "game-screen") {
         document.body.classList.add("game-active");
     } else {
         document.body.classList.remove("game-active");
     }
+
+    // 5. Recupera a posição de scroll anterior e rola a tela
+    const targetScrollY = screenScrollPositions[screenId] || 0;
+    setTimeout(() => {
+        window.scrollTo({
+            top: targetScrollY,
+            behavior: 'instant'
+        });
+    }, 0);
 }
 
 function selectDifficulty(diff) {
@@ -2546,18 +2567,11 @@ function confirmDetectiveSelection() {
     updateReportSignatures();
     updateHeaderDetectiveBadge();
     
-    document.getElementById('character-selection-screen').classList.remove('active');
-    
     if (isEditingDetective) {
-        const prevScreen = document.getElementById(previousScreenBeforeCharSelection);
-        if (prevScreen) {
-            prevScreen.classList.add('active');
-        } else {
-            document.getElementById('menu-screen').classList.add('active');
-        }
+        showScreen(previousScreenBeforeCharSelection || 'menu-screen');
         isEditingDetective = false;
     } else {
-        document.getElementById('instructions-screen').classList.add('active');
+        showScreen('instructions-screen');
     }
 }
 
@@ -2569,8 +2583,7 @@ function openCharacterSelection() {
         previousScreenBeforeCharSelection = activeScreen.id;
     }
     
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('character-selection-screen').classList.add('active');
+    showScreen('character-selection-screen');
     
     const signatureInput = document.getElementById('char-signature-input');
     if (signatureInput) {
@@ -2630,11 +2643,9 @@ function initializeDetective() {
     updateHeaderDetectiveBadge();
     
     if (!detectiveName) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('character-selection-screen').classList.add('active');
+        showScreen('character-selection-screen');
     } else {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById('menu-screen').classList.add('active');
+        showScreen('menu-screen');
     }
 }
 
@@ -2645,24 +2656,16 @@ function openInstructionsScreen() {
         previousScreenBeforeRules = activeScreen.id;
     }
     
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('instructions-screen').classList.add('active');
+    showScreen('instructions-screen');
 }
 
 function closeInstructionsScreen() {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    
     // Se veio da tela de seleção de personagem inicial, vai para o menu.
     // Caso contrário, retorna à tela em que o jogador estava jogando/navegando.
     if (previousScreenBeforeRules === 'character-selection-screen' || previousScreenBeforeRules === 'instructions-screen') {
-        document.getElementById('menu-screen').classList.add('active');
+        showScreen('menu-screen');
     } else {
-        const prevScreen = document.getElementById(previousScreenBeforeRules);
-        if (prevScreen) {
-            prevScreen.classList.add('active');
-        } else {
-            document.getElementById('menu-screen').classList.add('active');
-        }
+        showScreen(previousScreenBeforeRules || 'menu-screen');
     }
 }
 
