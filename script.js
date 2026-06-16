@@ -902,6 +902,28 @@ let previousScreenBeforeCharSelection = "menu-screen";
 
 // 3. INICIALIZAÇÃO
 document.addEventListener("DOMContentLoaded", () => {
+    // Monitoramento do vídeo de fundo para evitar botão de play nativo travado
+    const bgVideo = document.querySelector('.bg-video');
+    if (bgVideo) {
+        bgVideo.addEventListener('contextmenu', e => e.preventDefault()); // Evita menu de contexto
+        
+        const playPromise = bgVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.warn("Autoplay do vídeo de fundo bloqueado pelo navegador/sistema:", error);
+                bgVideo.style.display = 'none'; // Oculta o vídeo para que o botão de play não apareça
+            });
+        }
+        
+        // Se o vídeo for pausado pelo sistema posteriormente (ex: economia de energia, perda de foco)
+        bgVideo.addEventListener('pause', () => {
+            bgVideo.play().catch(error => {
+                console.warn("Falha ao retomar vídeo de fundo pausado:", error);
+                bgVideo.style.display = 'none';
+            });
+        });
+    }
+
     updateProgressUI();
     setupDifficultyCards();
     

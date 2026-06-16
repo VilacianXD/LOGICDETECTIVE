@@ -87,6 +87,14 @@ body {
     opacity: 0.18; /* Atmosfera Noir sem poluir a leitura das caixas de jogo */
 }
 
+/* Oculta controles de mídia nativos injetados pelo navegador (ex: iOS Safari e Chrome mobile) */
+.bg-video::-webkit-media-controls {
+    display: none !important;
+}
+.bg-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+}
+
 .container {
     max-width: 1280px;
     margin: 0 auto;
