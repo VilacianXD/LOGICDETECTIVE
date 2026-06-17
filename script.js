@@ -1,3 +1,52 @@
+(function() {
+
+// ==========================================================================
+// SEGURANÇA E CRIPTOGRAFIA (Wrappers LocalStorage e Hash)
+// ==========================================================================
+const DB_KEY = "detectivesecretkey123!";
+
+function encryptData(dataStr) {
+    let result = "";
+    for (let i = 0; i < dataStr.length; i++) {
+        result += String.fromCharCode(dataStr.charCodeAt(i) ^ DB_KEY.charCodeAt(i % DB_KEY.length));
+    }
+    return btoa(unescape(encodeURIComponent(result)));
+}
+
+function decryptData(cipherText) {
+    if (!cipherText) return null;
+    try {
+        let decoded = decodeURIComponent(escape(atob(cipherText)));
+        let result = "";
+        for (let i = 0; i < decoded.length; i++) {
+            result += String.fromCharCode(decoded.charCodeAt(i) ^ DB_KEY.charCodeAt(i % DB_KEY.length));
+        }
+        return result;
+    } catch (e) {
+        return null;
+    }
+}
+
+function setSecureItem(key, value) {
+    const serialized = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    localStorage.setItem(key, encryptData(serialized));
+}
+
+function getSecureItem(key, isJson = false) {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const decrypted = decryptData(raw);
+    if (!decrypted) return null;
+    return isJson ? JSON.parse(decrypted) : decrypted;
+}
+
+async function gerarHash(texto) {
+    const msgBuffer = new TextEncoder().encode(texto.trim().toLowerCase());
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 /* ==========================================================================
    LOGIC DETECTIVE - MOTOR DO JOGO E BANCO DE DESAFIOS (Murdle de Lógica)
    ========================================================================== */
@@ -11,11 +60,8 @@ const challenges = [
         suspects: ["Jack Spade", "Don Falcone", "Lola Mercer"],
         locations: ["O Escritório dos Fundos", "O Beco das Sombras", "O Balcão do Bar"],
         weapons: [],
-        solution: {
-            suspect: "Jack Spade",
-            location: "O Escritório dos Fundos",
-            weapon: ""
-        },
+        solutionHashSuspect: "b569189d4cf9e3f7d2761c353568e34153f4171916b72d22ec27b9c209076797",
+        solutionHashComplete: "60ce9a6439c82a07aacdb7de0362e72a41151d82aa357b4f86ac39e86607a9ab",
         victim: {
             name: "Thomas \"Silencioso\" Vance",
             sex: "M",
@@ -68,11 +114,8 @@ const challenges = [
         suspects: ["Vito \"O Navalha\" Genovese", "Evelyn Vance", "Inspetor Miller"],
         locations: ["O Píer de Carga", "O Galpão Abandonado", "As Docas de Névoa"],
         weapons: [],
-        solution: {
-            suspect: "Vito \"O Navalha\" Genovese",
-            location: "As Docas de Névoa",
-            weapon: ""
-        },
+        solutionHashSuspect: "633d24d16044be915e6a22d2f6e56dea196b71998b67371d354db56d807bcf8d",
+        solutionHashComplete: "0ba2deffccdf88560a76e2b707cb6da5b6fe25f0ad26f536d1ea9fe5190e2a72",
         victim: {
             name: "Arthur Pendelton",
             sex: "M",
@@ -125,11 +168,8 @@ const challenges = [
         suspects: ["Mordomo Sterling", "Dr. Julian Ross", "Glória DuPont"],
         locations: ["A Estufa de Flores", "O Hall de Mármore", "A Biblioteca Privada"],
         weapons: [],
-        solution: {
-            suspect: "Glória DuPont",
-            location: "O Hall de Mármore",
-            weapon: ""
-        },
+        solutionHashSuspect: "6d5fa08f4d509d8348fbd3d143242399a4f56796429ff145db80d597338ef0d1",
+        solutionHashComplete: "4096b4c8c7e469373eca6e9dc4e4801365b2995369a4ef486b31b896c83164a0",
         victim: {
             name: "Charles DuPont",
             sex: "M",
@@ -182,11 +222,8 @@ const challenges = [
         suspects: ["Condutor Harris", "Rocky \"Iron Fist\" Malone", "Senador Sterling"],
         locations: ["A Cabine Presidencial", "O Vagão Restaurante", "O Corredor de Serviço"],
         weapons: [],
-        solution: {
-            suspect: "Rocky \"Iron Fist\" Malone",
-            location: "O Vagão Restaurante",
-            weapon: ""
-        },
+        solutionHashSuspect: "d56e39047a6d2ed4df1e37e3229986f80b9952f75a30536ae2021380957d5794",
+        solutionHashComplete: "e86f2fbe09f10a8d3398f02fa4e86101a9c6c7cccf6fac661a0e48a86ee8a25f",
         victim: {
             name: "Jornalista Arthur Coburn",
             sex: "M",
@@ -239,11 +276,8 @@ const challenges = [
         suspects: ["Arthur \"Flash\" Coburn", "Mickey Burns", "Advogado Vance"],
         locations: ["O Beco do Lixo", "O Quarto de Pensão 304", "O Velvet Club"],
         weapons: ["Soco-Inglês de Latão", "Revólver Calibre .38", "Fio de Aço de Garrote"],
-        solution: {
-            suspect: "Mickey Burns",
-            location: "O Velvet Club",
-            weapon: "Revólver Calibre .38"
-        },
+        solutionHashSuspect: "290956e3f5162b31517c863a9ea1707b1bdc6db3b430d40aa4e6f3aad9ac8c46",
+        solutionHashComplete: "63b6fe39536084ac4b36a5c59689c90c30b56729b70eb4a13e2825174be47b1d",
         victim: {
             name: "Jimmy \"Duas-Caras\" Carter",
             sex: "M",
@@ -304,11 +338,8 @@ const challenges = [
         suspects: ["Frankie \"Cicatriz\"", "Detetive Miller", "Madame Rouge"],
         locations: ["O Cofre do Cassino", "A Sala de Pôquer VIP", "O Estacionamento Subterrâneo"],
         weapons: ["Barra de Ferro", "Navalha de Barbeiro", "Veneno de Cianeto"],
-        solution: {
-            suspect: "Frankie \"Cicatriz\"",
-            location: "A Sala de Pôquer VIP",
-            weapon: "Navalha de Barbeiro"
-        },
+        solutionHashSuspect: "75dc221ea34049e62caee2fa887bf549e2ab450cbf9cf8881f559524e98044ac",
+        solutionHashComplete: "ffa733baf29b5e47c1336b3fb25bf12217adca1dd802e2167bdcff030a1f8e14",
         victim: {
             name: "Albert Higgins",
             sex: "M",
@@ -369,11 +400,8 @@ const challenges = [
         suspects: ["Jornalista Kent", "Duquesa Beatrice", "Vito Genovese"],
         locations: ["A Adega de Vinhos", "O Jardim Francês", "O Salão de Bilhar"],
         weapons: ["Pistola com Silenciador", "Faca de Trincheira", "Arsênico no Licor"],
-        solution: {
-            suspect: "Vito Genovese",
-            location: "O Salão de Bilhar",
-            weapon: "Arsênico no Licor"
-        },
+        solutionHashSuspect: "8f5591369768d42f3abdae98c156b0d591173aa8db93ca2cc3f8dc485442d42a",
+        solutionHashComplete: "adc631f5a6cc0234a166634559a3b4d25bdf8b0c748c2ffc08538d0c99e1b944",
         victim: {
             name: "Lorde Harrington",
             sex: "M",
@@ -434,11 +462,8 @@ const challenges = [
         suspects: ["Químico Sterling", "Diretor Blackwell", "Magnata DuPont"],
         locations: ["A Sala de Arquivos", "A Recepção Central", "O Laboratório Químico"],
         weapons: ["Seringa com Sedativo", "Pasta com Documento Explosivo", "Gás Monóxido no Duto"],
-        solution: {
-            suspect: "Diretor Blackwell",
-            location: "A Sala de Arquivos",
-            weapon: "Gás Monóxido no Duto"
-        },
+        solutionHashSuspect: "3f2a07dac15b68cd350d19b7e4a27a69c8f4e150d04beb6114687bd18b89e2cd",
+        solutionHashComplete: "e7cebd562dab82402bbf810eb8cd6d6c474b64ef884d4790a719b8ecc55afe99",
         victim: {
             name: "Dr. Hans Reinhardt",
             sex: "M",
@@ -499,11 +524,8 @@ const challenges = [
         suspects: ["Marinheiro Jack", "Capitão Blackwood", "Senhorita Carmine", "Estivador Boris"],
         locations: ["O Portão de Carga", "O Armazém Central", "A Loja de Penhores", "A Doca Seca"],
         weapons: ["Rifle Mosquetão", "Gancho de Carga", "Corda de Cânhamo", "Barra de Direção"],
-        solution: {
-            suspect: "Capitão Blackwood",
-            location: "O Armazém Central",
-            weapon: "Gancho de Carga"
-        },
+        solutionHashSuspect: "73bce0a4b7e60a845813fee2eff1ecd407e117d79189b16cd7005eed4a373177",
+        solutionHashComplete: "e1622399975001b47a0613d48112034a27a5dfdd1239195b2ebb844619b99b53",
         victim: {
             name: "Oficial de Alfândega Ross",
             sex: "M",
@@ -590,11 +612,8 @@ const challenges = [
         suspects: ["Ilusionista Raven", "Diretor Sinclair", "Atriz Evelyn", "Crítico Malone"],
         locations: ["Os Camarins", "A Galeria de Iluminação", "O Palco Principal", "A Bilheteria"],
         weapons: ["Punhal de Aço Damasceno", "Fio de Garrote Oculto", "Dose de Clorofórmio", "Veneno no Cálice de Adereço"],
-        solution: {
-            suspect: "Crítico Malone",
-            location: "O Palco Principal",
-            weapon: "Dose de Clorofórmio"
-        },
+        solutionHashSuspect: "598e9b1cb75b4887cf7f340850e8280943fd24a2f38dbe98f2bd3e7a5aec6c7f",
+        solutionHashComplete: "29fe495f47d78bf0b4f7aa809f2addbde7ff7a022710b68eb5e0830ad8533c68",
         victim: {
             name: "Diretor de Palco Moreau",
             sex: "M",
@@ -681,11 +700,8 @@ const challenges = [
         suspects: ["Informante Slate", "Don Barrows", "Juíza Helena", "Matador Umbra"],
         locations: ["O Beco das Ratazanas", "O Canteiro de Obras", "O Esgoto Subterrâneo", "A Fábrica de Tecidos"],
         weapons: ["Cano de Ferro Cortado", "Maçarico a Gás", "Martelo Pesado", "Revólver Silenciado"],
-        solution: {
-            suspect: "Matador Umbra",
-            location: "O Esgoto Subterrâneo",
-            weapon: "Revólver Silenciado"
-        },
+        solutionHashSuspect: "8db532b9ce70706f795bb46f1ceab91928b22b4edee13e87022d76bb74fe8d98",
+        solutionHashComplete: "66367e56a89032eb79246ee1449888936b4079e319c5339aa8d12a9a72f359ab",
         victim: {
             name: "Inspetor Higgins",
             sex: "M",
@@ -772,11 +788,8 @@ const challenges = [
         suspects: ["Secretária Sterling", "Don Salieri", "Detetive Kelly", "Mafioso Genovese"],
         locations: ["O Pátio de Carga", "O Cais Abandonado", "O Armazém do Porto", "A Falésia do Farol"],
         weapons: ["Armadilha de Aço", "Faca de Açougueiro", "Arpão Enferrujado", "Corrente de Carga"],
-        solution: {
-            suspect: "Don Salieri",
-            location: "A Falésia do Farol",
-            weapon: "Faca de Açougueiro"
-        },
+        solutionHashSuspect: "2b9f365908b2ca06d2b8b7a9fc572e2bc5719280b311bff4cb9116b587d32fe5",
+        solutionHashComplete: "593dd6c764b2f0e1bb550f889d9ebda09a9c01e4339cf2f125dd47b0d4951f1d",
         victim: {
             name: "Contador Albert \"Dízimo\"",
             sex: "M",
@@ -872,12 +885,12 @@ let currentMode = "portuguese"; // "portuguese" ou "logic"
 let gridZoom = 1.0; // Nível de zoom inicial do grid
 let gridMarks = {}; // Armazena as marcações do grid: { "rowName-colName": "X", "✔️", "" }
 let activeDossierTab = 'suspects';
-let maxLives = parseInt(localStorage.getItem("murdle_max_lives")) || 3;
-let lives = localStorage.getItem("murdle_current_lives") !== null ? parseInt(localStorage.getItem("murdle_current_lives")) : maxLives;
+let maxLives = parseInt(getSecureItem("murdle_max_lives")) || 3;
+let lives = getSecureItem("murdle_current_lives") !== null ? parseInt(getSecureItem("murdle_current_lives")) : maxLives;
 
 // Armazenamento de progresso resolvido e falho
-let solvedChallenges = JSON.parse(localStorage.getItem("murdle_solved_challenges")) || [];
-let failedChallenges = JSON.parse(localStorage.getItem("murdle_failed_challenges")) || {};
+let solvedChallenges = getSecureItem("murdle_solved_challenges", true) || [];
+let failedChallenges = getSecureItem("murdle_failed_challenges", true) || {};
 
 // Tratamento caso o jogador recarregue a página com 0 vidas (força recomeçar do zero)
 if (lives <= 0) {
@@ -889,8 +902,8 @@ if (lives <= 0) {
     localStorage.removeItem("murdle_failed_challenges");
     localStorage.removeItem("murdle_reward_easy_completed");
     localStorage.removeItem("murdle_reward_medium_completed");
-    localStorage.setItem("murdle_max_lives", maxLives);
-    localStorage.setItem("murdle_current_lives", lives);
+    setSecureItem("murdle_max_lives", maxLives);
+    setSecureItem("murdle_current_lives", lives);
 }
 
 // Detetive selecionado e nome para assinatura
@@ -1964,7 +1977,7 @@ function fillFeedbackReport(selectSuspect, selectLocation, selectWeapon, status)
 }
 
 // 11. SUBMISSÃO E VALIDAÇÃO DA ACUSAÇÃO
-function submitAccusation() {
+async function submitAccusation() {
     const selectSuspect = document.getElementById("select-suspect").value;
     const selectLocation = document.getElementById("select-location").value;
     const selectWeapon = document.getElementById("select-weapon").value;
@@ -1980,18 +1993,20 @@ function submitAccusation() {
     const modal = document.getElementById("feedback-modal");
     const btnNext = document.getElementById("btn-next-case");
 
-    // Verificar Solução
-    const isSuspectCorrect = (selectSuspect === activeChallenge.solution.suspect);
-    const isLocationCorrect = (selectLocation === activeChallenge.solution.location);
-    const isWeaponCorrect = (activeChallenge.difficulty === "easy") || (selectWeapon === activeChallenge.solution.weapon);
+    // Verificar Solução via Hashes
+    const userSuspectHash = await gerarHash(selectSuspect);
+    const armaCombinacao = (activeChallenge.difficulty === "easy") ? "" : selectWeapon;
+    const userSolutionStr = `${selectSuspect}|${selectLocation}|${armaCombinacao}`;
+    const userSolutionHash = await gerarHash(userSolutionStr);
+
+    const isSuspectCorrect = (userSuspectHash === activeChallenge.solutionHashSuspect);
+    const isSolutionCorrect = (userSolutionHash === activeChallenge.solutionHashComplete);
 
     let status = 'inocente'; // padrão
-    if (isSuspectCorrect) {
-        if (isLocationCorrect && isWeaponCorrect) {
-            status = 'culpado';
-        } else {
-            status = 'sem-provas';
-        }
+    if (isSolutionCorrect) {
+        status = 'culpado';
+    } else if (isSuspectCorrect) {
+        status = 'sem-provas';
     }
 
     // Preencher o Relatório Policial de Feedback
@@ -2002,12 +2017,12 @@ function submitAccusation() {
         // Salvar progresso
         if (!solvedChallenges.includes(activeChallenge.id)) {
             solvedChallenges.push(activeChallenge.id);
-            localStorage.setItem("murdle_solved_challenges", JSON.stringify(solvedChallenges));
+            setSecureItem("murdle_solved_challenges", solvedChallenges);
             
             // Remove dos falhos se existia lá
             if (failedChallenges.hasOwnProperty(activeChallenge.id)) {
                 delete failedChallenges[activeChallenge.id];
-                localStorage.setItem("murdle_failed_challenges", JSON.stringify(failedChallenges));
+                setSecureItem("murdle_failed_challenges", failedChallenges);
             }
             
             // Verifica se completou Fácil ou Médio e concede a vida extra
@@ -2045,11 +2060,11 @@ function submitAccusation() {
             location: selectLocation,
             weapon: selectWeapon
         };
-        localStorage.setItem("murdle_failed_challenges", JSON.stringify(failedChallenges));
+        setSecureItem("murdle_failed_challenges", failedChallenges);
         
         // Decrementa vidas
         lives--;
-        localStorage.setItem("murdle_current_lives", lives);
+        setSecureItem("murdle_current_lives", lives);
         updateLivesUI();
 
         // Trava o caso atual imediatamente
@@ -2223,8 +2238,8 @@ function restartGame() {
     localStorage.removeItem("murdle_reward_medium_completed");
     maxLives = 3;
     lives = 3;
-    localStorage.setItem("murdle_max_lives", maxLives);
-    localStorage.setItem("murdle_current_lives", lives);
+    setSecureItem("murdle_max_lives", maxLives);
+    setSecureItem("murdle_current_lives", lives);
     
     closeModal();
     
@@ -2253,8 +2268,8 @@ function checkAndAwardExtraLife() {
     const isEasyCompleted = easyIds.every(id => solvedChallenges.includes(id));
     const isMediumCompleted = mediumIds.every(id => solvedChallenges.includes(id));
     
-    let rewardEasyGranted = localStorage.getItem("murdle_reward_easy_completed") === "true";
-    let rewardMediumGranted = localStorage.getItem("murdle_reward_medium_completed") === "true";
+    let rewardEasyGranted = getSecureItem("murdle_reward_easy_completed") === "true";
+    let rewardMediumGranted = getSecureItem("murdle_reward_medium_completed") === "true";
     
     let lifeAwarded = false;
     let difficultyAwarded = "";
@@ -2262,9 +2277,9 @@ function checkAndAwardExtraLife() {
     if (isEasyCompleted && !rewardEasyGranted) {
         maxLives++;
         lives++;
-        localStorage.setItem("murdle_max_lives", maxLives);
-        localStorage.setItem("murdle_current_lives", lives);
-        localStorage.setItem("murdle_reward_easy_completed", "true");
+        setSecureItem("murdle_max_lives", maxLives);
+        setSecureItem("murdle_current_lives", lives);
+        setSecureItem("murdle_reward_easy_completed", "true");
         lifeAwarded = true;
         difficultyAwarded = "Fácil";
     }
@@ -2272,9 +2287,9 @@ function checkAndAwardExtraLife() {
     if (isMediumCompleted && !rewardMediumGranted) {
         maxLives++;
         lives++;
-        localStorage.setItem("murdle_max_lives", maxLives);
-        localStorage.setItem("murdle_current_lives", lives);
-        localStorage.setItem("murdle_reward_medium_completed", "true");
+        setSecureItem("murdle_max_lives", maxLives);
+        setSecureItem("murdle_current_lives", lives);
+        setSecureItem("murdle_reward_medium_completed", "true");
         lifeAwarded = true;
         if (difficultyAwarded) {
             difficultyAwarded += " e Médio";
@@ -2717,3 +2732,24 @@ function closeInstructionsScreen() {
     }
 }
 
+
+
+    // Exposição controlada de funções globais para compatibilidade com onclick no HTML
+    window.openInstructionsScreen = openInstructionsScreen;
+    window.openCharacterSelection = openCharacterSelection;
+    window.selectDetectiveOption = selectDetectiveOption;
+    window.confirmDetectiveSelection = confirmDetectiveSelection;
+    window.closeInstructionsScreen = closeInstructionsScreen;
+    window.confirmRestartGame = confirmRestartGame;
+    window.backToMenu = backToMenu;
+    window.openDossierModal = openDossierModal;
+    window.clearActiveGrid = clearActiveGrid;
+    window.openAccusationModal = openAccusationModal;
+    window.closeModal = closeModal;
+    window.restartCareer = restartCareer;
+    window.closeDossierModal = closeDossierModal;
+    window.closeAccusationModal = closeAccusationModal;
+    window.submitAccusation = submitAccusation;
+    window.closePoliceReport = closePoliceReport;
+    window.closePromotionModal = closePromotionModal;
+})();
