@@ -1995,6 +1995,13 @@ function fillFeedbackReport(selectSuspect, selectLocation, selectWeapon, status)
     if (elFeedbackSignature) {
         elFeedbackSignature.value = detectiveName || "Detetive Antigravity";
     }
+
+    // Resetar a rolagem (scroll) do papel de relatório e do modal de feedback para o topo
+    const elReportPaper = document.getElementById("feedback-report-paper");
+    if (elReportPaper) elReportPaper.scrollTop = 0;
+
+    const elFeedbackModalContent = document.querySelector("#feedback-modal .report-modal-content");
+    if (elFeedbackModalContent) elFeedbackModalContent.scrollTop = 0;
 }
 
 // 11. SUBMISSÃO E VALIDAÇÃO DA ACUSAÇÃO
@@ -2144,6 +2151,10 @@ function closeAccusationModal() {
 function openPoliceReport() {
     const reportModal = document.getElementById("police-report-modal");
     if (reportModal && activeChallenge) {
+        // Resetar a rolagem (scroll) do modal de relatório policial para o topo
+        const elPoliceModalContent = reportModal.querySelector(".report-modal-content");
+        if (elPoliceModalContent) elPoliceModalContent.scrollTop = 0;
+
         // Obter data e hora atuais do sistema do jogador
         const now = new Date();
         const optDate = now.toLocaleDateString('pt-BR');
