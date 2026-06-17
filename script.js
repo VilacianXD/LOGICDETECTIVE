@@ -2257,6 +2257,7 @@ function checkAndAwardExtraLife() {
     let rewardMediumGranted = localStorage.getItem("murdle_reward_medium_completed") === "true";
     
     let lifeAwarded = false;
+    let difficultyAwarded = "";
     
     if (isEasyCompleted && !rewardEasyGranted) {
         maxLives++;
@@ -2265,6 +2266,7 @@ function checkAndAwardExtraLife() {
         localStorage.setItem("murdle_current_lives", lives);
         localStorage.setItem("murdle_reward_easy_completed", "true");
         lifeAwarded = true;
+        difficultyAwarded = "Fácil";
     }
     
     if (isMediumCompleted && !rewardMediumGranted) {
@@ -2274,10 +2276,56 @@ function checkAndAwardExtraLife() {
         localStorage.setItem("murdle_current_lives", lives);
         localStorage.setItem("murdle_reward_medium_completed", "true");
         lifeAwarded = true;
+        if (difficultyAwarded) {
+            difficultyAwarded += " e Médio";
+        } else {
+            difficultyAwarded = "Médio";
+        }
     }
     
     if (lifeAwarded) {
         updateLivesUI();
+        showPromotionModal(difficultyAwarded);
+    }
+}
+
+// Abre o modal de promoção parabenizando o detetive
+function showPromotionModal(difficulty) {
+    const modal = document.getElementById("promotion-modal");
+    const elName = document.getElementById("promotion-detective-name");
+    const elDiff = document.getElementById("promotion-difficulty");
+    const elGreeting = document.getElementById("promotion-greeting");
+    const elCongrats = document.getElementById("promotion-congrats");
+    const elRank = document.getElementById("promotion-rank");
+    
+    // Identifica o gênero com base em selectedDetective ('marcela' ou 'bruno')
+    const isFemale = (selectedDetective === "marcela");
+    
+    if (modal) {
+        if (elName) {
+            elName.innerText = detectiveName || "Detetive";
+        }
+        if (elDiff) {
+            elDiff.innerText = difficulty;
+        }
+        if (elGreeting) {
+            elGreeting.innerText = isFemale ? "Prezada" : "Prezado";
+        }
+        if (elCongrats) {
+            elCongrats.innerText = isFemale ? "parabenizá-la" : "parabenizá-lo";
+        }
+        if (elRank) {
+            elRank.innerText = isFemale ? "promovida" : "promovido";
+        }
+        modal.classList.add("active");
+    }
+}
+
+// Fecha o modal de promoção
+function closePromotionModal() {
+    const modal = document.getElementById("promotion-modal");
+    if (modal) {
+        modal.classList.remove("active");
     }
 }
 
