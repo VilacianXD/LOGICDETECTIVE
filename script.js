@@ -1568,7 +1568,9 @@ function getShortName(name) {
     
     // Tratamentos específicos
     if (clean.toLowerCase().startsWith("meia-noite")) return "Meia-Noite";
-    if (clean.toLowerCase().startsWith("sala de")) return "Servidores";
+    if (clean.toLowerCase().startsWith("sala de pôquer")) return "Pôquer";
+    if (clean.toLowerCase().startsWith("sala de arquivos")) return "Arquivos";
+    if (clean.toLowerCase().startsWith("sala de servidores")) return "Servidores";
     if (clean.toLowerCase().startsWith("escritório")) return "Escritório";
     if (clean.toLowerCase().startsWith("beco")) return "Beco";
     if (clean.toLowerCase().startsWith("balcão")) return "Balcão";
