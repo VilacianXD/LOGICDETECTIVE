@@ -1778,9 +1778,10 @@ function createCell(rowName, colName, isThickLeft = false) {
         td.innerText = gridMarks[key];
         if (gridMarks[key] === "❌") td.classList.add("cell-x");
         if (gridMarks[key] === "✔️") td.classList.add("cell-check");
+        if (gridMarks[key] === "?") td.classList.add("cell-question");
     }
 
-    // Clique para alternar estado: Vazio -> ❌ -> ✔️ -> Vazio
+    // Clique para alternar estado: Vazio -> ❌ -> ✔️ -> ? -> Vazio
     td.addEventListener("click", () => {
         let currentMark = gridMarks[key] || "";
         let newMark = "";
@@ -1793,6 +1794,10 @@ function createCell(rowName, colName, isThickLeft = false) {
             newMark = "✔️";
             td.innerText = "✔️";
             td.className = "grid-cell cell-check";
+        } else if (currentMark === "✔️") {
+            newMark = "?";
+            td.innerText = "?";
+            td.className = "grid-cell cell-question";
         } else {
             newMark = "";
             td.innerText = "";

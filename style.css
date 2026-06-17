@@ -14,6 +14,7 @@
     --accent-red: #7f1d1d; /* Vermelho sangue coagulado / Relatório de crime */
     --accent-green: #15803d; /* Verde abajur de banqueiro clássico */
     --accent-cyan: #3b5266; /* Azul-chumbo fosco de casaco de detetive */
+    --accent-yellow: #facc15; /* Amarelo brilhante / Dúvida / Pista */
     
     --text-primary: #eae6df; /* Papel de relatório amarelado envelhecido */
     --text-secondary: #8c857b; /* Cinza cinza / Poeira / Fumaça de charuto */
@@ -992,6 +993,11 @@ input:checked + .slider:before {
 .logic-grid td.grid-cell.cell-check {
     color: var(--accent-green);
     background-color: rgba(5, 150, 105, 0.05);
+}
+
+.logic-grid td.grid-cell.cell-question {
+    color: var(--accent-yellow);
+    background-color: rgba(250, 204, 21, 0.05);
 }
 
 /* Divisores de Categoria */
