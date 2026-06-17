@@ -181,11 +181,12 @@ body {
 /* Switch de Modo */
 .mode-control {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
     background: var(--bg-secondary);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
 }
 
@@ -193,6 +194,7 @@ body {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-secondary);
+    white-space: nowrap;
 }
 
 .switch-container {
@@ -1230,7 +1232,8 @@ input:checked + .slider:before {
     
     .mode-control {
         width: 100%;
-        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     .hero-title {
