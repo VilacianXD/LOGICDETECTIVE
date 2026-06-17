@@ -250,15 +250,8 @@
                         <p class="case-step" id="case-index">Caso 1 de 4</p>
                     </div>
 
-                    <div class="panel-box clues-box">
-                        <h4>📜 Pistas Disponíveis</h4>
-                        <ul id="clues-list" class="clues-list">
-                            <!-- Inserido via JS -->
-                        </ul>
-                    </div>
-
                     <!-- DOSSIÊ DO INVESTIGADOR (Fichas e Descrições) -->
-                    <div class="panel-box dossier-box" id="dossier-box" style="margin-top: 1rem;">
+                    <div class="panel-box dossier-box" id="dossier-box">
                         <h4>📁 Fichas de Investigação (Dossiê)</h4>
                         <div class="dossier-buttons-flex" style="display: flex; flex-wrap: nowrap; gap: 0.4rem; margin-top: 0.75rem; width: 100%;">
                             <button class="btn btn-small" id="btn-dossier-victim" onclick="openDossierModal('victim')" style="flex: 1; padding: 0.45rem 0.2rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); transition: var(--transition-fast); text-align: center; white-space: nowrap;">💀 Vítima</button>
@@ -266,6 +259,13 @@
                             <button class="btn btn-small" id="btn-dossier-locations" onclick="openDossierModal('locations')" style="flex: 1; padding: 0.45rem 0.2rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); transition: var(--transition-fast); text-align: center; white-space: nowrap;">📍 Locais</button>
                             <button class="btn btn-small" id="btn-dossier-weapons" onclick="openDossierModal('weapons')" style="flex: 1; padding: 0.45rem 0.2rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-primary); transition: var(--transition-fast); text-align: center; display: none; white-space: nowrap;">🔪 Objetos</button>
                         </div>
+                    </div>
+
+                    <div class="panel-box clues-box" style="margin-top: 1rem;">
+                        <h4>📜 Pistas Disponíveis</h4>
+                        <ul id="clues-list" class="clues-list">
+                            <!-- Inserido via JS -->
+                        </ul>
                     </div>
 
                     <div class="panel-box legend-logic-box" id="case-logic-legend" style="display: none;">
