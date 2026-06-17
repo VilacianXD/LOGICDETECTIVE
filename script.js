@@ -62,6 +62,7 @@ const challenges = [
         weapons: [],
         solutionHashSuspect: "b569189d4cf9e3f7d2761c353568e34153f4171916b72d22ec27b9c209076797",
         solutionHashComplete: "60ce9a6439c82a07aacdb7de0362e72a41151d82aa357b4f86ac39e86607a9ab",
+        solutionCipher: "H0cHEBAEDBURUV9BOAQXAEUqQVNXREZJVgkMFwgCDBwLQUhHO0sgClJAWlXClxcdCkMQBgVFNRANFgoHSUlbRldSUQsLVl9BVhQ=",
         victim: {
             name: "Thomas \"Silencioso\" Vance",
             sex: "M",
@@ -116,6 +117,7 @@ const challenges = [
         weapons: [],
         solutionHashSuspect: "633d24d16044be915e6a22d2f6e56dea196b71998b67371d354db56d807bcf8d",
         solutionHashComplete: "0ba2deffccdf88560a76e2b707cb6da5b6fe25f0ad26f536d1ea9fe5190e2a72",
+        solutionCipher: "H0cHEBAEDBURUV9BJAwABEUlE30TbwUTFQkLFTVURTQADR0TERgAWx0QX04HBAAMDBpLTEcyFkM2ChcKFllVVxNvwo0TGwRBWEsBABIVDBxHTklHBA==",
         victim: {
             name: "Arthur Pendelton",
             sex: "M",
@@ -170,6 +172,7 @@ const challenges = [
         weapons: [],
         solutionHashSuspect: "6d5fa08f4d509d8348fbd3d143242399a4f56796429ff145db80d597338ef0d1",
         solutionHashComplete: "4096b4c8c7e469373eca6e9dc4e4801365b2995369a4ef486b31b896c83164a0",
+        solutionCipher: "H0cHEBAEDBURUV9BNQnChxkMGBF2RnELCwBHT1YFGQYSEQodC1ZRRzYRelJNCEUQAEM5wogECBwXBlBJVhwAGEFdXQNeR1YY",
         victim: {
             name: "Charles DuPont",
             sex: "M",
@@ -224,6 +227,7 @@ const challenges = [
         weapons: [],
         solutionHashSuspect: "d56e39047a6d2ed4df1e37e3229986f80b9952f75a30536ae2021380957d5794",
         solutionHashComplete: "e86f2fbe09f10a8d3398f02fa4e86101a9c6c7cccf6fac661a0e48a86ee8a25f",
+        solutionCipher: "H0cHEBAEDBURUV9BIAoXABxZbRB6UwsLVCMKBx0qR1MoAh4KGg5HVRNeXEIFER0KDVZTVCpTMwIVwoYbSzccQkZSVBYEGhEGVkVUEhYEEx0LVlFHW0w=",
         victim: {
             name: "Jornalista Arthur Coburn",
             sex: "M",
@@ -278,6 +282,7 @@ const challenges = [
         weapons: ["Soco-Inglês de Latão", "Revólver Calibre .38", "Fio de Aço de Garrote"],
         solutionHashSuspect: "290956e3f5162b31517c863a9ea1707b1bdc6db3b430d40aa4e6f3aad9ac8c46",
         solutionHashComplete: "63b6fe39536084ac4b36a5c59689c90c30b56729b70eb4a13e2825174be47b1d",
+        solutionCipher: "H0cHEBAEDBURUV9BPwwXAAAAEXBGUwoWVklBGAYVBAcMDBxHTkkqWWdXX1cBEVQmDwELVElREgYTFRsFR0MTYFZXwpcJAgARVCoXCRoHERdFWlhdW0w=",
         victim: {
             name: "Jimmy \"Duas-Caras\" Carter",
             sex: "M",
@@ -340,6 +345,7 @@ const challenges = [
         weapons: ["Barra de Ferro", "Navalha de Barbeiro", "Veneno de Cianeto"],
         solutionHashSuspect: "75dc221ea34049e62caee2fa887bf549e2ab450cbf9cf8881f559524e98044ac",
         solutionHashComplete: "ffa733baf29b5e47c1336b3fb25bf12217adca1dd802e2167bdcff030a1f8e14",
+        solutionCipher: "H0cHEBAEDBURUV9BNBcVBQ4QVBJvAycMFwQXBgAMOVFHT1AJGwgEDVhdXQNeRzVFMBUFF0UXAEMiwpEFHgALEWR6cUZJVhIGFRkZC1FfQTwEAgoJEVASV0REJxUXAREABApRGA==",
         victim: {
             name: "Albert Higgins",
             sex: "M",
@@ -402,6 +408,7 @@ const challenges = [
         weapons: ["Pistola com Silenciador", "Faca de Trincheira", "Arsênico no Licor"],
         solutionHashSuspect: "8f5591369768d42f3abdae98c156b0d591173aa8db93ca2cc3f8dc485442d42a",
         solutionHashComplete: "adc631f5a6cc0234a166634559a3b4d25bdf8b0c748c2ffc08538d0c99e1b944",
+        solutionCipher: "H0cHEBAEDBURUV9BJAwABEU+VFxcVwEWEUdPVgUZBhIRCh0LVlFHNhFhUk3ChwpUAQZUKx8JGwQRUElWHAAYQV1dA15HNRcQwp4HHwYcRQ0dRTgCBhZDEE4=",
         victim: {
             name: "Lorde Harrington",
             sex: "M",
@@ -464,6 +471,7 @@ const challenges = [
         weapons: ["Seringa com Sedativo", "Pasta com Documento Explosivo", "Gás Monóxido no Duto"],
         solutionHashSuspect: "3f2a07dac15b68cd350d19b7e4a27a69c8f4e150d04beb6114687bd18b89e2cd",
         solutionHashComplete: "e7cebd562dab82402bbf810eb8cd6d6c474b64ef884d4790a719b8ecc55afe99",
+        solutionCipher: "H0cHEBAEDBURUV9BNgwGDhEWQxJxTQUGHxIGGAVUSVEJDBEEAAIKFxMIEWBENhUJAlQNE0UyFxIHDAIEFlsdEEREBRUbC0FOSzHChABFLh0LwocTDB1eEl1ORCEBEQxWFA==",
         victim: {
             name: "Dr. Hans Reinhardt",
             sex: "M",
@@ -526,6 +534,7 @@ const challenges = [
         weapons: ["Rifle Mosquetão", "Gancho de Carga", "Corda de Cânhamo", "Barra de Direção"],
         solutionHashSuspect: "73bce0a4b7e60a845813fee2eff1ecd407e117d79189b16cd7005eed4a373177",
         solutionHashComplete: "e1622399975001b47a0613d48112034a27a5dfdd1239195b2ebb844619b99b53",
+        solutionCipher: "H0cHEBAEDBURUV9BMQQEAhHCml4ScU0FBh8SDBsNVElRCQwRBAACChcTCBFuRCQGCAIOwoAbRTAADQYXFQdHVRNFVkAUChpHWVYuFwsQDQxSARFLJhhDVVIDGQ==",
         victim: {
             name: "Oficial de Alfândega Ross",
             sex: "M",
@@ -614,6 +623,7 @@ const challenges = [
         weapons: ["Punhal de Aço Damasceno", "Fio de Garrote Oculto", "Dose de Clorofórmio", "Veneno no Cálice de Adereço"],
         solutionHashSuspect: "598e9b1cb75b4887cf7f340850e8280943fd24a2f38dbe98f2bd3e7a5aec6c7f",
         solutionHashComplete: "29fe495f47d78bf0b4f7aa809f2addbde7ff7a022710b68eb5e0830ad8533c68",
+        solutionCipher: "H0cHEBAEDBURUV9BMRfCmR8MGl4SfkAIChoAQVhLGgoQBBcbChpJX1t+EmNACAYbRTMGABgGGhUCHkdYSRIcUEJcT0ZfViEMBwxWARZFIB4KBgQDwopDX1pORhg=",
         victim: {
             name: "Diretor de Palco Moreau",
             sex: "M",
@@ -702,6 +712,7 @@ const challenges = [
         weapons: ["Cano de Ferro Cortado", "Maçarico a Gás", "Martelo Pesado", "Revólver Silenciado"],
         solutionHashSuspect: "8db532b9ce70706f795bb46f1ceab91928b22b4edee13e87022d76bb74fe8d98",
         solutionHashComplete: "66367e56a89032eb79246ee1449888936b4079e319c5339aa8d12a9a72f359ab",
+        solutionCipher: "H0cHEBAEDBURUV9BPwQACgEWQxJmTAYXFUdPVgUZBhIRCh0LVlFHNhF3QEYLERtFMAELAgABF8KBHAAbSUlbRldSUQsLVl9BJgwAwpYfEwYARScCCRxfUVpAAApWGA==",
         victim: {
             name: "Inspetor Higgins",
             sex: "M",
@@ -790,6 +801,7 @@ const challenges = [
         weapons: ["Armadilha de Aço", "Faca de Açougueiro", "Arpão Enferrujado", "Corrente de Carga"],
         solutionHashSuspect: "2b9f365908b2ca06d2b8b7a9fc572e2bc5719280b311bff4cb9116b587d32fe5",
         solutionHashComplete: "593dd6c764b2f0e1bb550f889d9ebda09a9c01e4339cf2f125dd47b0d4951f1d",
+        solutionCipher: "H0cHEBAEDBURUV9BNgoaSzYYXVtWUw1HWEcPGwoXERoKDVBfVipFP1Bew5pSDQRUAQxULxcXHAlBXkcDDgQJXlwRG0YjFQYCVA0TRTLCggwHAgEODAteEE4=",
         victim: {
             name: "Contador Albert \"Dízimo\"",
             sex: "M",
@@ -1219,6 +1231,13 @@ function loadChallenge(difficulty, index) {
     const catChallenges = challenges.filter(c => c.difficulty === difficulty);
     activeChallengeIndex = index;
     activeChallenge = catChallenges[index];
+    if (activeChallenge && activeChallenge.solutionCipher) {
+        try {
+            activeChallenge.solution = JSON.parse(decryptData(activeChallenge.solutionCipher));
+        } catch (e) {
+            console.error("Erro ao descriptografar a solução do caso:", e);
+        }
+    }
     
     gridMarks = {}; // Reseta marcações do grid
     // Mantém as vidas do caso anterior
