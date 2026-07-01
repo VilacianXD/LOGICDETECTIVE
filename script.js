@@ -896,6 +896,7 @@ let activeChallenge = null;
 let currentMode = "portuguese"; // "portuguese" ou "logic"
 let gridZoom = 1.0; // Nível de zoom inicial do grid
 let gridMarks = {}; // Armazena as marcações do grid: { "rowName-colName": "X", "✔️", "" }
+let revealedInvestigations = {}; // Armazena as investigações reveladas no caso ativo: { "Nome": true }
 let activeDossierTab = 'suspects';
 let maxLives = parseInt(getSecureItem("murdle_max_lives")) || 3;
 let lives = getSecureItem("murdle_current_lives") !== null ? parseInt(getSecureItem("murdle_current_lives")) : maxLives;
@@ -1240,6 +1241,7 @@ function loadChallenge(difficulty, index) {
     }
     
     gridMarks = {}; // Reseta marcações do grid
+    revealedInvestigations = {}; // Reseta investigações reveladas no caso
     // Mantém as vidas do caso anterior
     updateLivesUI();
     
@@ -1352,12 +1354,13 @@ function openDossierModal(category) {
             tabsHtml += `<button class="dossier-tab-btn ${activeClass}" data-tab="${tabId}" onclick="switchDossierTab('${tabId}')">👤 ${name}</button>`;
             
             let extraInfoHtml = '';
-            if (activeChallenge.difficulty === "difficult") {
+            if (activeChallenge.difficulty === "medium" || activeChallenge.difficulty === "difficult") {
                 const escapedName = name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const isAlreadyRevealed = revealedInvestigations[name];
                 extraInfoHtml = `
                     <div class="investigation-box" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border-color);">
-                        <button class="menu-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="tryInvestigate('${escapedName}', this)">🔍 Investigar Suspeito</button>
-                        <p class="investigation-result" style="margin-top: 0.75rem; font-size: 0.9rem; display: none; padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 4px; font-family: var(--font-sans); line-height: 1.5;"></p>
+                        <button class="menu-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: ${isAlreadyRevealed ? 'none' : 'inline-block'};" onclick="tryInvestigate('${escapedName}', this)">🔍 Investigar</button>
+                        <p class="investigation-result" style="margin-top: 0.75rem; font-size: 0.9rem; display: ${isAlreadyRevealed ? 'block' : 'none'}; padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 4px; font-family: var(--font-sans); line-height: 1.5; color: var(--text-primary);">${isAlreadyRevealed ? (activeChallenge.investigations[name]?.text || '') : ''}</p>
                     </div>
                 `;
             }
@@ -1392,12 +1395,13 @@ function openDossierModal(category) {
             tabsHtml += `<button class="dossier-tab-btn ${activeClass}" data-tab="${tabId}" onclick="switchDossierTab('${tabId}')">📍 ${loc}</button>`;
             
             let extraInfoHtml = '';
-            if (activeChallenge.difficulty === "difficult") {
+            if (activeChallenge.difficulty === "medium" || activeChallenge.difficulty === "difficult") {
                 const escapedName = loc.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const isAlreadyRevealed = revealedInvestigations[loc];
                 extraInfoHtml = `
                     <div class="investigation-box" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border-color);">
-                        <button class="menu-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="tryInvestigate('${escapedName}', this)">🔍 Investigar Local</button>
-                        <p class="investigation-result" style="margin-top: 0.75rem; font-size: 0.9rem; display: none; padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 4px; font-family: var(--font-sans); line-height: 1.5;"></p>
+                        <button class="menu-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: ${isAlreadyRevealed ? 'none' : 'inline-block'};" onclick="tryInvestigate('${escapedName}', this)">🔍 Investigar</button>
+                        <p class="investigation-result" style="margin-top: 0.75rem; font-size: 0.9rem; display: ${isAlreadyRevealed ? 'block' : 'none'}; padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 4px; font-family: var(--font-sans); line-height: 1.5; color: var(--text-primary);">${isAlreadyRevealed ? (activeChallenge.investigations[loc]?.text || '') : ''}</p>
                     </div>
                 `;
             }
@@ -1432,12 +1436,13 @@ function openDossierModal(category) {
             tabsHtml += `<button class="dossier-tab-btn ${activeClass}" data-tab="${tabId}" onclick="switchDossierTab('${tabId}')">🔪 ${wep}</button>`;
             
             let extraInfoHtml = '';
-            if (activeChallenge.difficulty === "difficult") {
+            if (activeChallenge.difficulty === "medium" || activeChallenge.difficulty === "difficult") {
                 const escapedName = wep.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const isAlreadyRevealed = revealedInvestigations[wep];
                 extraInfoHtml = `
                     <div class="investigation-box" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px dashed var(--border-color);">
-                        <button class="menu-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="tryInvestigate('${escapedName}', this)">🔍 Investigar Objeto</button>
-                        <p class="investigation-result" style="margin-top: 0.75rem; font-size: 0.9rem; display: none; padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 4px; font-family: var(--font-sans); line-height: 1.5;"></p>
+                        <button class="menu-btn primary-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: ${isAlreadyRevealed ? 'none' : 'inline-block'};" onclick="tryInvestigate('${escapedName}', this)">🔍 Investigar</button>
+                        <p class="investigation-result" style="margin-top: 0.75rem; font-size: 0.9rem; display: ${isAlreadyRevealed ? 'block' : 'none'}; padding: 0.75rem; background: rgba(0,0,0,0.2); border-radius: 4px; font-family: var(--font-sans); line-height: 1.5; color: var(--text-primary);">${isAlreadyRevealed ? (activeChallenge.investigations[wep]?.text || '') : ''}</p>
                     </div>
                 `;
             }
@@ -1463,15 +1468,25 @@ window.tryInvestigate = function(name, btn) {
     const inv = activeChallenge.investigations[name];
     if (!inv) return;
     
-    // Contar marcações no grid
-    const activeMarksCount = Object.values(gridMarks).filter(val => val !== "").length;
+    // Contar apenas os "V" ("✔️") marcados no grid pelo jogador
+    const activeCheckmarksCount = Object.values(gridMarks).filter(val => val === "✔️").length;
+    
+    // Determinar o total de V's necessários no grid daquele nível
+    let totalCheckmarksNeeded = 12; // Padrão difícil: 4 * 3
+    if (activeChallenge.difficulty === "medium") {
+        totalCheckmarksNeeded = 9;   // Médio: 3 * 3
+    } else if (activeChallenge.difficulty === "easy") {
+        totalCheckmarksNeeded = 3;   // Fácil: 3 * 1
+    }
+    
+    // Definir as fases com base na porcentagem de checkmarks ("✔️") marcados
     let currentPhase = -1;
-    if (activeMarksCount >= 38) {
-        currentPhase = 2; // >= 80% do grid difícil (48 células)
-    } else if (activeMarksCount >= 19) {
-        currentPhase = 1; // >= 40% do grid difícil (48 células)
-    } else if (activeMarksCount >= 1) {
-        currentPhase = 0; // >= 1 marcação
+    if (activeCheckmarksCount >= Math.ceil(totalCheckmarksNeeded * 0.8)) {
+        currentPhase = 2; // >= 80% dos V's
+    } else if (activeCheckmarksCount >= Math.ceil(totalCheckmarksNeeded * 0.4)) {
+        currentPhase = 1; // >= 40% dos V's
+    } else if (activeCheckmarksCount >= 1) {
+        currentPhase = 0; // >= 1 V marcado
     }
     
     const container = btn.closest('.investigation-box');
@@ -1479,9 +1494,13 @@ window.tryInvestigate = function(name, btn) {
     resultEl.style.display = "block";
     
     if (currentPhase >= inv.phase) {
+        // Se puder ser revelada, salva o estado, oculta o botão e exibe a pista
+        revealedInvestigations[name] = true;
+        btn.style.display = "none";
         resultEl.style.color = "var(--text-primary)";
         resultEl.innerText = inv.text;
     } else {
+        // Se não puder ser revelada, exibe o aviso em vermelho e o botão permanece
         resultEl.style.color = "var(--accent-red)";
         resultEl.innerText = "A investigação está muito no início ainda para obter esse tipo de informação.";
     }
