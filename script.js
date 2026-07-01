@@ -449,18 +449,18 @@ const challenges = [
                 "O jardineiro viu a mulher de 42 anos com uma pequena cicatriz sob o olho esquerdo perto da fonte do Jardim Francês.",
                 "Se o jornalista de 30 anos com olhos castanhos estava na Adega de Vinhos, então ele portava a Pistola com Silenciador.",
                 "O sicário de 45 anos com olhos pretos estava no Salão de Bilhar se e somente se o jornalista de 30 anos estava na Adega de Vinhos.",
-                "Vito Genovese estava com o Arsênico no Licor ou a Duquesa Beatrice não estava no Jardim Francês.",
-                "A busca na mansão confirmou que Vito Genovese não estava na Adega de Vinhos."
+                "Vito Genovese estava com o Arsênico no Licor ou a Duquesa Beatrice estava no Jardim Francês.",
+                "O sicário de 45 anos com olhos pretos não estava na Adega de Vinhos."
             ],
             logic: [
                 "JF(DB)",
                 "AV(JK) → PS(JK)",
                 "SB(VG) ↔ AV(JK)",
-                "AL(VG) ∨ ¬ JF(DB)",
+                "AL(VG) ∨ JF(DB)",
                 "¬ AV(VG)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que a Duquesa Beatrice estava no Jardim Francês: JF(DB). Como Beatrice estava no Jardim, ¬ JF(DB) é FALSO. Pela Pista 4 (AL(VG) ∨ ¬ JF(DB)), aplicando o Silogismo Disjuntivo, concluímos que Vito Genovese estava portando o Arsênico no Licor: AL(VG). Pela Pista 5 (¬ AV(VG)), sabemos que Vito Genovese não estava na Adega de Vinhos. Como Beatrice já ocupa o Jardim Francês, os dois locais restantes para Kent e Vito Genovese são a Adega de Vinhos (AV) e o Salão de Bilhar (SB). Visto que Vito Genovese não estava na Adega, por exclusão ele estava no Salão de Bilhar: SB(VG). Pela Pista 3 (SB(VG) ↔ AV(JK)), como Vito estava no Salão, concluímos por equivalência que o Jornalista Kent estava na Adega de Vinhos: AV(JK). Pela Pista 2 (AV(JK) → PS(JK)), aplicando o Modus Ponens com AV(JK), deduzimos que o Jornalista Kent portava a Pistola com Silenciador: PS(JK). Por exclusão final de armas, a Duquesa Beatrice portava a Faca de Trincheira: FT(DB). O culpado é Vito Genovese no Salão de Bilhar com o Arsênico no Licor!"
+        explanation: "Pela Pista 1, sabemos que a Duquesa Beatrice estava no Jardim Francês: JF(DB). Como os locais são únicos, restam apenas a Adega de Vinhos (AV) e o Salão de Bilhar (SB) para Kent e Vito Genovese. Pela Pista 5 (¬ AV(VG)), Vito Genovese não estava na Adega de Vinhos, portanto ele estava no Salão de Bilhar: SB(VG). Pela Pista 3 (SB(VG) ↔ AV(JK)), deduzimos por equivalência que o Jornalista Kent estava na Adega de Vinhos: AV(JK). Pela Pista 2, temos AV(JK) → PS(JK). Como Kent estava na Adega (AV(JK)), concluímos que ele portava a Pistola com Silenciador: PS(JK). A investigação da Faca de Trincheira (arma) atesta que ela estava com a Duquesa Beatrice: FT(DB). Por exclusão das armas de Kent (Pistola) e Beatrice (Faca), Vito Genovese estava com o Arsênico no Licor: AL(VG). Isso valida a Pista 4 (AL(VG) ∨ JF(DB)), pois Vito de fato tinha o Arsênico e Beatrice estava no Jardim, configurando um OU inclusivo com ambas verdadeiras (V ∨ V ⊢ V). O culpado é Vito Genovese no Salão de Bilhar com o Arsênico no Licor!"
     },
     {
         id: 8,
@@ -513,17 +513,17 @@ const challenges = [
                 "Se o diretor de 43 anos com olhos castanhos estava com o Gás Monóxido no Duto, então ele esteve fisicamente na Sala de Arquivos.",
                 "O jovem pesquisador de 27 anos com olhos azuis estava com a Pasta com Documento Explosivo se e somente se o homem de 60 anos não estava com o Gás Monóxido no Duto.",
                 "O chaveiro eletrônico registrou que o diretor de 43 anos acessou a Sala de Arquivos ou esteve no Laboratório Químico.",
-                "O Químico Sterling de 27 anos não portava a Seringa com Sedativo ou o Magnata DuPont de 60 anos não estava no Laboratório Químico."
+                "O Químico Sterling de 27 anos não portava a Seringa com Sedativo ou o Magnata DuPont de 60 anos estava no Laboratório Químico."
             ],
             logic: [
                 "LQ(MD)",
                 "GM(DB) → SA(DB)",
                 "PE(QS) ↔ ¬ GM(MD)",
                 "SA(DB) ∨ LQ(DB)",
-                "¬ SS(QS) ∨ ¬ LQ(MD)"
+                "¬ SS(QS) ∨ LQ(MD)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que o Magnata DuPont estava no Laboratório Químico: LQ(MD). Como os locais são únicos, deduzimos que o Diretor Blackwell não estava no Laboratório: ¬ LQ(DB). Pela Pista 4, temos a disjunção SA(DB) ∨ LQ(DB). Como ¬ LQ(DB) é VERDADE, aplicamos o Silogismo Disjuntivo: SA(DB). Portanto, o Diretor Blackwell estava na Sala de Arquivos. Por exclusão, o Químico Sterling estava na Recepção Central: RC(QS). Pela Pista 5, temos a disjunção ¬ SS(QS) ∨ ¬ LQ(MD). Como sabemos que o Magnata DuPont de fato estava no Laboratório (LQ(MD)), a proposição ¬ LQ(MD) (DuPont não estava no Laboratório) é FALSA. Pelo Silogismo Disjuntivo, para que a disjunção da Pista 5 seja verdadeira, a proposição ¬ SS(QS) (Sterling não portava a Seringa) deve ser VERDADEIRA. Pela Pista 3: PE(QS) ↔ ¬ GM(MD). Se o Químico Sterling estivesse com o Gás Monóxido, não portaria a Pasta (¬ PE(QS)), exigindo que o Magnata DuPont portasse o Gás Monóxido (GM(MD)). Isso geraria uma contradição com duas pessoas portando o Gás. Portanto, Sterling não pode portar o Gás: ¬ GM(QS). Como Sterling não tem a Seringa (¬ SS(QS)) e não tem o Gás, por exclusão ele porta a Pasta: PE(QS). Pela Pista 3, sendo PE(QS) VERDADE, deduzimos que ¬ GM(MD) é VERDADE, logo o Magnata DuPont não tem o Gás. Restando Seringa e Gás, o Magnata DuPont fica com a Seringa com Sedativo: SS(MD), e o Diretor Blackwell com o Gás Monóxido no Duto: GM(DB). Esta configuração satisfaz a Pista 2, pois GM(DB) e SA(DB) são verdades. O culpado é o Diretor Blackwell com o Gás Monóxido no Duto na Sala de Arquivos!"
+        explanation: "Pela Pista 1, sabemos que o Magnata DuPont estava no Laboratório Químico: LQ(MD). Como os locais são únicos, deduzimos que o Diretor Blackwell não estava no Laboratório: ¬ LQ(DB). Pela Pista 4, temos a disjunção SA(DB) ∨ LQ(DB). Como ¬ LQ(DB) é VERDADE, aplicamos o Silogismo Disjuntivo: SA(DB). Portanto, o Diretor Blackwell estava na Sala de Arquivos. Por exclusão, o Químico Sterling estava na Recepção Central: RC(QS). Pela Pista 5, temos a disjunção ¬ SS(QS) ∨ LQ(MD). Como sabemos que LQ(MD) é verdade, o OU inclusivo é verdadeiro. Cruzando com as investigações de armas do Químico Sterling (que atestam que ele não manuseou a Seringa com Sedativo), confirmamos que ¬ SS(QS) é verdadeiro. Pela Pista 3: PE(QS) ↔ ¬ GM(MD). Se o Químico Sterling estivesse com o Gás Monóxido, não portaria a Pasta (¬ PE(QS)), exigindo que o Magnata DuPont portasse o Gás Monóxido (GM(MD)). Isso geraria uma contradição com duas pessoas portando o Gás. Portanto, Sterling não pode portar o Gás: ¬ GM(QS). Como Sterling não tem a Seringa (¬ SS(QS)) e não tem o Gás, por exclusão ele porta a Pasta: PE(QS). Pela Pista 3, sendo PE(QS) VERDADE, deduzimos que ¬ GM(MD) é VERDADE, logo o Magnata DuPont não tem o Gás. Restando Seringa e Gás, o Magnata DuPont fica com a Seringa com Sedativo: SS(MD), e o Diretor Blackwell com o Gás Monóxido no Duto: GM(DB). Esta configuração satisfaz a Pista 2, pois GM(DB) e SA(DB) são verdades. O culpado é o Diretor Blackwell com o Gás Monóxido no Duto na Sala de Arquivos!"
     },
     {
         id: 9,
@@ -762,7 +762,7 @@ const challenges = [
                 "Estar no beco de tijolos vermelhos com limo nas paredes equivale a portar o tubo de encanamento de ferro com bordas serradas.",
                 "Estar no terreno de terra batida enlameada e andaimes inacabados equivale a portar o bico queimador de latão com mangueira vermelha se e somente se o arquivista de 31 anos não estava na fábrica com teares mecânicos.",
                 "Se o líder de 57 anos com cicatriz no supercílio estava com o Martelo Pesado, então a magistrada de 44 anos portava o bico queimador de latão com mangueira vermelha.",
-                "O Matador Umbra de 38 anos portava o Cano de Ferro Cortado ou ele não portava o Martelo Pesado.",
+                "O Matador Umbra de 38 anos não estava portando o Cano de Ferro Cortado ou ele não estava portando o Martelo Pesado.",
                 "O escrivão atestou que a magistrada com olhos castanhos não carregava a ferramenta de cabeça de ferro de 5kg em suas mãos."
             ],
             logic: [
@@ -772,11 +772,11 @@ const challenges = [
                 "BR ↔ CF",
                 "(CO ↔ MG) ↔ ¬ FT(IS)",
                 "MP(DB) → MG(JH)",
-                "CF(MU) ∨ ¬ MP(MU)",
+                "¬ CF(MU) ∨ ¬ MP(MU)",
                 "¬ MP(JH)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que Don Barrows estava na Fábrica de Tecidos: FT(DB). Como os locais são únicos, o Informante Slate não estava na Fábrica de Tecidos (¬ FT(IS) é VERDADE). Pela Pista 5, com o lado direito da bicondicional VERDADE, o lado esquerdo também deve ser VERDADE: CO ↔ MG (estar no Canteiro de Obras equivale a portar o Maçarico a Gás). Pela Pista 2, sabemos que o Informante Slate estava no Beco das Ratazanas: BR(IS). Pela Pista 4 (BR ↔ CF), como Slate estava no Beco (BR(IS)), ele estava com o Cano de Ferro Cortado: CF(IS). Pela Pista 7 (CF(MU) ∨ ¬ MP(MU)), como Slate está com o Cano de Ferro (CF(IS)), a proposição CF(MU) (Umbra com Cano de Ferro) é FALSA. Pelo Silogismo Disjuntivo, para que a disjunção seja verdadeira, a proposição ¬ MP(MU) (Umbra não portava o Martelo Pesado) deve ser VERDADEIRA. Pela Pista 8, a Juíza Helena não estava com o Martelo Pesado: ¬ MP(JH). Como Slate estava com o Cano de Ferro, e nem Umbra nem Helena estavam com o Martelo, por exclusão, Don Barrows só poderia estar com o Martelo Pesado: MP(DB). Pela Pista 6 (MP(DB) → MG(JH)), aplicando Modus Ponens, deduzimos que a Juíza Helena tem o Maçarico a Gás: MG(JH). Pela equivalência CO ↔ MG, como a Juíza Helena tem o Maçarico (MG(JH)), ela estava no Canteiro de Obras: CO(JH). Por exclusão, o Matador Umbra estava no Esgoto Subterrâneo com o Revólver Silenciado: ES(MU) e RS(MU). Pela Pista 3, temos RS(MU) → ES(MU). Como provamos RS(MU), por Modus Ponens: ES(MU). O culpado estava no Esgoto Subterrâneo, logo o culpado é o Matador Umbra com o Revólver Silenciado!",
+        explanation: "Pela Pista 1, sabemos que Don Barrows estava na Fábrica de Tecidos: FT(DB). Como os locais são únicos, o Informante Slate não estava na Fábrica de Tecidos (¬ FT(IS) é VERDADE). Pela Pista 5, com o lado direito da bicondicional VERDADE, o lado esquerdo também deve ser VERDADE: CO ↔ MG (estar no Canteiro de Obras equivale a portar o Maçarico a Gás). Pela Pista 2, sabemos que o Informante Slate estava no Beco das Ratazanas: BR(IS). Pela Pista 4 (BR ↔ CF), como Slate estava no Beco (BR(IS)), ele estava com o Cano de Ferro Cortado: CF(IS). Pela Pista 7 (¬ CF(MU) ∨ ¬ MP(MU)), sabemos que ela se confirma na solução real. Cruzando com os dados das investigações dos suspeitos (onde o Matador Umbra não estava portando o Martelo Pesado), deduzimos que ¬ MP(MU) é verdadeiro. Pela Pista 8, a Juíza Helena não estava com o Martelo Pesado: ¬ MP(JH). Como Slate estava com o Cano de Ferro, e nem Umbra nem Helena estavam com o Martelo, por exclusão, Don Barrows só poderia estar com o Martelo Pesado: MP(DB). Pela Pista 6 (MP(DB) → MG(JH)), aplicando Modus Ponens, deduzimos que a Juíza Helena tem o Maçarico a Gás: MG(JH). Pela equivalência CO ↔ MG, como a Juíza Helena tem o Maçarico (MG(JH)), ela estava no Canteiro de Obras: CO(JH). Por exclusão, o Matador Umbra estava no Esgoto Subterrâneo com o Revólver Silenciado: ES(MU) e RS(MU). Pela Pista 3, temos RS(MU) → ES(MU). Como provamos RS(MU), por Modus Ponens: ES(MU). O culpado estava no Esgoto Subterrâneo, logo o culpado é o Matador Umbra com o Revólver Silenciado!",
         investigations: {
             "Informante Slate": { phase: 0, text: "Slate alegou que estava dormindo na hora do crime, mas não soube responder sobre os sinos da paróquia local." },
             "Don Barrows": { phase: 1, text: "Don Barrows tragava um charuto cubano com calma, assoprando fumaça na direção do investigador." },
@@ -851,7 +851,7 @@ const challenges = [
                 "Estar no armazém de portas de metal enferrujado na penumbra equivale a portar a corrente de elos espessos e manchada de fuligem.",
                 "Estar no pátio de cascalho com vagões de trem estacionados equivale a portar o arpão de ponta de metal oxidada se e somente se a assistente de 26 anos não estava no armazém de portas de metal enferrujado.",
                 "Se a assistente de 26 anos com sinal de nascença no pescoço estava com a Armadilha de Aço, então o investigador de 42 anos com cicatriz no queixo estava com o arpão de ponta de metal oxidada.",
-                "Don Salieri de 61 anos portava a Corrente de Carga ou ele não portava a Armadilha de Aço.",
+                "Don Salieri de 61 anos não estava portando a Armadilha de Aço ou ele não estava portando a Corrente de Carga.",
                 "O inventário atesta que o investigador com cicatriz no queixo não carregava o dispositivo de mandíbulas denteadas de ferro da corporação."
             ],
             logic: [
@@ -861,11 +861,11 @@ const challenges = [
                 "AP ↔ CC",
                 "(PC ↔ AE) ↔ ¬ AP(SS)",
                 "AA(SS) → AE(DK)",
-                "CC(DS) ∨ ¬ AA(DS)",
+                "¬ AA(DS) ∨ ¬ CC(DS)",
                 "¬ AA(DK)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que a Secretária Sterling estava no Cais Abandonado: CA(SS). Como os locais são únicos, ela não estava no Armazém do Porto (¬ AP(SS) é VERDADE). Pela Pista 5, como o lado direito da bicondicional é VERDADE (¬ AP(SS)), o lado esquerdo também deve ser VERDADE: PC ↔ AE (estar no Pátio de Carga equivale a portar o Arpão Enferrujado). Pela Pista 2, sabemos que o Mafioso Genovese estava no Armazém do Porto: AP(MG). Pela Pista 4 (AP ↔ CC), concluímos que ele estava com a Corrente de Carga: CC(MG). Pela Pista 7 (CC(DS) ∨ ¬ AA(DS)), como Mafioso Genovese está com a Corrente (CC(MG)), a proposição CC(DS) (Salieri com Corrente) é FALSA. Pelo Silogismo Disjuntivo, concluímos que ¬ AA(DS) é VERDADEIRA (Don Salieri não portava a Armadilha de Aço). Pela Pista 8, o Detetive Kelly não estava com a Armadilha: ¬ AA(DK). Como Genovese estava com a Corrente e Kelly e Salieri não têm a Armadilha, por exclusão de armas, a Secretária Sterling estava com a Armadilha de Aço: AA(SS). Pela Pista 6 (AA(SS) → AE(DK)), aplicando Modus Ponens, deduzimos que o Detetive Kelly estava com o Arpão Enferrujado: AE(DK). Pela equivalência PC ↔ AE, como Kelly tem o Arpão, ele estava no Pátio de Carga: PC(DK). Por exclusão, Don Salieri estava na Falésia do Farol com a Faca de Açougueiro: FF(DS) e FA(DS). Pela Pista 3, temos FA(DS) → FF(DS). Como provamos FA(DS), por Modus Ponens: FF(DS). Como o culpado estava na Falésia do Farol (Culpado ∈ FF), ele é Don Salieri com a Faca de Açougueiro!",
+        explanation: "Pela Pista 1, sabemos que a Secretária Sterling estava no Cais Abandonado: CA(SS). Como os locais são únicos, ela não estava no Armazém do Porto (¬ AP(SS) é VERDADE). Pela Pista 5, como o lado direito da bicondicional é VERDADE (¬ AP(SS)), o lado esquerdo também deve ser VERDADE: PC ↔ AE (estar no Pátio de Carga equivale a portar o Arpão Enferrujado). Pela Pista 2, sabemos que o Mafioso Genovese estava no Armazém do Porto: AP(MG). Pela Pista 4 (AP ↔ CC), concluímos que ele estava com a Corrente de Carga: CC(MG). Pela Pista 7 (¬ AA(DS) ∨ ¬ CC(DS)), ela se confirma na solução real com ambas premissas verdadeiras (V ∨ V ⊢ V), já que ele tinha a Faca de Açougueiro. Cruzando com as investigações de suspeitos de Don Salieri, descobrimos que ele não portava a Armadilha de Aço (¬ AA(DS) é verdade). Pela Pista 8, o Detetive Kelly não estava com a Armadilha: ¬ AA(DK). Como Genovese estava com a Corrente, e nem Salieri nem Kelly estavam com a Armadilha, por exclusão, a Secretária Sterling estava com a Armadilha de Aço: AA(SS). Pela Pista 6 (AA(SS) → AE(DK)), aplicando Modus Ponens, deduzimos que o Detetive Kelly estava com o Arpão Enferrujado: AE(DK). Pela equivalência PC ↔ AE, como Kelly tem o Arpão, ele estava no Pátio de Carga: PC(DK). Por exclusão, Don Salieri estava na Falésia do Farol com a Faca de Açougueiro: FF(DS) e FA(DS). Pela Pista 3, temos FA(DS) → FF(DS). Como provamos FA(DS), por Modus Ponens: FF(DS). Como o culpado estava na Falésia do Farol (Culpado ∈ FF), ele é Don Salieri com a Faca de Açougueiro!",
         investigations: {
             "Secretária Sterling": { phase: 0, text: "Sterling secava as lágrimas com um lenço, reclamando da umidade gélida que subia do mar." },
             "Don Salieri": { phase: 1, text: "Salieri ajeitou o colarinho de seu casaco de seda preta sob medida com precisão obsessiva e silenciosa." },
