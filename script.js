@@ -3093,7 +3093,7 @@ function closeInstructionsScreen() {
         list.forEach((item, index) => {
             const btn = document.createElement("button");
             btn.className = `tt-subtab-btn ${index === activeTTSubTabIndex ? 'active' : ''}`;
-            btn.innerHTML = `${item.name} <span style="font-size: 0.7rem; opacity: 0.8; margin-left: 0.25rem;">(${item.symbol})</span>`;
+            btn.innerText = item.symbol;
             btn.onclick = () => {
                 activeTTSubTabIndex = index;
                 container.querySelectorAll(".tt-subtab-btn").forEach((b, idx) => {
