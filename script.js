@@ -1367,7 +1367,7 @@ function openDossierModal(category) {
             tabsHtml += `<button class="dossier-tab-btn ${activeClass}" data-tab="${tabId}" onclick="switchDossierTab('${tabId}')">👤 ${name}</button>`;
             
             let extraInfoHtml = '';
-            if (activeChallenge.difficulty === "medium" || activeChallenge.difficulty === "difficult") {
+            if (activeChallenge.difficulty === "difficult") {
                 const escapedName = name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 const isAlreadyRevealed = revealedInvestigations[name];
                 extraInfoHtml = `
@@ -1408,7 +1408,7 @@ function openDossierModal(category) {
             tabsHtml += `<button class="dossier-tab-btn ${activeClass}" data-tab="${tabId}" onclick="switchDossierTab('${tabId}')">📍 ${loc}</button>`;
             
             let extraInfoHtml = '';
-            if (activeChallenge.difficulty === "medium" || activeChallenge.difficulty === "difficult") {
+            if (activeChallenge.difficulty === "difficult") {
                 const escapedName = loc.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 const isAlreadyRevealed = revealedInvestigations[loc];
                 extraInfoHtml = `
@@ -1449,7 +1449,7 @@ function openDossierModal(category) {
             tabsHtml += `<button class="dossier-tab-btn ${activeClass}" data-tab="${tabId}" onclick="switchDossierTab('${tabId}')">🔪 ${wep}</button>`;
             
             let extraInfoHtml = '';
-            if (activeChallenge.difficulty === "medium" || activeChallenge.difficulty === "difficult") {
+            if (activeChallenge.difficulty === "difficult") {
                 const escapedName = wep.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 const isAlreadyRevealed = revealedInvestigations[wep];
                 extraInfoHtml = `
