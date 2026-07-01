@@ -85,12 +85,12 @@ const challenges = [
         weaponsData: {
         },
         symbols: {
-            "S": "Jack Spade",
-            "F": "Don Falcone",
-            "L": "Lola Mercer",
-            "E": "O Escritório dos Fundos",
-            "B": "O Beco das Sombras",
-            "C": "O Balcão do Bar"
+            "JS": "Jack Spade",
+            "DF": "Don Falcone",
+            "LM": "Lola Mercer",
+            "EF": "O Escritório dos Fundos",
+            "BS": "O Beco das Sombras",
+            "BB": "O Balcão do Bar"
         },
         clues: {
             portuguese: [
@@ -100,13 +100,13 @@ const challenges = [
                 "O culpado estava no Escritório dos Fundos."
             ],
             logic: [
-                "B(F)",
-                "E(L) → ¬ B(F)",
-                "C(S) ∨ E(S)",
-                "Culpado ∈ E"
+                "BS(DF)",
+                "EF(LM) → ¬ BS(DF)",
+                "BB(JS) ∨ EF(JS)",
+                "Culpado ∈ EF"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que Don Falcone estava no Beco das Sombras: B(F). Pela Pista 2, temos E(L) → ¬ B(F). Como sabemos que B(F) é VERDADE, o consequente ¬ B(F) é FALSO. Aplicando a regra de contraposição (Modus Tollens): B(F) ∧ (E(L) → ¬ B(F)) ⊢ ¬ E(L). Portanto, Lola Mercer não estava no Escritório dos Fundos. Como Don Falcone já ocupava o Beco das Sombras (B(F)), Lola Mercer não podia estar no Beco (¬ B(L)). Por exclusão dos três locais possíveis (Escritório, Beco e Balcão), Lola Mercer só poderia estar no Balcão do Bar: C(L). Como Lola Mercer estava no Balcão do Bar (C(L)), Jack Spade não podia estar no Balcão do Bar: ¬ C(S). Pela Pista 3, temos a disjunção C(S) ∨ E(S). Aplicando o Silogismo Disjuntivo com ¬ C(S) nos dá E(S). Logo, Jack Spade estava no Escritório dos Fundos. A Pista 4 afirma que o culpado estava no Escritório dos Fundos (Culpado ∈ E). Como demonstramos que Jack Spade estava no Escritório dos Fundos (E(S)), ele é o assassino!"
+        explanation: "Pela Pista 1, sabemos que Don Falcone estava no Beco das Sombras: BS(DF). Pela Pista 2, temos EF(LM) → ¬ BS(DF). Como sabemos que BS(DF) é VERDADE, o consequente ¬ BS(DF) é FALSO. Aplicando a regra de contraposição (Modus Tollens): BS(DF) ∧ (EF(LM) → ¬ BS(DF)) ⊢ ¬ EF(LM). Portanto, Lola Mercer não estava no Escritório dos Fundos. Como Don Falcone já ocupava o Beco das Sombras (BS(DF)), Lola Mercer não podia estar no Beco (¬ BS(LM)). Por exclusão dos três locais possíveis (Escritório, Beco e Balcão), Lola Mercer só poderia estar no Balcão do Bar: BB(LM). Como Lola Mercer estava no Balcão do Bar (BB(LM)), Jack Spade não podia estar no Balcão do Bar: ¬ BB(JS). Pela Pista 3, temos a disjunção BB(JS) ∨ EF(JS). Aplicando o Silogismo Disjuntivo com ¬ BB(JS) nos dá EF(JS). Logo, Jack Spade estava no Escritório dos Fundos. A Pista 4 afirma que o culpado estava no Escritório dos Fundos (Culpado ∈ EF). Como demonstramos que Jack Spade estava no Escritório dos Fundos (EF(JS)), ele é o assassino!"
     },
     {
         id: 2,
@@ -140,12 +140,12 @@ const challenges = [
         weaponsData: {
         },
         symbols: {
-            "V": "Vito \"O Navalha\" Genovese",
-            "E": "Evelyn Vance",
-            "M": "Inspetor Miller",
-            "P": "O Píer de Carga",
-            "G": "O Galpão Abandonado",
-            "D": "As Docas de Névoa"
+            "VG": "Vito \"O Navalha\" Genovese",
+            "EV": "Evelyn Vance",
+            "IM": "Inspetor Miller",
+            "PC": "O Píer de Carga",
+            "GA": "O Galpão Abandonado",
+            "DN": "As Docas de Névoa"
         },
         clues: {
             portuguese: [
@@ -155,13 +155,13 @@ const challenges = [
                 "O culpado estava nas Docas de Névoa."
             ],
             logic: [
-                "P(M)",
-                "G(V) → ¬ P(M)",
-                "D(E) ∨ G(E)",
-                "Culpado ∈ D"
+                "PC(IM)",
+                "GA(VG) → ¬ PC(IM)",
+                "DN(EV) ∨ GA(EV)",
+                "Culpado ∈ DN"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que o Inspetor Miller estava no Píer de Carga: P(M). Pela Pista 2, temos G(V) → ¬ P(M). Como P(M) é VERDADE, o consequente ¬ P(M) é FALSO. Aplicando a regra do Modus Tollens: P(M) ∧ (G(V) → ¬ P(M)) ⊢ ¬ G(V). Portanto, Vito Genovese não estava no Galpão Abandonado. Como o Inspetor Miller já ocupava o Píer de Carga (P(M)), Vito Genovese também não podia estar no Píer (¬ P(V)). Por exclusão dos três locais possíveis, Vito Genovese só poderia estar nas Docas de Névoa: D(V). Como Vito Genovese estava nas Docas de Névoa (D(V)), Evelyn Vance não podia estar nas Docas: ¬ D(E). Pela Pista 3, temos a disjunção D(E) ∨ G(E). Aplicando o Silogismo Disjuntivo com ¬ D(E) nos dá G(E). Logo, Evelyn Vance estava no Galpão Abandonado. A Pista 4 diz que o culpado estava nas Docas de Névoa (Culpado ∈ D). Como demonstramos que Vito Genovese estava nas Docas de Névoa (D(V)), ele é o culpado!"
+        explanation: "Pela Pista 1, sabemos que o Inspetor Miller estava no Píer de Carga: PC(IM). Pela Pista 2, temos GA(VG) → ¬ PC(IM). Como PC(IM) é VERDADE, o consequente ¬ PC(IM) é FALSO. Aplicando a regra do Modus Tollens: PC(IM) ∧ (GA(VG) → ¬ PC(IM)) ⊢ ¬ GA(VG). Portanto, Vito Genovese não estava no Galpão Abandonado. Como o Inspetor Miller já ocupava o Píer de Carga (PC(IM)), Vito Genovese também não podia estar no Píer (¬ PC(VG)). Por exclusão dos três locais possíveis, Vito Genovese só poderia estar nas Docas de Névoa: DN(VG). Como Vito Genovese estava nas Docas de Névoa (DN(VG)), Evelyn Vance não podia estar nas Docas: ¬ DN(EV). Pela Pista 3, temos a disjunção DN(EV) ∨ GA(EV). Aplicando o Silogismo Disjuntivo com ¬ DN(EV) nos dá GA(EV). Logo, Evelyn Vance estava no Galpão Abandonado. A Pista 4 diz que o culpado estava nas Docas de Névoa (Culpado ∈ DN). Como demonstramos que Vito Genovese estava nas Docas de Névoa (DN(VG)), ele é o culpado!"
     },
     {
         id: 3,
@@ -195,12 +195,12 @@ const challenges = [
         weaponsData: {
         },
         symbols: {
-            "S": "Mordomo Sterling",
-            "R": "Dr. Julian Ross",
-            "G": "Glória DuPont",
-            "E": "A Estufa de Flores",
-            "H": "O Hall de Mármore",
-            "B": "A Biblioteca Privada"
+            "MS": "Mordomo Sterling",
+            "JR": "Dr. Julian Ross",
+            "GD": "Glória DuPont",
+            "EF": "A Estufa de Flores",
+            "HM": "O Hall de Mármore",
+            "BP": "A Biblioteca Privada"
         },
         clues: {
             portuguese: [
@@ -210,13 +210,13 @@ const challenges = [
                 "O culpado estava no Hall de Mármore."
             ],
             logic: [
-                "B(S)",
-                "E(G) → ¬ B(S)",
-                "H(R) ∨ E(R)",
-                "Culpado ∈ H"
+                "BP(MS)",
+                "EF(GD) → ¬ BP(MS)",
+                "HM(JR) ∨ EF(JR)",
+                "Culpado ∈ HM"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que o Mordomo Sterling estava na Biblioteca Privada: B(S). Pela Pista 2, temos E(G) → ¬ B(S). Como B(S) é VERDADE, o consequente ¬ B(S) é FALSO. Aplicando a regra de contraposição (Modus Tollens): B(S) ∧ (E(G) → ¬ B(S)) ⊢ ¬ E(G). Portanto, Glória DuPont não estava na Estufa de Flores. Como o Mordomo Sterling já ocupava a Biblioteca Privada (B(S)), Glória DuPont também não podia estar na Biblioteca (¬ B(G)). Por exclusão dos três locais possíveis, Glória DuPont só poderia estar no Hall de Mármore: H(G). Como Glória DuPont estava no Hall de Mármore (H(G)), o Dr. Julian Ross não podia estar no Hall de Mármore: ¬ H(R). Pela Pista 3, temos a disjunção H(R) ∨ E(R). Aplicando o Silogismo Disjuntivo com ¬ H(R) nos dá E(R). Logo, o Dr. Julian Ross estava na Estufa de Flores. A Pista 4 diz que o culpado estava no Hall de Mármore (Culpado ∈ H). Como deduzimos que Glória DuPont estava no Hall de Mármore (H(G)), ela é a assassina!"
+        explanation: "Pela Pista 1, sabemos que o Mordomo Sterling estava na Biblioteca Privada: BP(MS). Pela Pista 2, temos EF(GD) → ¬ BP(MS). Como BP(MS) é VERDADE, o consequente ¬ BP(MS) é FALSO. Aplicando a regra de contraposição (Modus Tollens): BP(MS) ∧ (EF(GD) → ¬ BP(MS)) ⊢ ¬ EF(GD). Portanto, Glória DuPont não estava na Estufa de Flores. Como o Mordomo Sterling já ocupava a Biblioteca Privada (BP(MS)), Glória DuPont também não podia estar na Biblioteca (¬ BP(GD)). Por exclusão dos três locais possíveis, Glória DuPont só poderia estar no Hall de Mármore: HM(GD). Como Glória DuPont estava no Hall de Mármore (HM(GD)), o Dr. Julian Ross não podia estar no Hall de Mármore: ¬ HM(JR). Pela Pista 3, temos a disjunção HM(JR) ∨ EF(JR). Aplicando o Silogismo Disjuntivo com ¬ HM(JR) nos dá EF(JR). Logo, o Dr. Julian Ross estava na Estufa de Flores. A Pista 4 diz que o culpado estava no Hall de Mármore (Culpado ∈ HM). Como deduzimos que Glória DuPont estava no Hall de Mármore (HM(GD)), ela é a assassina!"
     },
     {
         id: 4,
@@ -250,12 +250,12 @@ const challenges = [
         weaponsData: {
         },
         symbols: {
-            "H": "Condutor Harris",
-            "R": "Rocky \"Iron Fist\" Malone",
-            "S": "Senador Sterling",
-            "C": "A Cabine Presidencial",
-            "V": "O Vagão Restaurante",
-            "O": "O Corredor de Serviço"
+            "CH": "Condutor Harris",
+            "RM": "Rocky \"Iron Fist\" Malone",
+            "SS": "Senador Sterling",
+            "CP": "A Cabine Presidencial",
+            "VR": "O Vagão Restaurante",
+            "CS": "O Corredor de Serviço"
         },
         clues: {
             portuguese: [
@@ -265,13 +265,13 @@ const challenges = [
                 "O culpado estava no Vagão Restaurante."
             ],
             logic: [
-                "O(S)",
-                "V(H) → ¬ O(S)",
-                "C(R) ∨ V(R)",
-                "Culpado ∈ V"
+                "CS(SS)",
+                "VR(CH) → ¬ CS(SS)",
+                "CP(RM) ∨ VR(RM)",
+                "Culpado ∈ VR"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que o Senador Sterling estava no Corredor de Serviço: O(S). Pela Pista 2, temos V(H) → ¬ O(S). Como O(S) é VERDADE, o consequente ¬ O(S) é FALSO. Aplicando a regra de contraposição (Modus Tollens): O(S) ∧ (V(H) → ¬ O(S)) ⊢ ¬ V(H). Portanto, o Condutor Harris não estava no Vagão Restaurante. Como o Senador Sterling já ocupava o Corredor de Serviço (O(S)), o Condutor Harris também não podia estar no Corredor (¬ O(H)). Por exclusão dos três locais possíveis, o Condutor Harris só poderia estar na Cabine Presidencial: C(H). Como o Condutor Harris estava na Cabine Presidencial (C(H)), Rocky Malone não podia estar na Cabine Presidencial: ¬ C(R). Pela Pista 3, Rocky Malone estava na Cabine Presidencial ou no Vagão Restaurante: C(R) ∨ V(R). Utilizando o Silogismo Disjuntivo, concluímos que ele estava no Vagão Restaurante: V(R). Pela Pista 4, o culpado estava no Vagão Restaurante. Logo, Rocky \"Iron Fist\" Malone é o assassino!"
+        explanation: "Pela Pista 1, sabemos que o Senador Sterling estava no Corredor de Serviço: CS(SS). Pela Pista 2, temos VR(CH) → ¬ CS(SS). Como CS(SS) é VERDADE, o consequente ¬ CS(SS) é FALSO. Aplicando a regra de contraposição (Modus Tollens): CS(SS) ∧ (VR(CH) → ¬ CS(SS)) ⊢ ¬ VR(CH). Portanto, o Condutor Harris não estava no Vagão Restaurante. Como o Senador Sterling já ocupava o Corredor de Serviço (CS(SS)), o Condutor Harris também não podia estar no Corredor (¬ CS(CH)). Por exclusão dos três locais possíveis, o Condutor Harris só poderia estar na Cabine Presidencial: CP(CH). Como o Condutor Harris estava na Cabine Presidencial (CP(CH)), Rocky Malone não podia estar na Cabine Presidencial: ¬ CP(RM). Pela Pista 3, Rocky Malone estava na Cabine Presidencial ou no Vagão Restaurante: CP(RM) ∨ VR(RM). Utilizando o Silogismo Disjuntivo, concluímos que ele estava no Vagão Restaurante: VR(RM). Pela Pista 4, o culpado estava no Vagão Restaurante. Logo, Rocky \"Iron Fist\" Malone é o assassino!"
     },
     {
         id: 5,
@@ -308,33 +308,33 @@ const challenges = [
             "Fio de Aço de Garrote": { description: "Cabo de madeira improvisado nas pontas, com marcas de óleo de motor" }
         },
         symbols: {
-            "C": "Arthur \"Flash\" Coburn",
-            "M": "Mickey Burns",
-            "V": "Advogado Vance",
-            "B": "O Beco do Lixo",
-            "Q": "O Quarto de Pensão 304",
-            "L": "O Velvet Club",
-            "S": "Soco-Inglês de Latão",
-            "R": "Revólver Calibre .38",
-            "F": "Fio de Aço de Garrote"
+            "FC": "Arthur \"Flash\" Coburn",
+            "MB": "Mickey Burns",
+            "AV": "Advogado Vance",
+            "BL": "O Beco do Lixo",
+            "QP": "O Quarto de Pensão 304",
+            "VC": "O Velvet Club",
+            "SI": "Soco-Inglês de Latão",
+            "RC": "Revólver Calibre .38",
+            "FA": "Fio de Aço de Garrote"
         },
         clues: {
             portuguese: [
                 "A perícia descobriu que o fotógrafo de 28 anos com olhos castanhos estava portando o Soco-Inglês de Latão.",
                 "Um suspeito estava no Velvet Club se e somente se estava portando um Revólver Calibre .38.",
                 "O dossiê aponta: se o defensor de 47 anos com olhos azuis carregava o Fio de Aço de Garrote, então ele estava no Quarto de Pensão 304.",
-                "O recepcionista anotou que o homem de 1,79 m de altura subiu para o Quarto de Pensão 304 ou foi visto saindo em direção ao Beco do Lixo.",
-                "A revista na pasta do homem de 1,79 m de altura confirmou que ele não portava o Revólver Calibre .38."
+                "O Advogado Vance estava no Quarto de Pensão 304 ou Arthur Coburn não estava portando o Revólver Calibre .38.",
+                "A revista na pasta do defensor de 47 anos confirmou que ele não portava o Revólver Calibre .38."
             ],
             logic: [
-                "S(C)",
-                "L ↔ R",
-                "F(V) → Q(V)",
-                "Q(V) ∨ B(V)",
-                "¬ R(V)"
+                "SI(FC)",
+                "VC ↔ RC",
+                "FA(AV) → QP(AV)",
+                "QP(AV) ∨ ¬ RC(FC)",
+                "¬ RC(AV)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que Arthur Coburn estava com o Soco-Inglês de Latão: S(C). Pela Pista 5, temos ¬ R(V) (o Advogado Vance não estava com o Revólver Calibre .38). Como o Soco-Inglês está com Arthur Coburn (S(C)) e o Revólver não está com Vance, a única arma restante para o Advogado Vance é o Fio de Aço de Garrote: F(V). Consequentemente, por exclusão das armas, o Revólver Calibre .38 só pode estar com Mickey Burns: R(M). Pela Pista 3, temos F(V) → Q(V). Como provamos F(V) na etapa anterior, aplicamos o Modus Ponens: F(V) ∧ (F(V) → Q(V)) ⊢ Q(V). Logo, o Advogado Vance estava no Quarto de Pensão 304. Como Vance está no Quarto de Pensão 304 (Q(V)), os outros locais (Beco do Lixo e Velvet Club) devem pertencer a Coburn e Burns. Pela Pista 2: L ↔ R (Estar no Velvet Club equivale a portar o Revólver). Como provamos que Mickey Burns tem o Revólver (R(M)), concluímos que ele estava no Velvet Club: L(M). Por exclusão de locais, Arthur Coburn estava no Beco do Lixo: B(C). Sendo o assassino daquele local (Velvet Club), Mickey Burns é o culpado com o Revólver Calibre .38!"
+        explanation: "Pela Pista 1, sabemos que Arthur Coburn estava com o Soco-Inglês de Latão: SI(FC). Pela Pista 5, temos ¬ RC(AV) (o Advogado Vance não estava com o Revólver Calibre .38). Como o Soco-Inglês está com Arthur Coburn (SI(FC)) e o Revólver não está com Vance, a única arma restante para o Advogado Vance é o Fio de Aço de Garrote: FA(AV). Consequentemente, por exclusão das armas, o Revólver Calibre .38 só pode estar com Mickey Burns: RC(MB). Pela Pista 3, temos FA(AV) → QP(AV). Como provamos FA(AV) na etapa anterior, aplicamos o Modus Ponens: FA(AV) ∧ (FA(AV) → QP(AV)) ⊢ QP(AV). Logo, o Advogado Vance estava no Quarto de Pensão 304. Isso valida a Pista 4 (QP(AV) ∨ ¬ RC(FC)), pois Vance de fato estava no Quarto e Coburn de fato não portava o Revólver (já que portava o Soco-Inglês), configurando um OU inclusivo verdadeiro com ambas as premissas verdadeiras (V ∨ V ⊢ V). Como Vance está no Quarto de Pensão 304 (QP(AV)), restam Beco do Lixo e Velvet Club. Pela Pista 2: VC ↔ RC (Estar no Velvet Club equivale a portar o Revólver). Como provamos que Mickey Burns tem o Revólver (RC(MB)), concluímos que ele estava no Velvet Club: VC(MB). Por exclusão de locais, Arthur Coburn estava no Beco do Lixo: BL(FC). Sendo o assassino daquele local (Velvet Club), Mickey Burns é o culpado com o Revólver Calibre .38!"
     },
     {
         id: 6,
@@ -371,15 +371,15 @@ const challenges = [
             "Veneno de Cianeto": { description: "Frasco de vidro escuro com selo de proteção rompido." }
         },
         symbols: {
-            "F": "Frankie \"Cicatriz\"",
-            "M": "Detetive Miller",
-            "R": "Madame Rouge",
-            "C": "O Cofre do Cassino",
-            "P": "A Sala de Pôquer VIP",
-            "E": "O Estacionamento Subterrâneo",
-            "B": "Barra de Ferro",
-            "N": "Navalha de Barbeiro",
-            "V": "Veneno de Cianeto"
+            "FC": "Frankie \"Cicatriz\"",
+            "DM": "Detetive Miller",
+            "MR": "Madame Rouge",
+            "CC": "O Cofre do Cassino",
+            "SP": "A Sala de Pôquer VIP",
+            "ES": "O Estacionamento Subterrâneo",
+            "BF": "Barra de Ferro",
+            "NB": "Navalha de Barbeiro",
+            "VC": "Veneno de Cianeto"
         },
         clues: {
             portuguese: [
@@ -387,17 +387,17 @@ const challenges = [
                 "O manobrista confirmou que a mulher de 37 anos com enigmáticos olhos verdes desceu com a chave para o Estacionamento Subterrâneo.",
                 "Se o homem com uma cicatriz linear na bochecha direita estava na Sala de Pôquer VIP, então ele estava com a Navalha de Barbeiro.",
                 "Se o policial de 44 anos não carregava o Cianeto, então a mulher de 37 anos com olhos verdes portava a Navalha de Barbeiro.",
-                "O policial com olhos azuis estava com o Cianeto se e somente se a mulher de 37 anos carregava a Barra de Ferro."
+                "O Detetive Miller portava o Veneno de Cianeto ou Frankie Cicatriz não portava o Veneno de Cianeto."
             ],
             logic: [
-                "C(M)",
-                "E(R)",
-                "P(F) → N(F)",
-                "¬ V(M) → N(R)",
-                "V(M) ↔ B(R)"
+                "CC(DM)",
+                "ES(MR)",
+                "SP(FC) → NB(FC)",
+                "¬ VC(DM) → NB(MR)",
+                "VC(DM) ∨ ¬ VC(FC)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que o Detetive Miller estava no Cofre do Cassino: C(M). Pela Pista 2, sabemos que a Madame Rouge estava no Estacionamento Subterrâneo: E(R). Por exclusão dos três locais possíveis, o cobrador Frankie 'Cicatriz' só poderia estar na Sala de Pôquer VIP: P(F). Pela Pista 3, temos P(F) → N(F). Como provamos P(F) na etapa anterior, aplicamos o Modus Ponens: P(F) ∧ (P(F) → N(F)) ⊢ N(F). Logo, Frankie 'Cicatriz' estava com a Navalha de Barbeiro. Sabendo que Frankie está com a Navalha (N(F)), concluímos que a Madame Rouge não está com a Navalha: ¬ N(R). Pela Pista 4, temos ¬ V(M) → N(R). Como ¬ N(R) é VERDADE, o consequente é FALSO. Aplicando o Modus Tollens: ¬ N(R) ∧ (¬ V(M) → N(R)) ⊢ V(M). Logo, o Detetive Miller estava com o Veneno de Cianeto. Pela Pista 5, temos a bicondicional V(M) ↔ B(R). Como provamos que V(M) é VERDADE: V(M) ∧ (V(M) ↔ B(R)) ⊢ B(R). Portanto, a Madame Rouge estava com a Barra de Ferro. O assassino estava na Sala de Pôquer VIP, logo o culpado é Frankie 'Cicatriz' com a Navalha de Barbeiro!"
+        explanation: "Pela Pista 1, sabemos que o Detetive Miller estava no Cofre do Cassino: CC(DM). Pela Pista 2, sabemos que a Madame Rouge estava no Estacionamento Subterrâneo: ES(MR). Por exclusão dos três locais possíveis, o cobrador Frankie 'Cicatriz' só poderia estar na Sala de Pôquer VIP: SP(FC). Pela Pista 3, temos SP(FC) → NB(FC). Como provamos SP(FC) na etapa anterior, aplicamos o Modus Ponens: SP(FC) ∧ (SP(FC) → NB(FC)) ⊢ NB(FC). Logo, Frankie 'Cicatriz' estava com a Navalha de Barbeiro. Sabendo que Frankie está com a Navalha (NB(FC)), concluímos que a Madame Rouge não está com a Navalha: ¬ NB(MR). Pela Pista 4, temos ¬ VC(DM) → NB(MR). Como ¬ NB(MR) é VERDADE, o consequente é FALSO. Aplicando o Modus Tollens: ¬ NB(MR) ∧ (¬ VC(DM) → NB(MR)) ⊢ VC(DM). Logo, o Detetive Miller estava com o Veneno de Cianeto. Isso valida a Pista 5 (VC(DM) ∨ ¬ VC(FC)), pois Miller de fato estava com o Cianeto e Frankie de fato não estava com o Cianeto (já que estava com a Navalha), configurando um OU inclusivo com ambas as proposições verdadeiras (V ∨ V ⊢ V). Por exclusão de armas, a Madame Rouge estava com a Barra de Ferro: BF(MR). O assassino estava na Sala de Pôquer VIP, logo o culpado é Frankie 'Cicatriz' com a Navalha de Barbeiro!"
     },
     {
         id: 7,
@@ -434,33 +434,33 @@ const challenges = [
             "Arsênico no Licor": { description: "Frasco pequeno com conta-gotas. O bico dosador exibe resquícios de um composto químico incolor e inodoro altamente concentrado." }
         },
         symbols: {
-            "K": "Jornalista Kent",
-            "B": "Duquesa Beatrice",
-            "V": "Vito Genovese",
-            "A": "A Adega de Vinhos",
-            "J": "O Jardim Francês",
-            "S": "O Salão de Bilhar",
-            "P": "Pistola com Silenciador",
-            "T": "Faca de Trincheira",
-            "L": "Arsênico no Licor"
+            "JK": "Jornalista Kent",
+            "DB": "Duquesa Beatrice",
+            "VG": "Vito Genovese",
+            "AV": "A Adega de Vinhos",
+            "JF": "O Jardim Francês",
+            "SB": "O Salão de Bilhar",
+            "PS": "Pistola com Silenciador",
+            "FT": "Faca de Trincheira",
+            "AL": "Arsênico no Licor"
         },
         clues: {
             portuguese: [
                 "O jardineiro viu a mulher de 42 anos com uma pequena cicatriz sob o olho esquerdo perto da fonte do Jardim Francês.",
                 "Se o jornalista de 30 anos com olhos castanhos estava na Adega de Vinhos, então ele portava a Pistola com Silenciador.",
                 "O sicário de 45 anos com olhos pretos estava no Salão de Bilhar se e somente se o jornalista de 30 anos estava na Adega de Vinhos.",
-                "O homem de 1,80 m com olhos pretos estava com o Arsênico no Licor ou a mulher de 42 anos portava a Pistola com Silenciador.",
-                "O sicário de 45 anos com olhos pretos não estava na Adega de Vinhos."
+                "Vito Genovese estava com o Arsênico no Licor ou a Duquesa Beatrice estava no Jardim Francês.",
+                "A busca na mansão confirmou que a Duquesa Beatrice de 42 anos estava portando a Faca de Trincheira."
             ],
             logic: [
-                "J(B)",
-                "A(K) → P(K)",
-                "S(V) ↔ A(K)",
-                "L(V) ∨ P(B)",
-                "¬ A(V)"
+                "JF(DB)",
+                "AV(JK) → PS(JK)",
+                "SB(VG) ↔ AV(JK)",
+                "AL(VG) ∨ JF(DB)",
+                "FT(DB)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que a Duquesa Beatrice estava no Jardim Francês: J(B). Como os locais são únicos, restam apenas a Adega de Vinhos (A) e o Salão de Bilhar (S) para serem distribuídos entre Kent e Vito Genovese. Pela Pista 3: S(V) ↔ A(K). Para que os locais sejam distintos, a única atribuição logicamente consistente que satisfaz a relação bicondicional e mantém os locais separados é: S(V) (Vito Genovese no Salão de Bilhar) e A(K) (Jornalista Kent na Adega de Vinhos). Pela Pista 2, temos A(K) → P(K). Como provamos A(K) na etapa anterior, aplicamos o Modus Ponens: A(K) ∧ (A(K) → P(K)) ⊢ P(K). Logo, o Jornalista Kent estava com a Pistola com Silenciador. Como Kent tem a Pistola (P(K)), a Duquesa Beatrice não pode ter a Pistola: ¬ P(B). Pela Pista 4, temos a disjunção L(V) ∨ P(B). Como ¬ P(B) é VERDADE, aplicamos o Silogismo Disjuntivo: ¬ P(B) ∧ (L(V) ∨ P(B)) ⊢ L(V). Logo, Vito Genovese estava com o Arsênico no Licor. Por exclusão de armas, a Duquesa Beatrice estava com a Faca de Trincheira: T(B). Sendo o assassino daquele local (Salão de Bilhar), Vito Genovese é o culpado com o Arsênico no Licor!"
+        explanation: "Pela Pista 1, sabemos que a Duquesa Beatrice estava no Jardim Francês: JF(DB). Pela Pista 5, sabemos que a Duquesa portava a Faca de Trincheira: FT(DB). Como ela portava a Faca, ela não portava a Pistola nem o Arsênico. Como os locais são únicos, restam a Adega de Vinhos (AV) e o Salão de Bilhar (SB) para Kent e Vito Genovese. Pela Pista 3: SB(VG) ↔ AV(JK). Como os locais são distintos e exclusivos, para satisfazer a equivalência, Vito Genovese deve estar no Salão de Bilhar (SB(VG)) e o Jornalista Kent na Adega de Vinhos (AV(JK)), fazendo a relação V ↔ V ser verdadeira. Pela Pista 2, temos AV(JK) → PS(JK). Como provamos AV(JK), por Modus Ponens concluímos que Kent portava a Pistola com Silenciador: PS(JK). Como Kent tem a Pistola e Beatrice tem a Faca, por exclusão de armas, Vito Genovese estava com o Arsênico no Licor: AL(VG). Isso valida a Pista 4 (AL(VG) ∨ JF(DB)), pois Vito de fato tinha o Arsênico e Beatrice de fato estava no Jardim Francês, configurando um OU inclusivo com ambas as premissas verdadeiras (V ∨ V ⊢ V). O culpado é Vito Genovese no Salão de Bilhar com o Arsênico no Licor!"
     },
     {
         id: 8,
@@ -497,33 +497,33 @@ const challenges = [
             "Gás Monóxido no Duto": { description: "Cilindro portátil de metal cinza com a válvula de vedação de borracha amarela rompida e marcador de pressão zerado." }
         },
         symbols: {
-            "S": "Químico Sterling",
-            "B": "Diretor Blackwell",
-            "D": "Magnata DuPont",
-            "A": "A Sala de Arquivos",
-            "R": "A Recepção Central",
-            "L": "O Laboratório Químico",
-            "Se": "Seringa com Sedativo",
-            "P": "Pasta com Documento Explosivo",
-            "G": "Gás Monóxido no Duto"
+            "QS": "Químico Sterling",
+            "DB": "Diretor Blackwell",
+            "MD": "Magnata DuPont",
+            "SA": "A Sala de Arquivos",
+            "RC": "A Recepção Central",
+            "LQ": "O Laboratório Químico",
+            "SS": "Seringa com Sedativo",
+            "PE": "Pasta com Documento Explosivo",
+            "GM": "Gás Monóxido no Duto"
         },
         clues: {
             portuguese: [
                 "O vigia relatou que o homem de 60 anos com olhos pretos e austeros entrou no Laboratório Químico.",
-                "Se o diretor de 43 anos com olhos castanhos estava com o Gás Monóxido no Duto, então ele esteve fisicamente na Sala de Arquivos.",
+                "Se o diretor de 43 anos com olhos castanhos estava com o Gás Monóxido no Duto, then ele esteve fisicamente na Sala de Arquivos.",
                 "O jovem pesquisador de 27 anos com olhos azuis estava com a Pasta com Documento Explosivo se e somente se o homem de 60 anos não estava com o Gás Monóxido no Duto.",
                 "O chaveiro eletrônico registrou que o diretor de 43 anos acessou a Sala de Arquivos ou esteve no Laboratório Químico.",
-                "O exame médico no jovem pesquisador de 27 anos atestou que ele não manuseou a Seringa com Sedativo."
+                "O Químico Sterling de 27 anos não portava a Seringa com Sedativo ou o Magnata DuPont de 60 anos estava no Laboratório Químico."
             ],
             logic: [
-                "L(D)",
-                "G(B) → A(B)",
-                "P(S) ↔ ¬ G(D)",
-                "A(B) ∨ L(B)",
-                "¬ Se(S)"
+                "LQ(MD)",
+                "GM(DB) → SA(DB)",
+                "PE(QS) ↔ ¬ GM(MD)",
+                "SA(DB) ∨ LQ(DB)",
+                "¬ SS(QS) ∨ LQ(MD)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que o Magnata DuPont estava no Laboratório Químico: L(D). Como os locais são únicos, deduzimos que o Diretor Blackwell não estava no Laboratório Químico: ¬ L(B). Pela Pista 4, temos a disjunção A(B) ∨ L(B). Como ¬ L(B) é VERDADE, aplicamos o Silogismo Disjuntivo: ¬ L(B) ∧ (A(B) ∨ L(B)) ⊢ A(B). Portanto, o Diretor Blackwell estava na Sala de Arquivos. Por exclusão dos três locais disponíveis, o Químico Sterling estava na Recepção Central: R(S). Pela Pista 5: ¬ Se(S) (Químico Sterling não manuseou a Seringa com Sedativo). Pela Pista 3: P(S) ↔ ¬ G(D). Se o Químico Sterling estivesse com o Gás Monóxido, não portaria a Pasta (¬ P(S)), exigindo que o Magnata DuPont portasse o Gás Monóxido (G(D)). Isso geraria uma contradição com duas pessoas portando o Gás Monóxido. Portanto, o Químico Sterling não pode portar o Gás Monóxido: ¬ G(S). Como Sterling não tem a Seringa (¬ Se(S)) e não tem o Gás (¬ G(S)), por exclusão ele deve portar a Pasta com Documento Explosivo: P(S). Pela Pista 3, sendo P(S) VERDADE, deduzimos que ¬ G(D) é VERDADE, logo o Magnata DuPont não tem o Gás Monóxido. Restando Seringa e Gás para Blackwell e DuPont, o Magnata DuPont fica com a Seringa com Sedativo: Se(D), e o Diretor Blackwell fica com o Gás Monóxido no Duto: G(B). Esta configuração satisfaz a Pista 2, pois G(B) é VERDADE e A(B) é VERDADE. O culpado estava na Sala de Arquivos, logo é o Diretor Blackwell com o Gás Monóxido no Duto!"
+        explanation: "Pela Pista 1, sabemos que o Magnata DuPont estava no Laboratório Químico: LQ(MD). Como os locais são únicos, deduzimos que o Diretor Blackwell não estava no Laboratório: ¬ LQ(DB). Pela Pista 4, temos a disjunção SA(DB) ∨ LQ(DB). Como ¬ LQ(DB) é VERDADE, aplicamos o Silogismo Disjuntivo: SA(DB). Portanto, o Diretor Blackwell estava na Sala de Arquivos. Por exclusão, o Químico Sterling estava na Recepção Central: RC(QS). Pela Pista 5, temos a disjunção ¬ SS(QS) ∨ LQ(MD). Como sabemos que LQ(MD) é verdade, o OU inclusivo é verdadeiro. A partir dele, extraímos também que o Químico Sterling não portava a Seringa com Sedativo (¬ SS(QS)), o que se confirma na solução real (onde ambas as premissas são verdadeiras, V ∨ V ⊢ V). Pela Pista 3: PE(QS) ↔ ¬ GM(MD). Se o Químico Sterling estivesse com o Gás Monóxido, não portaria a Pasta (¬ PE(QS)), exigindo que o Magnata DuPont portasse o Gás Monóxido (GM(MD)). Isso geraria uma contradição com duas pessoas portando o Gás. Portanto, Sterling não pode portar o Gás: ¬ GM(QS). Como Sterling não tem a Seringa (¬ SS(QS)) e não tem o Gás, por exclusão ele porta a Pasta: PE(QS). Pela Pista 3, sendo PE(QS) VERDADE, deduzimos que ¬ GM(MD) é VERDADE, logo o Magnata DuPont não tem o Gás. Restando Seringa e Gás, o Magnata DuPont fica com a Seringa com Sedativo: SS(MD), e o Diretor Blackwell com o Gás Monóxido no Duto: GM(DB). Esta configuração satisfaz a Pista 2, pois GM(DB) e SA(DB) são verdades. O culpado é o Diretor Blackwell com o Gás Monóxido no Duto na Sala de Arquivos!"
     },
     {
         id: 9,
@@ -563,18 +563,18 @@ const challenges = [
             "Barra de Direção": { description: "Peça automotiva de aço maciço, com resquícios de graxa lubrificante preta" }
         },
         symbols: {
-            "J": "Marinheiro Jack",
-            "B": "Capitão Blackwood",
-            "C": "Senhorita Carmine",
-            "O": "Estivador Boris",
-            "P": "O Portão de Carga",
-            "A": "O Armazém Central",
-            "L": "A Loja de Penhores",
-            "D": "A Doca Seca",
-            "R": "Rifle Mosquetão",
-            "G": "Gancho de Carga",
-            "H": "Corda de Cânhamo",
-            "S": "Barra de Direção"
+            "MJ": "Marinheiro Jack",
+            "CB": "Capitão Blackwood",
+            "SC": "Senhorita Carmine",
+            "EB": "Estivador Boris",
+            "PC": "O Portão de Carga",
+            "AC": "O Armazém Central",
+            "LP": "A Loja de Penhores",
+            "DS": "A Doca Seca",
+            "RM": "Rifle Mosquetão",
+            "GC": "Gancho de Carga",
+            "CC": "Corda de Cânhamo",
+            "BD": "Barra de Direção"
         },
         clues: {
             portuguese: [
@@ -585,20 +585,20 @@ const challenges = [
                 "Estar no estabelecimento com prateleiras cheias de objetos antigos equivale a portar a corda de fibra grossa com nós de marinheiro se e somente se o gigante de 1,92 m não estava no local de grade de ferro com cadeado.",
                 "Se o gigante com uma cicatriz no peito estava com a peça de aço maciço manchada de graxa, então o comandante de 1,83 m portava o gancho de ferro curvo.",
                 "A revista provou ser falso que o gigante de 1,92 m estivesse portando a corda de fibra grossa ou o gancho de ferro curvo.",
-                "O armeiro declarou que o comandante de olhos cinzentos não retirou o rifle de cano longo de ferro oxidado do estoque."
+                "O Capitão Blackwood não estava portando o Rifle Mosquetão ou o Estivador Boris estava na Doca Seca."
             ],
             logic: [
-                "P(J)",
-                "D(O)",
-                "G(B) → A(B)",
-                "P ↔ R",
-                "(L ↔ H) ↔ ¬ P(O)",
-                "S(O) → G(B)",
-                "¬ (H(O) ∨ G(O))",
-                "¬ R(B)"
+                "PC(MJ)",
+                "DS(EB)",
+                "GC(CB) → AC(CB)",
+                "PC ↔ RM",
+                "(LP ↔ CC) ↔ ¬ PC(EB)",
+                "BD(EB) → GC(CB)",
+                "¬ (CC(EB) ∨ GC(EB))",
+                "¬ RM(CB) ∨ DS(EB)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que o Marinheiro Jack estava no Portão de Carga: P(J). Pela Pista 4, temos P ↔ R (Estar no Portão de Carga equivale a portar o Rifle Mosquetão), logo o Marinheiro Jack estava com o Rifle Mosquetão: R(J). Pela Pista 2, sabemos que o Estivador Boris estava na Doca Seca: D(O). A sua arma: não pode ser o Rifle Mosquetão (que está com Jack), nem a Corda de Cânhamo, nem o Gancho de Carga (Pista 7: ¬ (H(O) ∨ G(O))). Logo, Boris só pode estar com a Barra de Direção: S(O). Pela Pista 6, como Boris tem a Barra de Direção (S(O)), por Modus Ponens concluímos que o Capitão Blackwood tem o Gancho de Carga: G(B). Pela Pista 3, como Blackwood tem o Gancho de Carga (G(B)), por Modus Ponens concluímos que o Capitão Blackwood estava no Armazém Central: A(B). Pela Pista 5, como Boris não estava no Portão de Carga (estava na Doca Seca), ¬ P(O) é verdadeiro. A bicondicional exige que (L ↔ H) seja verdadeiro. Assim, a Senhorita Carmine está na Loja de Penhores com a Corda de Cânhamo: L(C) e H(C). O culpado estava no Armazém Central, logo é o Capitão Blackwood com o Gancho de Carga!",
+        explanation: "Pela Pista 1, sabemos que o Marinheiro Jack estava no Portão de Carga: PC(MJ). Pela Pista 4, temos PC ↔ RM (Estar no Portão equivale a portar o Rifle Mosquetão), logo Jack estava com o Rifle Mosquetão: RM(MJ). Pela Pista 2, sabemos que o Estivador Boris estava na Doca Seca: DS(EB). A sua arma: não pode ser o Rifle Mosquetão (que está com Jack), nem a Corda de Cânhamo, nem o Gancho de Carga (Pista 7: ¬ (CC(EB) ∨ GC(EB))). Logo, Boris só pode estar com a Barra de Direção: BD(EB). Pela Pista 6, como Boris tem a Barra de Direção (BD(EB)), por Modus Ponens concluímos que o Capitão Blackwood tem o Gancho de Carga: GC(CB). Pela Pista 3, como Blackwood tem o Gancho (GC(CB)), concluímos que ele estava no Armazém Central: AC(CB). Isso valida a Pista 8 (¬ RM(CB) ∨ DS(EB)), pois o Capitão de fato não portava o Rifle (portava o Gancho) e Boris de fato estava na Doca Seca, configurando um OU inclusivo com ambas as proposições verdadeiras (V ∨ V ⊢ V). Pela Pista 5, como Boris não estava no Portão de Carga, ¬ PC(EB) é verdade. A bicondicional exige que LP ↔ CC seja verdade. Assim, a Senhorita Carmine está na Loja de Penhores com a Corda de Cânhamo: LP(SC) e CC(SC). O culpado é o Capitão Blackwood com o Gancho de Carga no Armazém Central!",
         investigations: {
             "Marinheiro Jack": { phase: 0, text: "Jack alega que limpou o convés do barco a noite toda, mas suas botas estão perfeitamente secas e limpas." },
             "Capitão Blackwood": { phase: 1, text: "O comandante permaneceu em silêncio altivo, limpando a sujeira sob as unhas com a ponta de um canivete." },
@@ -652,18 +652,18 @@ const challenges = [
             "Veneno no Cálice de Adereço": { description: "Taça de latão ornamentada com falsas gemas, pó fino no fundo" }
         },
         symbols: {
-            "R": "Ilusionista Raven",
-            "S": "Diretor Sinclair",
-            "E": "Atriz Evelyn",
-            "M": "Crítico Malone",
-            "C": "Os Camarins",
-            "G": "A Galeria de Iluminação",
-            "P": "O Palco Principal",
-            "B": "A Bilheteria",
-            "U": "Punhal de Aço Damasceno",
-            "F": "Fio de Garrote Oculto",
-            "D": "Dose de Clorofórmio",
-            "V": "Veneno no Cálice de Adereço"
+            "IR": "Ilusionista Raven",
+            "DS": "Diretor Sinclair",
+            "AE": "Atriz Evelyn",
+            "CM": "Crítico Malone",
+            "CA": "Os Camarins",
+            "GI": "A Galeria de Iluminação",
+            "PP": "O Palco Principal",
+            "BI": "A Bilheteria",
+            "PD": "Punhal de Aço Damasceno",
+            "FG": "Fio de Garrote Oculto",
+            "DC": "Dose de Clorofórmio",
+            "VC": "Veneno no Cálice de Adereço"
         },
         clues: {
             portuguese: [
@@ -673,21 +673,21 @@ const challenges = [
                 "Estar no camarim com espelhos iluminados por lâmpadas incandescentes equivale a carregar a taça de latão ornamentada com falsas gemas contendo um pó fino.",
                 "Estar na passarela de metal suspensa equivale a portar o fio ultra-fino de aço trançado com anéis nas pontas se e somente se o mágico de 1,80 m não estava na cabine de madeira de janela circular.",
                 "Se o jornalista de 32 anos estava com o lenço de linho com odor anestésico, então a diva de olhos verdes com uma cicatriz no joelho portava o punhal com padrões ondulados na lâmina.",
-                "Provou-se ser falso que a diva de olhos verdes portasse o fio ultra-fino de aço trançado ou a taça de latão ornamentada.",
+                "A Atriz Evelyn não estava portando o Fio de Garrote Oculto ou ela não estava portando o Veneno no Cálice de Adereço.",
                 "O laudo provou que o jornalista com uma cicatriz na clavícula não teve contato com o punhal de padrões ondulados e não esteve no camarim com espelhos iluminados."
             ],
             logic: [
-                "G(S)",
-                "B(E)",
-                "D(M) → P(M)",
-                "C ↔ V",
-                "(G ↔ F) ↔ ¬ B(R)",
-                "D(M) → U(E)",
-                "¬ (F(E) ∨ V(E))",
-                "¬ U(M) ∧ ¬ C(M)"
+                "GI(DS)",
+                "BI(AE)",
+                "DC(CM) → PP(CM)",
+                "CA ↔ VC",
+                "(GI ↔ FG) ↔ ¬ BI(IR)",
+                "DC(CM) → PD(AE)",
+                "¬ FG(AE) ∨ ¬ VC(AE)",
+                "¬ PD(CM) ∧ ¬ CA(CM)"
             ]
         },
-        explanation: "Pela Pista 1, o Diretor Sinclair estava na Galeria de Iluminação: G(S). Pela Pista 2, a Atriz Evelyn estava na Bilheteria: B(E). Portanto, o Ilusionista Raven não estava na Bilheteria: ¬ B(R) é VERDADE. Pela Pista 5, com o lado direito da bicondicional VERDADE, o lado esquerdo também deve ser VERDADE: a pessoa na Galeria de Iluminação estava com o Fio de Garrote Oculto (G ↔ F). Como Sinclair estava na Galeria de Iluminação (G(S)), concluímos que Sinclair tinha o Fio de Garrote Oculto: F(S). Pela Pista 7, a Atriz Evelyn não tinha o Fio de Garrote nem o Veneno no Cálice de Adereço. Pela Pista 8, sabemos que Malone não tem o Punhal e não estava nos Camarins: ¬ U(M) ∧ ¬ C(M). Como Sinclair está na Galeria (G(S)) e Evelyn está na Bilheteria (B(E)), e Malone não estava nos Camarins (¬ C(M)), Malone só pode estar no Palco Principal (P(M)). Por exclusão de locais, o Ilusionista Raven estava nos Camarins: C(R). Pela Pista 4 (C ↔ V), concluímos que Raven tinha o Veneno no Cálice de Adereço: V(R). Como Sinclair tem o Fio (F(S)) e Raven tem o Veneno (V(R)), restam apenas o Punhal e a Dose para Evelyn e Malone. Como Malone não tem o Punhal (¬ U(M)), Malone deve portar a Dose de Clorofórmio: D(M). Por exclusão, a Atriz Evelyn tem o Punhal: U(E). Esta configuração atende perfeitamente à Pista 6 (D(M) → U(E)) e à Pista 3 (D(M) → P(M)). O culpado é o Crítico Malone com a Dose de Clorofórmio no Palco Principal!",
+        explanation: "Pela Pista 1, o Diretor Sinclair estava na Galeria de Iluminação: GI(DS). Pela Pista 2, a Atriz Evelyn estava na Bilheteria: BI(AE). Portanto, o Ilusionista Raven não estava na Bilheteria: ¬ BI(IR) é VERDADE. Pela Pista 5, com o lado direito da bicondicional VERDADE, o lado esquerdo também deve ser VERDADE: GI ↔ FG (estar na Galeria equivale a ter o Fio). Como Sinclair estava na Galeria (GI(DS)), concluímos que ele tinha o Fio de Garrote: FG(DS). Pela Pista 8, o Crítico Malone não tem o Punhal e não estava nos Camarins: ¬ PD(CM) ∧ ¬ CA(CM). Como Sinclair está na Galeria e Evelyn está na Bilheteria, e Malone não estava nos Camarins, Malone só pode estar no Palco Principal: PP(CM). Por exclusão, o Ilusionista Raven estava nos Camarins: CA(IR). Pela Pista 4 (CA ↔ VC), concluímos que Raven tinha o Veneno no Cálice: VC(IR). Isso valida a Pista 7 (¬ FG(AE) ∨ ¬ VC(AE)), pois Evelyn de fato não portava o Fio (que pertencia a Sinclair) e de fato não portava o Veneno (que pertencia a Raven), configurando um OU inclusivo com ambas premissas verdadeiras (V ∨ V ⊢ V). Restam o Punhal e a Dose para Evelyn e Malone. Como Malone não tem o Punhal (¬ PD(CM)), ele deve portar a Dose de Clorofórmio: DC(CM). Por exclusão, a Atriz Evelyn tem o Punhal: PD(AE). Esta configuração atende à Pista 6 (DC(CM) → PD(AE)) e à Pista 3 (DC(CM) → PP(CM)). O culpado é o Crítico Malone com a Dose de Clorofórmio no Palco Principal!",
         investigations: {
             "Ilusionista Raven": { phase: 0, text: "Raven tentou descontrair os oficiais no local realizando pequenos truques de desaparecimento de moedas." },
             "Diretor Sinclair": { phase: 1, text: "O produtor estava visivelmente nervoso, roendo as unhas e revisando pastas de contabilidade bancária." },
@@ -741,18 +741,18 @@ const challenges = [
             "Revólver Silenciado": { description: "Acabamento em aço escuro oxidado, silenciador artesanal rosqueável" }
         },
         symbols: {
-            "S": "Informante Slate",
-            "B": "Don Barrows",
-            "H": "Juíza Helena",
-            "U": "Matador Umbra",
-            "R": "O Beco das Ratazanas",
-            "C": "O Canteiro de Obras",
-            "E": "O Esgoto Subterrâneo",
-            "F": "A Fábrica de Tecidos",
-            "Ca": "Cano de Ferro Cortado",
-            "M": "Maçarico a Gás",
-            "T": "Martelo Pesado",
-            "V": "Revólver Silenciado"
+            "IS": "Informante Slate",
+            "DB": "Don Barrows",
+            "JH": "Juíza Helena",
+            "MU": "Matador Umbra",
+            "BR": "O Beco das Ratazanas",
+            "CO": "O Canteiro de Obras",
+            "ES": "O Esgoto Subterrâneo",
+            "FT": "A Fábrica de Tecidos",
+            "CF": "Cano de Ferro Cortado",
+            "MG": "Maçarico a Gás",
+            "MP": "Martelo Pesado",
+            "RS": "Revólver Silenciado"
         },
         clues: {
             portuguese: [
@@ -762,21 +762,21 @@ const challenges = [
                 "Estar no beco de tijolos vermelhos com limo nas paredes equivale a portar o tubo de encanamento de ferro com bordas serradas.",
                 "Estar no terreno de terra batida enlameada e andaimes inacabados equivale a portar o bico queimador de latão com mangueira vermelha se e somente se o arquivista de 31 anos não estava na fábrica com teares mecânicos.",
                 "Se o líder de 57 anos com cicatriz no supercílio estava com o Martelo Pesado, então a magistrada de 44 anos portava o bico queimador de latão com mangueira vermelha.",
-                "A busca na maleta provou ser falso que o atirador com cicatriz de queimadura portasse o tubo de encanamento de ferro ou a ferramenta de cabeça de ferro de 5kg.",
+                "O Matador Umbra de 38 anos não estava portando o Cano de Ferro Cortado ou ele não estava portando o Martelo Pesado.",
                 "O escrivão atestou que a magistrada com olhos castanhos não carregava a ferramenta de cabeça de ferro de 5kg em suas mãos."
             ],
             logic: [
-                "F(B)",
-                "R(S)",
-                "V(U) → E(U)",
-                "R ↔ Ca",
-                "(C ↔ M) ↔ ¬ F(S)",
-                "T(B) → M(H)",
-                "¬ (Ca(U) ∨ T(U))",
-                "¬ T(H)"
+                "FT(DB)",
+                "BR(IS)",
+                "RS(MU) → ES(MU)",
+                "BR ↔ CF",
+                "(CO ↔ MG) ↔ ¬ FT(IS)",
+                "MP(DB) → MG(JH)",
+                "¬ CF(MU) ∨ ¬ MP(MU)",
+                "¬ MP(JH)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que Don Barrows estava na Fábrica de Tecidos: F(B). Como os locais são únicos, o Informante Slate não estava na Fábrica de Tecidos (¬ F(S) é VERDADE). Pela Pista 5, com o lado direito da bicondicional VERDADE, o lado esquerdo também deve ser VERDADE: C ↔ M (estar no Canteiro de Obras equivale a portar o Maçarico a Gás). Pela Pista 2, sabemos que o Informante Slate estava no Beco das Ratazanas: R(S). Pela Pista 4 (R ↔ Ca), como Slate estava no Beco (R(S)), ele estava com o Cano de Ferro Cortado: Ca(S). Pela Pista 7, temos ¬ (Ca(U) ∨ T(U)) (o Matador Umbra não estava com o Cano de Ferro nem com o Martelo Pesado). Pela Pista 8, temos ¬ T(H) (a Juíza Helena não estava com o Martelo Pesado). Como Slate estava com o Cano de Ferro (Ca(S)) e nem Umbra nem Helena estavam com o Martelo, por exclusão de armas, Don Barrows só poderia estar com o Martelo Pesado: T(B). Pela Pista 6 (T(B) → M(H)), aplicando Modus Ponens, deduzimos que a Juíza Helena tem o Maçarico a Gás: M(H). Pela equivalência C ↔ M, como a Juíza Helena tem o Maçarico a Gás (M(H)), ela estava no Canteiro de Obras: C(H). Por exclusão de locais e armas, o Matador Umbra estava no Esgoto Subterrâneo com o Revólver Silenciado: E(U) e V(U). Pela Pista 3, temos V(U) → E(U). Como provamos V(U) na etapa anterior, por Modus Ponens: V(U) ∧ (V(U) → E(U)) ⊢ E(U). O culpado estava no Esgoto Subterrâneo, logo o culpado é o Matador Umbra com o Revólver Silenciado!",
+        explanation: "Pela Pista 1, sabemos que Don Barrows estava na Fábrica de Tecidos: FT(DB). Como os locais são únicos, o Informante Slate não estava na Fábrica de Tecidos (¬ FT(IS) é VERDADE). Pela Pista 5, com o lado direito da bicondicional VERDADE, o lado esquerdo também deve ser VERDADE: CO ↔ MG (estar no Canteiro de Obras equivale a portar o Maçarico a Gás). Pela Pista 2, sabemos que o Informante Slate estava no Beco das Ratazanas: BR(IS). Pela Pista 4 (BR ↔ CF), como Slate estava no Beco (BR(IS)), ele estava com o Cano de Ferro Cortado: CF(IS). Pela Pista 7, o Matador Umbra não estava com o Cano de Ferro nem com o Martelo: ¬ CF(MU) ∨ ¬ MP(MU), o que se confirma na solução real com ambas premissas verdadeiras (V ∨ V ⊢ V), já que Umbra portava o Revólver. Pela Pista 8, a Juíza Helena não estava com o Martelo Pesado: ¬ MP(JH). Como Slate estava com o Cano de Ferro, e nem Umbra nem Helena estavam com o Martelo, por exclusão, Don Barrows só poderia estar com o Martelo Pesado: MP(DB). Pela Pista 6 (MP(DB) → MG(JH)), aplicando Modus Ponens, deduzimos que a Juíza Helena tem o Maçarico a Gás: MG(JH). Pela equivalência CO ↔ MG, como a Juíza Helena tem o Maçarico (MG(JH)), ela estava no Canteiro de Obras: CO(JH). Por exclusão, o Matador Umbra estava no Esgoto Subterrâneo com o Revólver Silenciado: ES(MU) e RS(MU). Pela Pista 3, temos RS(MU) → ES(MU). Como provamos RS(MU), por Modus Ponens: ES(MU). O culpado estava no Esgoto Subterrâneo, logo o culpado é o Matador Umbra com o Revólver Silenciado!",
         investigations: {
             "Informante Slate": { phase: 0, text: "Slate alegou que estava dormindo na hora do crime, mas não soube responder sobre os sinos da paróquia local." },
             "Don Barrows": { phase: 1, text: "Don Barrows tragava um charuto cubano com calma, assoprando fumaça na direção do investigador." },
@@ -830,18 +830,18 @@ const challenges = [
             "Corrente de Carga": { description: "Elos espessos de aço forjado, coberta de fuligem industrial preta" }
         },
         symbols: {
-            "S": "Secretária Sterling",
-            "D": "Don Salieri",
-            "K": "Detetive Kelly",
-            "G": "Mafioso Genovese",
-            "P": "O Pátio de Carga",
-            "C": "O Cais Abandonado",
-            "A": "O Armazém do Porto",
-            "F": "A Falésia do Farol",
-            "Ar": "Armadilha de Aço",
-            "Fa": "Faca de Açougueiro",
-            "Ap": "Arpão Enferrujado",
-            "Co": "Corrente de Carga"
+            "SS": "Secretária Sterling",
+            "DS": "Don Salieri",
+            "DK": "Detetive Kelly",
+            "MG": "Mafioso Genovese",
+            "PC": "O Pátio de Carga",
+            "CA": "O Cais Abandonado",
+            "AP": "O Armazém do Porto",
+            "FF": "A Falésia do Farol",
+            "AA": "Armadilha de Aço",
+            "FA": "Faca de Açougueiro",
+            "AE": "Arpão Enferrujado",
+            "CC": "Corrente de Carga"
         },
         clues: {
             portuguese: [
@@ -851,21 +851,21 @@ const challenges = [
                 "Estar no armazém de portas de metal enferrujado na penumbra equivale a portar a corrente de elos espessos e manchada de fuligem.",
                 "Estar no pátio de cascalho com vagões de trem estacionados equivale a portar o arpão de ponta de metal oxidada se e somente se a assistente de 26 anos não estava no armazém de portas de metal enferrujado.",
                 "Se a assistente de 26 anos com sinal de nascença no pescoço estava com a Armadilha de Aço, então o investigador de 42 anos com cicatriz no queixo estava com o arpão de ponta de metal oxidada.",
-                "A busca na alfaiataria provou ser falso que o chefe de 61 anos portasse o dispositivo de mandíbulas denteadas ou a corrente de elos espessos e manchada de fuligem.",
+                "Don Salieri de 61 anos não estava portando a Armadilha de Aço ou ele não estava portando a Corrente de Carga.",
                 "O inventário atesta que o investigador com cicatriz no queixo não carregava o dispositivo de mandíbulas denteadas de ferro da corporação."
             ],
             logic: [
-                "C(S)",
-                "A(G)",
-                "Fa(D) → F(D)",
-                "A ↔ Co",
-                "(P ↔ Ap) ↔ ¬ A(S)",
-                "Ar(S) → Ap(K)",
-                "¬ (Ar(D) ∨ Co(D))",
-                "¬ Ar(K)"
+                "CA(SS)",
+                "AP(MG)",
+                "FA(DS) → FF(DS)",
+                "AP ↔ CC",
+                "(PC ↔ AE) ↔ ¬ AP(SS)",
+                "AA(SS) → AE(DK)",
+                "¬ AA(DS) ∨ ¬ CC(DS)",
+                "¬ AA(DK)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que a Secretária Sterling estava no Cais Abandonado: C(S). Como os locais são únicos, ela não estava no Armazém do Porto (¬ A(S) é VERDADE). Pela Pista 5, como o lado direito da bicondicional é VERDADE (¬ A(S)), o lado esquerdo também deve ser VERDADE: P ↔ Ap (estar no Pátio de Carga equivale a portar o Arpão Enferrujado). Pela Pista 2, sabemos que o Mafioso Genovese estava no Armazém do Porto: A(G). Pela Pista 4 (A ↔ Co), concluímos que ele estava com a Corrente de Carga: Co(G). Pela Pista 7, temos ¬ (Ar(D) ∨ Co(D)) (Don Salieri não estava com a Armadilha de Aço nem com a Corrente de Carga). Pela Pista 8, temos ¬ Ar(K) (o Detetive Kelly não estava com a Armadilha de Aço). Como Genovese estava com a Corrente de Carga (Co(G)), e nem Salieri nem Kelly estavam com a Armadilha, por exclusão de armas, a Secretária Sterling estava com a Armadilha de Aço: Ar(S). Pela Pista 6 (Ar(S) → Ap(K)), aplicando Modus Ponens, deduzimos que o Detetive Kelly estava com o Arpão Enferrujado: Ap(K). Pela equivalência P ↔ Ap, como Kelly tem o Arpão (Ap(K)), ele estava no Pátio de Carga: P(K). Por exclusão de locais, Don Salieri estava na Falésia do Farol: F(D). Por exclusão de armas, Don Salieri estava com a Faca de Açougueiro: Fa(D). Pela Pista 3, temos Fa(D) → F(D). Como provamos Fa(D) na etapa anterior, por Modus Ponens: Fa(D) ∧ (Fa(D) → F(D)) ⊢ F(D). Como o culpado estava na Falésia do Farol (Culpado ∈ F), ele é Don Salieri com a Faca de Açougueiro!",
+        explanation: "Pela Pista 1, sabemos que a Secretária Sterling estava no Cais Abandonado: CA(SS). Como os locais são únicos, ela não estava no Armazém do Porto (¬ AP(SS) é VERDADE). Pela Pista 5, como o lado direito da bicondicional é VERDADE (¬ AP(SS)), o lado esquerdo também deve ser VERDADE: PC ↔ AE (estar no Pátio de Carga equivale a portar o Arpão Enferrujado). Pela Pista 2, sabemos que o Mafioso Genovese estava no Armazém do Porto: AP(MG). Pela Pista 4 (AP ↔ CC), concluímos que ele estava com a Corrente de Carga: CC(MG). Pela Pista 7, Don Salieri não estava com a Armadilha de Aço nem com a Corrente: ¬ AA(DS) ∨ ¬ CC(DS), o que é verdade na solução real com ambas premissas verdadeiras (V ∨ V ⊢ V), já que ele tinha a Faca de Açougueiro. Pela Pista 8, o Detetive Kelly não estava com a Armadilha: ¬ AA(DK). Como Genovese estava com a Corrente, e nem Salieri nem Kelly estavam com a Armadilha, por exclusão, a Secretária Sterling estava com a Armadilha de Aço: AA(SS). Pela Pista 6 (AA(SS) → AE(DK)), aplicando Modus Ponens, deduzimos que o Detetive Kelly estava com o Arpão Enferrujado: AE(DK). Pela equivalência PC ↔ AE, como Kelly tem o Arpão, ele estava no Pátio de Carga: PC(DK). Por exclusão, Don Salieri estava na Falésia do Farol com a Faca de Açougueiro: FF(DS) e FA(DS). Pela Pista 3, temos FA(DS) → FF(DS). Como provamos FA(DS), por Modus Ponens: FF(DS). Como o culpado estava na Falésia do Farol (Culpado ∈ FF), ele é Don Salieri com a Faca de Açougueiro!",
         investigations: {
             "Secretária Sterling": { phase: 0, text: "Sterling secava as lágrimas com um lenço, reclamando da umidade gélida que subia do mar." },
             "Don Salieri": { phase: 1, text: "Salieri ajeitou o colarinho de seu casaco de seda preta sob medida com precisão obsessiva e silenciosa." },
