@@ -897,6 +897,8 @@ let currentMode = "portuguese"; // "portuguese" ou "logic"
 let gridZoom = 1.0; // Nível de zoom inicial do grid
 let gridMarks = {}; // Armazena as marcações do grid: { "rowName-colName": "X", "✔️", "" }
 let revealedInvestigations = {}; // Armazena as investigações reveladas no caso ativo: { "Nome": true }
+let conflictTimeoutId = null; // Atraso de 1s para sinalizar e travar o grid por conflitos de V
+let conflictedKeys = new Set(); // Chaves em conflito de V's no grid ativo
 let activeDossierTab = 'suspects';
 let maxLives = parseInt(getSecureItem("murdle_max_lives")) || 3;
 let lives = getSecureItem("murdle_current_lives") !== null ? parseInt(getSecureItem("murdle_current_lives")) : maxLives;
@@ -1242,6 +1244,11 @@ function loadChallenge(difficulty, index) {
     
     gridMarks = {}; // Reseta marcações do grid
     revealedInvestigations = {}; // Reseta investigações reveladas no caso
+    conflictedKeys.clear();
+    if (conflictTimeoutId) {
+        clearTimeout(conflictTimeoutId);
+        conflictTimeoutId = null;
+    }
     // Mantém as vidas do caso anterior
     updateLivesUI();
     
@@ -1791,6 +1798,7 @@ function createCell(rowName, colName, isThickLeft = false) {
     }
 
     const key = `${rowName}-${colName}`;
+    td.setAttribute("data-key", key);
     
     // Renderiza a marca se já existir no estado
     if (gridMarks[key]) {
@@ -1802,6 +1810,11 @@ function createCell(rowName, colName, isThickLeft = false) {
 
     // Clique para alternar estado: Vazio -> ❌ -> ✔️ -> ? -> Vazio
     td.addEventListener("click", () => {
+        // Se o grid estiver travado por conflito de V's, só permite clicar nas células conflitantes
+        if (conflictedKeys.size > 0 && !conflictedKeys.has(key)) {
+            return;
+        }
+
         let currentMark = gridMarks[key] || "";
         let newMark = "";
 
@@ -1826,6 +1839,9 @@ function createCell(rowName, colName, isThickLeft = false) {
         if (isThickLeft) td.classList.add("thick-border-left");
 
         gridMarks[key] = newMark;
+
+        // Rodar validação de conflito de V's com atraso de 1s para bloqueio
+        handleGridConflictValidation(key);
     });
 
     return td;
@@ -1834,7 +1850,150 @@ function createCell(rowName, colName, isThickLeft = false) {
 // Limpar todo o grid ativo
 function clearActiveGrid() {
     gridMarks = {};
+    conflictedKeys.clear();
+    if (conflictTimeoutId) {
+        clearTimeout(conflictTimeoutId);
+        conflictTimeoutId = null;
+    }
     generateGrid();
+}
+
+// 10.1. VALIDAÇÃO E TRAVAMENTO DE CONFLITOS DE V's (✔️) NO GRID
+function checkGridConflicts() {
+    // 1. Limpar estados anteriores no DOM
+    const tableEl = document.querySelector(".logic-grid");
+    if (tableEl) {
+        tableEl.classList.remove("grid-locked");
+    }
+    document.querySelectorAll(".cell-conflict").forEach(el => {
+        el.classList.remove("cell-conflict");
+    });
+    conflictedKeys.clear();
+
+    if (!activeChallenge) return;
+
+    // Obter a lista de blocos do grid do caso ativo
+    const blocks = [];
+    blocks.push({
+        rows: activeChallenge.locations,
+        cols: activeChallenge.suspects
+    });
+    if (activeChallenge.difficulty !== "easy") {
+        blocks.push({
+            rows: activeChallenge.locations,
+            cols: activeChallenge.weapons
+        });
+        blocks.push({
+            rows: activeChallenge.weapons,
+            cols: activeChallenge.suspects
+        });
+    }
+
+    // Verificar se há dois V's ("✔️") na mesma linha ou coluna dentro de cada bloco
+    blocks.forEach(block => {
+        // Verificar por linha
+        block.rows.forEach(row => {
+            const checksInRow = [];
+            block.cols.forEach(col => {
+                const key = `${row}-${col}`;
+                if (gridMarks[key] === "✔️") {
+                    checksInRow.push(key);
+                }
+            });
+            if (checksInRow.length > 1) {
+                checksInRow.forEach(key => conflictedKeys.add(key));
+            }
+        });
+
+        // Verificar por coluna
+        block.cols.forEach(col => {
+            const checksInCol = [];
+            block.rows.forEach(row => {
+                const key = `${row}-${col}`;
+                if (gridMarks[key] === "✔️") {
+                    checksInCol.push(key);
+                }
+            });
+            if (checksInCol.length > 1) {
+                checksInCol.forEach(key => conflictedKeys.add(key));
+            }
+        });
+    });
+
+    // 2. Se houver chaves conflitantes, aplicar travamento e classes no DOM
+    if (conflictedKeys.size > 0) {
+        if (tableEl) {
+            tableEl.classList.add("grid-locked");
+        }
+        conflictedKeys.forEach(key => {
+            const cellEl = document.querySelector(`td[data-key="${key}"]`);
+            if (cellEl) {
+                cellEl.classList.add("cell-conflict");
+            }
+        });
+    }
+}
+
+function handleGridConflictValidation(clickedKey) {
+    if (conflictTimeoutId) {
+        clearTimeout(conflictTimeoutId);
+        conflictTimeoutId = null;
+    }
+
+    if (!activeChallenge) return;
+
+    // Fazer checagem instantânea local (na memória) para ver se o conflito foi resolvido.
+    // Se o jogador acabou de remover um dos V's conflitantes, o grid deve ser desbloqueado IMEDIATAMENTE.
+    const tempConflictedKeys = new Set();
+    const blocks = [];
+    blocks.push({
+        rows: activeChallenge.locations,
+        cols: activeChallenge.suspects
+    });
+    if (activeChallenge.difficulty !== "easy") {
+        blocks.push({
+            rows: activeChallenge.locations,
+            cols: activeChallenge.weapons
+        });
+        blocks.push({
+            rows: activeChallenge.weapons,
+            cols: activeChallenge.suspects
+        });
+    }
+
+    blocks.forEach(block => {
+        block.rows.forEach(row => {
+            const checks = [];
+            block.cols.forEach(col => {
+                const key = `${row}-${col}`;
+                if (gridMarks[key] === "✔️") checks.push(key);
+            });
+            if (checks.length > 1) checks.forEach(k => tempConflictedKeys.add(k));
+        });
+        block.cols.forEach(col => {
+            const checks = [];
+            block.rows.forEach(row => {
+                const key = `${row}-${col}`;
+                if (gridMarks[key] === "✔️") checks.push(key);
+            });
+            if (checks.length > 1) checks.forEach(k => tempConflictedKeys.add(k));
+        });
+    });
+
+    if (tempConflictedKeys.size === 0) {
+        // Nenhum conflito ativo: Desbloqueio e reset de estilo IMEDIATO
+        conflictedKeys.clear();
+        const tableEl = document.querySelector(".logic-grid");
+        if (tableEl) {
+            tableEl.classList.remove("grid-locked");
+        }
+        document.querySelectorAll(".cell-conflict").forEach(el => {
+            el.classList.remove("cell-conflict");
+        });
+    } else {
+        // Conflito existe: agenda travamento e sinalização vermelha para dali a 1 segundo (1000ms)
+        conflictTimeoutId = setTimeout(checkGridConflicts, 1000);
+    }
 }
 
 // Atualizar a interface do contador de vidas

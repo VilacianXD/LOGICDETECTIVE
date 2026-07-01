@@ -2274,6 +2274,32 @@ input:checked + .slider:before {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Estado de Conflito de Marcação (Dois V no mesmo bloco/linha/coluna) */
+.logic-grid td.grid-cell.cell-conflict {
+    color: var(--accent-red) !important;
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    border: 2px solid var(--accent-red) !important;
+    animation: pulse-red 1s infinite alternate;
+}
+
+@keyframes pulse-red {
+    from { box-shadow: inset 0 0 5px rgba(239, 68, 68, 0.15); }
+    to { box-shadow: inset 0 0 15px rgba(239, 68, 68, 0.45); }
+}
+
+/* Estado de Bloqueio por Conflito do Grid */
+.logic-grid.grid-locked td.grid-cell:not(.cell-conflict) {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.logic-grid.grid-locked td.grid-cell.cell-conflict {
+    opacity: 1 !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
 
 
 
