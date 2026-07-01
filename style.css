@@ -2204,17 +2204,7 @@ input:checked + .slider:before {
     font-weight: bold;
 }
 
-/* Otimização de rolagem horizontal da barra de navegação de subabas */
-.tt-subtabs-nav::-webkit-scrollbar {
-    height: 4px;
-}
-.tt-subtabs-nav::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
-}
-.tt-subtabs-nav::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 2px;
-}
+
 
 /* Estilo para Tabela Verdade dentro do modal */
 .tt-truth-table {

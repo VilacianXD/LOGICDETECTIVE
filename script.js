@@ -3104,14 +3104,7 @@ function closeInstructionsScreen() {
             };
             container.appendChild(btn);
         });
-        
-        const activeBtn = container.children[activeTTSubTabIndex];
-        if (activeBtn) {
-            container.scrollTo({
-                left: activeBtn.offsetLeft - container.offsetWidth / 2 + activeBtn.offsetWidth / 2,
-                behavior: "smooth"
-            });
-        }
+
     }
 
     function renderTTContent() {
