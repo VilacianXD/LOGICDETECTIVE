@@ -1942,8 +1942,7 @@ function handleGridConflictValidation(clickedKey) {
 
     if (!activeChallenge) return;
 
-    // Fazer checagem instantânea local (na memória) para ver se o conflito foi resolvido.
-    // Se o jogador acabou de remover um dos V's conflitantes, o grid deve ser desbloqueado IMEDIATAMENTE.
+    // 1. Calcular o conjunto de conflitos atuais na memória (de forma instantânea)
     const tempConflictedKeys = new Set();
     const blocks = [];
     blocks.push({
@@ -1980,6 +1979,19 @@ function handleGridConflictValidation(clickedKey) {
         });
     });
 
+    // 2. Resolver conflitos resolvidos de forma instantânea (sem delay)
+    // Se uma chave estava marcada como conflitante no grid mas não está mais no tempConflictedKeys,
+    // significa que este conflito específico foi corrigido. Removemos a cor vermelha na hora.
+    conflictedKeys.forEach(key => {
+        if (!tempConflictedKeys.has(key)) {
+            const cellEl = document.querySelector(`td[data-key="${key}"]`);
+            if (cellEl) {
+                cellEl.classList.remove("cell-conflict");
+            }
+            conflictedKeys.delete(key);
+        }
+    });
+
     if (tempConflictedKeys.size === 0) {
         // Nenhum conflito ativo: Desbloqueio e reset de estilo IMEDIATO
         conflictedKeys.clear();
@@ -1991,7 +2003,8 @@ function handleGridConflictValidation(clickedKey) {
             el.classList.remove("cell-conflict");
         });
     } else {
-        // Conflito existe: agenda travamento e sinalização vermelha para dali a 1 segundo (1000ms)
+        // Se houver novos conflitos pendentes (chaves que entraram em conflito agora),
+        // ou se o conflito persistir, agendamos o travamento e realce para dali a 1 segundo.
         conflictTimeoutId = setTimeout(checkGridConflicts, 1000);
     }
 }

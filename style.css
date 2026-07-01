@@ -730,7 +730,7 @@ input:checked + .slider:before {
     
     body.game-active .grid-scroll-wrapper {
         flex: 1;
-        overflow: hidden; /* O grid de dedução lógica nunca deve ter barra de rolagem no PC */
+        overflow: auto; /* Permite rolar o grid no PC se a tela for menor que a tabela */
         height: 100%;
     }
 }
@@ -2298,6 +2298,15 @@ input:checked + .slider:before {
     opacity: 1 !important;
     cursor: pointer !important;
     pointer-events: auto !important;
+}
+
+/* Manter contraste e leitura dos seletores desabilitados no tema Noir ao fim do caso */
+select:disabled {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-secondary) !important;
+    opacity: 0.9 !important;
+    border-color: var(--border-color);
+    cursor: not-allowed;
 }
 
 
