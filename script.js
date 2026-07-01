@@ -308,7 +308,7 @@ const challenges = [
             "Fio de Aço de Garrote": { description: "Cabo de madeira improvisado nas pontas, com marcas de óleo de motor" }
         },
         symbols: {
-            "FC": "Arthur \"Flash\" Coburn",
+            "AC": "Arthur \"Flash\" Coburn",
             "MB": "Mickey Burns",
             "AV": "Advogado Vance",
             "BL": "O Beco do Lixo",
@@ -327,14 +327,14 @@ const challenges = [
                 "A revista na pasta do defensor de 47 anos confirmou que ele não portava o Revólver Calibre .38."
             ],
             logic: [
-                "SI(FC)",
+                "SI(AC)",
                 "VC ↔ RC",
                 "FA(AV) → QP(AV)",
-                "QP(AV) ∨ ¬ RC(FC)",
+                "QP(AV) ∨ ¬ RC(AC)",
                 "¬ RC(AV)"
             ]
         },
-        explanation: "Pela Pista 1, sabemos que Arthur Coburn estava com o Soco-Inglês de Latão: SI(FC). Pela Pista 5, temos ¬ RC(AV) (o Advogado Vance não estava com o Revólver Calibre .38). Como o Soco-Inglês está com Arthur Coburn (SI(FC)) e o Revólver não está com Vance, a única arma restante para o Advogado Vance é o Fio de Aço de Garrote: FA(AV). Consequentemente, por exclusão das armas, o Revólver Calibre .38 só pode estar com Mickey Burns: RC(MB). Pela Pista 3, temos FA(AV) → QP(AV). Como provamos FA(AV) na etapa anterior, aplicamos o Modus Ponens: FA(AV) ∧ (FA(AV) → QP(AV)) ⊢ QP(AV). Logo, o Advogado Vance estava no Quarto de Pensão 304. Isso valida a Pista 4 (QP(AV) ∨ ¬ RC(FC)), pois Vance de fato estava no Quarto e Coburn de fato não portava o Revólver (já que portava o Soco-Inglês), configurando um OU inclusivo verdadeiro com ambas as premissas verdadeiras (V ∨ V ⊢ V). Como Vance está no Quarto de Pensão 304 (QP(AV)), restam Beco do Lixo e Velvet Club. Pela Pista 2: VC ↔ RC (Estar no Velvet Club equivale a portar o Revólver). Como provamos que Mickey Burns tem o Revólver (RC(MB)), concluímos que ele estava no Velvet Club: VC(MB). Por exclusão de locais, Arthur Coburn estava no Beco do Lixo: BL(FC). Sendo o assassino daquele local (Velvet Club), Mickey Burns é o culpado com o Revólver Calibre .38!"
+        explanation: "Pela Pista 1, sabemos que Arthur Coburn estava com o Soco-Inglês de Latão: SI(AC). Pela Pista 5, temos ¬ RC(AV) (o Advogado Vance não estava com o Revólver Calibre .38). Como o Soco-Inglês está com Arthur Coburn (SI(AC)) e o Revólver não está com Vance, a única arma restante para o Advogado Vance é o Fio de Aço de Garrote: FA(AV). Consequentemente, por exclusão das armas, o Revólver Calibre .38 só pode estar com Mickey Burns: RC(MB). Pela Pista 3, temos FA(AV) → QP(AV). Como provamos FA(AV) na etapa anterior, aplicamos o Modus Ponens: FA(AV) ∧ (FA(AV) → QP(AV)) ⊢ QP(AV). Logo, o Advogado Vance estava no Quarto de Pensão 304. Isso valida a Pista 4 (QP(AV) ∨ ¬ RC(AC)), pois Vance de fato estava no Quarto e Coburn de fato não portava o Revólver (já que portava o Soco-Inglês), configurando um OU inclusivo verdadeiro com ambas as premissas verdadeiras (V ∨ V ⊢ V). Como Vance está no Quarto de Pensão 304 (QP(AV)), restam Beco do Lixo e Velvet Club. Pela Pista 2: VC ↔ RC (Estar no Velvet Club equivale a portar o Revólver). Como provamos que Mickey Burns tem o Revólver (RC(MB)), concluímos que ele estava no Velvet Club: VC(MB). Por exclusão de locais, Arthur Coburn estava no Beco do Lixo: BL(AC). Sendo o assassino daquele local (Velvet Club), Mickey Burns é o culpado com o Revólver Calibre .38!"
     },
     {
         id: 6,
