@@ -1275,7 +1275,13 @@ function loadChallenge(difficulty, index) {
     // Resetar zoom do grid ao carregar o desafio
     gridZoom = 1.0;
     const table = document.querySelector(".logic-grid");
-    if (table) table.style.transform = "scale(1.0)";
+    const container = document.getElementById("grid-container");
+    if (table && container) {
+        table.style.transform = "scale(1.0)";
+        table.style.transformOrigin = "top left";
+        container.style.width = "auto";
+        container.style.height = "auto";
+    }
 
     // Se estiver em modo lógica, atualiza exibição da legenda
     const caseLogicLegend = document.getElementById("case-logic-legend");
@@ -1647,6 +1653,8 @@ function getShortName(name) {
 function generateGrid() {
     const gridContainer = document.getElementById("grid-container");
     gridContainer.innerHTML = "";
+    gridContainer.style.width = "auto";
+    gridContainer.style.height = "auto";
 
     const suspects = activeChallenge.suspects;
     const locations = activeChallenge.locations;
@@ -2787,39 +2795,32 @@ function setupGridZoom() {
 
 function adjustZoom(delta) {
     const table = document.querySelector(".logic-grid");
-    const wrapper = document.querySelector(".grid-scroll-wrapper");
-    if (!table || !wrapper) return;
+    const container = document.getElementById("grid-container");
+    if (!table || !container) return;
     
     // Calcula o novo fator de zoom temporário
     let newZoom = gridZoom + delta;
     
-    // Define limite mínimo (não ficar menor que 50% de escala)
-    if (newZoom < 0.5) {
-        newZoom = 0.5;
+    // Define limites de zoom: mínimo de 0.6 (60%) e máximo de 1.6 (160%)
+    if (newZoom < 0.6) {
+        newZoom = 0.6;
     }
-    
-    // Se estiver aumentando o zoom, verifica se a tabela já cabe no limite físico do wrapper
-    if (delta > 0) {
-        // Aplica o zoom temporário
-        table.style.transform = `scale(${newZoom})`;
-        
-        const rectTable = table.getBoundingClientRect();
-        const rectWrapper = wrapper.getBoundingClientRect();
-        
-        // Se a tabela computada projetar uma largura ou altura que encoste ou ultrapasse o contêiner,
-        // nós impedimos esse zoom adicional para que ela caiba 100% no espaço determinado.
-        // Damos uma tolerância de 6px por segurança.
-        if (rectTable.width >= rectWrapper.width - 6 || rectTable.height >= rectWrapper.height - 6) {
-            // Reverte para o zoom anterior
-            table.style.transform = `scale(${gridZoom})`;
-            return;
-        }
-    } else {
-        // Para zoom out, apenas aplica
-        table.style.transform = `scale(${newZoom})`;
+    if (newZoom > 1.6) {
+        newZoom = 1.6;
     }
     
     gridZoom = newZoom;
+    
+    // Aplica o transform na tabela
+    table.style.transform = `scale(${gridZoom})`;
+    table.style.transformOrigin = "top left";
+    
+    // Ajusta o tamanho do container fisicamente para que o scroll do wrapper reflita o novo tamanho
+    const originalWidth = table.offsetWidth;
+    const originalHeight = table.offsetHeight;
+    
+    container.style.width = `${originalWidth * gridZoom}px`;
+    container.style.height = `${originalHeight * gridZoom}px`;
 }
 
 // ==========================================================================
