@@ -293,7 +293,7 @@ const challenges = [
             description: "Jimmy Carter tinha 33 anos e 1,77 m de altura, com marcantes olhos verdes. O corpo exibe uma severa contusão na têmpora esquerda, compatível com um golpe violento desferido por um objeto metálico pesado e rombo."
         },
         suspectsData: {
-            "Arthur \"Flash\" Coburn": { sex: "M", age: "28", height: "1,75 m", eyes: "Castanhos", scar: "Nenhuma", description: "Arthur \"Flash\" Coburn is um fotógrafo de 28 anos e 1,75 m de altura. Com seus olhos castanhos astutos e uma câmera sempre em mãos, ele costuma registrar de longe as cenas mais trágicas e violentas do distrito." },
+            "Arthur \"Flash\" Coburn": { sex: "M", age: "28", height: "1,75 m", eyes: "Castanhos", scar: "Nenhuma", description: "Arthur \"Flash\" Coburn é um fotógrafo de 28 anos e 1,75 m de altura. Com seus olhos castanhos astutos e uma câmera sempre em mãos, ele costuma registrar de longe as cenas mais trágicas e violentas do distrito." },
             "Mickey Burns": { sex: "M", age: "40", height: "1,82 m", eyes: "Cinzentos", scar: "Pequena cicatriz na orelha direita", description: "Mickey Burns é um barman musculoso de 40 anos com 1,82 m de altura e olhos cinzentos de expressão fechada. Ele ostenta uma pequena cicatriz na orelha direita de uma briga de bar no passado, um lembrete físico de que ele sabe lidar com encrenqueiros." },
             "Advogado Vance": { sex: "M", age: "47", height: "1,79 m", eyes: "Azuis", scar: "Nenhuma", description: "O Advogado Vance é um refinado defensor público de 47 anos com 1,79 m de altura e calculistas olhos azuis. Sempre polido, ele conhece as leis do distrito como ninguém e vive no limiar entre a corte e o crime." }
         },
