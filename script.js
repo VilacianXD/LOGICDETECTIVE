@@ -2771,6 +2771,416 @@ function closeInstructionsScreen() {
 
 
 
+    // ==========================================================================
+    // MÓDULO DE TABELAS VERDADE (BÁSICA E AVANÇADA)
+    // ==========================================================================
+    const truthTablesData = {
+        basic: [
+            {
+                name: "Proposição Simples",
+                symbol: "p, q",
+                info: "Representa um fato atômico e isolado. No formalismo do jogo, os locais e os objetos são predicados/funções representados por uma letra maiúscula que recebem a letra da pessoa como argumento.",
+                portuguese: "\"Ana foi ao Parque.\"",
+                logic: "P(A)",
+                headers: ["P"],
+                rows: [
+                    ["V"],
+                    ["F"]
+                ]
+            },
+            {
+                name: "Negação",
+                symbol: "¬ p",
+                info: "Inverte o valor lógico de uma proposição. Se uma afirmação é verdadeira, sua negação é falsa.",
+                portuguese: "\"Carlos não foi ao Museu.\"",
+                logic: "¬ M(C)",
+                headers: ["P", "¬ P"],
+                rows: [
+                    ["V", "F"],
+                    ["F", "V"]
+                ]
+            },
+            {
+                name: "Conjunção",
+                symbol: "p ∧ q",
+                info: "A conjunção (operador \"E\") só é verdadeira se ambas as proposições combinadas forem verdadeiras.",
+                portuguese: "\"Ana foi ao Parque e estava levando o Guarda-chuva.\"",
+                logic: "P(A) ∧ G(A)",
+                headers: ["P", "Q", "P ∧ Q"],
+                rows: [
+                    ["V", "V", "V"],
+                    ["V", "F", "F"],
+                    ["F", "V", "F"],
+                    ["F", "F", "F"]
+                ]
+            },
+            {
+                name: "Disjunção",
+                symbol: "p ∨ q",
+                info: "A disjunção (operador \"OU\" inclusivo) é verdadeira se pelo menos uma das proposições for verdadeira. Ela só é falsa se ambas forem falsas.",
+                portuguese: "\"Carlos foi ao Museu ou estava usando Óculos.\"",
+                logic: "M(C) ∨ O(C)",
+                headers: ["P", "Q", "P ∨ Q"],
+                rows: [
+                    ["V", "V", "V"],
+                    ["V", "F", "V"],
+                    ["F", "V", "V"],
+                    ["F", "F", "F"]
+                ]
+            },
+            {
+                name: "Disjunção Exclusiva",
+                symbol: "p ⊕ q",
+                info: "A disjunção exclusiva (operador \"OU... OU...\") é verdadeira se exatamente uma das proposições for verdadeira. Se ambas ocorrerem ou nenhuma ocorrer, o resultado é falso.",
+                portuguese: "\"Ou o Daniel foi ao Teatro, ou ele foi ao Parque.\"",
+                logic: "T(D) ⊕ P(D)",
+                headers: ["P", "Q", "P ⊕ Q"],
+                rows: [
+                    ["V", "V", "F"],
+                    ["V", "F", "V"],
+                    ["F", "V", "V"],
+                    ["F", "F", "F"]
+                ]
+            },
+            {
+                name: "Condicional",
+                symbol: "p → q",
+                info: "A condicional (operador \"SE... ENTÃO...\") estabelece causa e efeito. Só é falsa no caso de a condição inicial ser verdadeira e a consequência ser falsa (V → F resulta em F).",
+                portuguese: "\"Se a Ana foi ao Parque, então o Carlos foi ao Museu.\"",
+                logic: "P(A) → M(C)",
+                headers: ["P", "Q", "P → Q"],
+                rows: [
+                    ["V", "V", "V"],
+                    ["V", "F", "F"],
+                    ["F", "V", "V"],
+                    ["F", "F", "V"]
+                ]
+            },
+            {
+                name: "Bicondicional",
+                symbol: "p ↔ q",
+                info: "A bicondicional (operador \"...SE E SOMENTE SE...\") é verdadeira se ambas as proposições possuírem necessariamente o mesmo valor de verdade.",
+                portuguese: "\"Daniel foi ao Teatro se e somente se estava levando o Livro.\"",
+                logic: "T(D) ↔ L(D)",
+                headers: ["P", "Q", "P ↔ Q"],
+                rows: [
+                    ["V", "V", "V"],
+                    ["V", "F", "F"],
+                    ["F", "V", "F"],
+                    ["F", "F", "V"]
+                ]
+            }
+        ],
+        advanced: [
+            {
+                name: "Se com E",
+                symbol: "(P ∧ Q) → R",
+                info: "Uma condicional onde a condição inicial (antecedente) exige que duas coisas aconteçam juntas. O resultado final só será falso se o antecedente for verdadeiro (P e Q ocorrerem) mas a consequência (R) for falsa.",
+                portuguese: "\"Se a Ana foi ao Parque e estava levando o Guarda-chuva, então o Carlos foi ao Museu.\"",
+                logic: "(P(A) ∧ G(A)) → M(C)",
+                headers: ["P", "Q", "R", "P ∧ Q", "(P ∧ Q) → R"],
+                rows: [
+                    ["V", "V", "V", "V", "V"],
+                    ["V", "V", "F", "V", "F"],
+                    ["V", "F", "V", "F", "V"],
+                    ["V", "F", "F", "F", "V"],
+                    ["F", "V", "V", "F", "V"],
+                    ["F", "V", "F", "F", "V"],
+                    ["F", "F", "V", "F", "V"],
+                    ["F", "F", "F", "F", "V"]
+                ]
+            },
+            {
+                name: "Se com Ou",
+                symbol: "(P ∨ Q) → R",
+                info: "Uma condicional onde basta que uma das duas condições iniciais seja verdadeira para forçar a consequência (R). Só será falsa se pelo menos uma das premissas P ou Q for verdadeira e R for falso.",
+                portuguese: "\"Se o Carlos foi ao Museu ou estava usando Óculos, então o Daniel foi ao Teatro.\"",
+                logic: "(M(C) ∨ O(C)) → T(D)",
+                headers: ["P", "Q", "R", "P ∨ Q", "(P ∨ Q) → R"],
+                rows: [
+                    ["V", "V", "V", "V", "V"],
+                    ["V", "V", "F", "V", "F"],
+                    ["V", "F", "V", "V", "V"],
+                    ["V", "F", "F", "V", "F"],
+                    ["F", "V", "V", "V", "V"],
+                    ["F", "V", "F", "V", "F"],
+                    ["F", "F", "V", "F", "V"],
+                    ["F", "F", "F", "F", "V"]
+                ]
+            },
+            {
+                name: "Se com Xou",
+                symbol: "(P ⊕ Q) → R",
+                info: "Uma condicional onde a consequência R é acionada apenas se exatamente uma das condições de entrada for verdadeira (exclusividade). Se ambas P e Q ocorrerem, ou nenhuma delas, a condicional permanece verdadeira independente de R.",
+                portuguese: "\"Se ou a Ana foi ao Teatro, ou ela foi ao Parque, então ela estava levando a Mochila.\"",
+                logic: "(T(A) ⊕ P(A)) → K(A)",
+                headers: ["P", "Q", "R", "P ⊕ Q", "(P ⊕ Q) → R"],
+                rows: [
+                    ["V", "V", "V", "F", "V"],
+                    ["V", "V", "F", "F", "V"],
+                    ["V", "F", "V", "V", "V"],
+                    ["V", "F", "F", "V", "F"],
+                    ["F", "V", "V", "V", "V"],
+                    ["F", "V", "F", "V", "F"],
+                    ["F", "F", "V", "F", "V"],
+                    ["F", "F", "F", "F", "V"]
+                ]
+            },
+            {
+                name: "E com Ou",
+                symbol: "P ∧ (Q ∨ R)",
+                info: "Uma conjunção onde P é obrigatoriamente verdadeiro, e pelo menos uma das opções (Q ou R) também deve ser verdadeira.",
+                portuguese: "\"Carlos estava levando o Livro, e (Ana foi ao Parque ou Daniel foi ao Teatro).\"",
+                logic: "L(C) ∧ (P(A) ∨ T(D))",
+                headers: ["P", "Q", "R", "Q ∨ R", "P ∧ (Q ∨ R)"],
+                rows: [
+                    ["V", "V", "V", "V", "V"],
+                    ["V", "V", "F", "V", "V"],
+                    ["V", "F", "V", "V", "V"],
+                    ["V", "F", "F", "F", "F"],
+                    ["F", "V", "V", "V", "F"],
+                    ["F", "V", "F", "V", "F"],
+                    ["F", "F", "V", "V", "F"],
+                    ["F", "F", "F", "F", "F"]
+                ]
+            },
+            {
+                name: "E com Xou",
+                symbol: "P ∧ (Q ⊕ R)",
+                info: "Uma conjunção onde P deve ser verdadeiro, e exatamente uma das opções (Q ou R) deve ser verdadeira.",
+                portuguese: "\"Daniel foi ao Museu, e (ou estava usando Óculos, ou estava levando a Mochila).\"",
+                logic: "M(D) ∧ (O(D) ⊕ K(D))",
+                headers: ["P", "Q", "R", "Q ⊕ R", "P ∧ (Q ⊕ R)"],
+                rows: [
+                    ["V", "V", "V", "F", "F"],
+                    ["V", "V", "F", "V", "V"],
+                    ["V", "F", "V", "V", "V"],
+                    ["V", "F", "F", "F", "F"],
+                    ["F", "V", "V", "F", "F"],
+                    ["F", "V", "F", "V", "F"],
+                    ["F", "F", "V", "V", "F"],
+                    ["F", "F", "F", "F", "F"]
+                ]
+            },
+            {
+                name: "Ou com E",
+                symbol: "P ∨ (Q ∧ R)",
+                info: "Uma disjunção onde ou P é verdadeiro isoladamente, ou as duas proposições Q e R ocorrem juntas.",
+                portuguese: "\"Ana foi à Faculdade, ou (Carlos foi ao Parque e estava levando o Livro).\"",
+                logic: "F(A) ∨ (P(C) ∧ L(C))",
+                headers: ["P", "Q", "R", "Q ∧ R", "P ∨ (Q ∧ R)"],
+                rows: [
+                    ["V", "V", "V", "V", "V"],
+                    ["V", "V", "F", "F", "V"],
+                    ["V", "F", "V", "F", "V"],
+                    ["V", "F", "F", "F", "V"],
+                    ["F", "V", "V", "V", "V"],
+                    ["F", "V", "F", "F", "F"],
+                    ["F", "F", "V", "F", "F"],
+                    ["F", "F", "F", "F", "F"]
+                ]
+            },
+            {
+                name: "Ou com Xou",
+                symbol: "P ∨ (Q ⊕ R)",
+                info: "Uma disjunção inclusiva onde ou a proposição P é verdadeira, ou ocorre a disjunção exclusiva entre Q e R.",
+                portuguese: "\"Ana foi à Faculdade, ou (ou o Carlos foi ao Parque, ou ele foi ao Museu).\"",
+                logic: "F(A) ∨ (P(C) ⊕ M(C))",
+                headers: ["P", "Q", "R", "Q ⊕ R", "P ∨ (Q ⊕ R)"],
+                rows: [
+                    ["V", "V", "V", "F", "V"],
+                    ["V", "V", "F", "V", "V"],
+                    ["V", "F", "V", "V", "V"],
+                    ["V", "F", "F", "F", "V"],
+                    ["F", "V", "V", "F", "F"],
+                    ["F", "V", "F", "V", "V"],
+                    ["F", "F", "V", "V", "V"],
+                    ["F", "F", "F", "F", "F"]
+                ]
+            },
+            {
+                name: "Xou com E",
+                symbol: "P ⊕ (Q ∧ R)",
+                info: "Uma disjunção exclusiva onde ou a proposição P ocorre isoladamente, ou as proposições Q e R ocorrem juntas, mas nunca as duas situações ao mesmo tempo.",
+                portuguese: "\"Ou a Ana foi ao Museu, ou (o Carlos foi ao Parque e estava levando o Livro).\"",
+                logic: "M(A) ⊕ (P(C) ∧ L(C))",
+                headers: ["P", "Q", "R", "Q ∧ R", "P ⊕ (Q ∧ R)"],
+                rows: [
+                    ["V", "V", "V", "V", "F"],
+                    ["V", "V", "F", "F", "V"],
+                    ["V", "F", "V", "F", "V"],
+                    ["V", "F", "F", "F", "V"],
+                    ["F", "V", "V", "V", "V"],
+                    ["F", "V", "F", "F", "F"],
+                    ["F", "F", "V", "F", "F"],
+                    ["F", "F", "F", "F", "F"]
+                ]
+            },
+            {
+                name: "Xou com Ou",
+                symbol: "P ⊕ (Q ∨ R)",
+                info: "Uma disjunção exclusiva onde ou P é verdadeiro isoladamente, ou ocorre a disjunção inclusiva entre Q e R, mas nunca ambos simultaneamente.",
+                portuguese: "\"Ou a Ana foi ao Teatro, ou (o Carlos foi ao Parque ou estava usando Óculos).\"",
+                logic: "T(A) ⊕ (P(C) ∨ O(C))",
+                headers: ["P", "Q", "R", "Q ∨ R", "P ⊕ (Q ∨ R)"],
+                rows: [
+                    ["V", "V", "V", "V", "F"],
+                    ["V", "V", "F", "V", "F"],
+                    ["V", "F", "V", "V", "F"],
+                    ["V", "F", "F", "F", "V"],
+                    ["F", "V", "V", "V", "V"],
+                    ["F", "V", "F", "V", "V"],
+                    ["F", "F", "V", "V", "V"],
+                    ["F", "F", "F", "F", "F"]
+                ]
+            }
+        ]
+    };
+
+    let activeTTTab = "basic";
+    let activeTTSubTabIndex = 0;
+
+    function openTruthTablesModal() {
+        const modal = document.getElementById("truth-tables-modal");
+        if (modal) {
+            modal.classList.add("active");
+            activeTTTab = "basic";
+            activeTTSubTabIndex = 0;
+            renderTTTabs();
+            renderTTSubTabs();
+            renderTTContent();
+        }
+    }
+
+    function closeTruthTablesModal() {
+        const modal = document.getElementById("truth-tables-modal");
+        if (modal) {
+            modal.classList.remove("active");
+            const popover = document.getElementById("tt-info-popover");
+            if (popover) popover.style.display = "none";
+        }
+    }
+
+    function switchTTTab(tabId) {
+        activeTTTab = tabId;
+        activeTTSubTabIndex = 0;
+        renderTTTabs();
+        renderTTSubTabs();
+        renderTTContent();
+    }
+
+    function renderTTTabs() {
+        const btnBasic = document.getElementById("tab-tt-basic");
+        const btnAdvanced = document.getElementById("tab-tt-advanced");
+        if (!btnBasic || !btnAdvanced) return;
+        
+        if (activeTTTab === "basic") {
+            btnBasic.classList.add("active");
+            btnAdvanced.classList.remove("active");
+        } else {
+            btnAdvanced.classList.add("active");
+            btnBasic.classList.remove("active");
+        }
+    }
+
+    function renderTTSubTabs() {
+        const container = document.getElementById("tt-subtabs-container");
+        if (!container) return;
+        
+        container.innerHTML = "";
+        const list = truthTablesData[activeTTTab];
+        
+        list.forEach((item, index) => {
+            const btn = document.createElement("button");
+            btn.className = `tt-subtab-btn ${index === activeTTSubTabIndex ? 'active' : ''}`;
+            btn.innerHTML = `${item.name} <span style="font-size: 0.7rem; opacity: 0.8; margin-left: 0.25rem;">(${item.symbol})</span>`;
+            btn.onclick = () => {
+                activeTTSubTabIndex = index;
+                container.querySelectorAll(".tt-subtab-btn").forEach((b, idx) => {
+                    if (idx === index) b.classList.add("active");
+                    else b.classList.remove("active");
+                });
+                renderTTContent();
+            };
+            container.appendChild(btn);
+        });
+        
+        const activeBtn = container.children[activeTTSubTabIndex];
+        if (activeBtn) {
+            container.scrollTo({
+                left: activeBtn.offsetLeft - container.offsetWidth / 2 + activeBtn.offsetWidth / 2,
+                behavior: "smooth"
+            });
+        }
+    }
+
+    function renderTTContent() {
+        const body = document.getElementById("tt-content-body");
+        if (!body) return;
+        
+        const oldPopover = document.getElementById("tt-info-popover");
+        if (oldPopover) oldPopover.style.display = "none";
+        
+        const item = truthTablesData[activeTTTab][activeTTSubTabIndex];
+        if (!item) return;
+        
+        let tableHeadersHtml = item.headers.map(h => `<th>${h}</th>`).join("");
+        
+        let tableRowsHtml = item.rows.map(row => {
+            let cols = row.map((cell, idx) => {
+                const valClass = cell === "V" ? "val-true" : "val-false";
+                return `<td><span class="${valClass}">${cell}</span></td>`;
+            }).join("");
+            return `<tr>${cols}</tr>`;
+        }).join("");
+        
+        body.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.75rem;">
+                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <h4 style="margin: 0; font-family: var(--font-sans); font-size: 1.15rem; color: var(--accent-amber);">${item.name}</h4>
+                    <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary);">${item.symbol}</div>
+                </div>
+                <button class="btn btn-secondary btn-small" onclick="showTTInfo(event)" style="border-radius: 50%; width: 28px; height: 28px; padding: 0; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-family: var(--font-mono); font-size: 0.9rem; cursor: pointer; border-color: var(--accent-amber); color: var(--accent-amber); background: rgba(202, 138, 4, 0.05);">i</button>
+            </div>
+
+            <div id="tt-info-popover" class="tt-info-popover">
+                ${item.info}
+            </div>
+
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.85rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; font-family: var(--font-sans);">
+                <div style="font-size: 0.95rem; color: var(--text-primary); font-style: italic;">${item.portuguese}</div>
+                <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-amber); padding-left: 0.5rem; border-left: 2px solid var(--accent-amber);">${item.logic}</div>
+            </div>
+
+            <div style="overflow-x: auto; margin-top: 0.25rem;">
+                <table class="tt-truth-table">
+                    <thead>
+                        <tr>${tableHeadersHtml}</tr>
+                    </thead>
+                    <tbody>
+                        ${tableRowsHtml}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function showTTInfo(event) {
+        event.stopPropagation();
+        const popover = document.getElementById("tt-info-popover");
+        if (!popover) return;
+        
+        popover.style.display = "block";
+        
+        setTimeout(() => {
+            const closePopover = () => {
+                popover.style.display = "none";
+                document.removeEventListener("click", closePopover);
+            };
+            document.addEventListener("click", closePopover);
+        }, 50);
+    }
+
     // Exposição controlada de funções globais para compatibilidade com onclick no HTML
     window.openInstructionsScreen = openInstructionsScreen;
     window.openCharacterSelection = openCharacterSelection;
@@ -2789,4 +3199,8 @@ function closeInstructionsScreen() {
     window.submitAccusation = submitAccusation;
     window.closePoliceReport = closePoliceReport;
     window.closePromotionModal = closePromotionModal;
+    window.openTruthTablesModal = openTruthTablesModal;
+    window.closeTruthTablesModal = closeTruthTablesModal;
+    window.switchTTTab = switchTTTab;
+    window.showTTInfo = showTTInfo;
 })();

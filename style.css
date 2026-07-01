@@ -2153,6 +2153,134 @@ input:checked + .slider:before {
     color: var(--text-primary) !important;
 }
 
+/* ==========================================================================
+   TABELAS VERDADE MODAL E ABAS
+   ========================================================================== */
+#truth-tables-modal .modal-content {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+.btn-tab {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+}
+
+.btn-tab.active {
+    background-color: var(--bg-secondary);
+    border-color: var(--accent-amber);
+    color: var(--accent-amber);
+    box-shadow: 0 0 10px rgba(202, 138, 4, 0.2);
+}
+
+.tt-subtab-btn {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.tt-subtab-btn:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+}
+
+.tt-subtab-btn.active {
+    background-color: rgba(202, 138, 4, 0.15);
+    border-color: var(--accent-amber);
+    color: var(--accent-amber);
+    font-weight: bold;
+}
+
+/* Otimização de rolagem horizontal da barra de navegação de subabas */
+.tt-subtabs-nav::-webkit-scrollbar {
+    height: 4px;
+}
+.tt-subtabs-nav::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+.tt-subtabs-nav::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+}
+
+/* Estilo para Tabela Verdade dentro do modal */
+.tt-truth-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.tt-truth-table th, .tt-truth-table td {
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.tt-truth-table th {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-weight: bold;
+}
+
+/* Destacar a última coluna (coluna de resultado) */
+.tt-truth-table td:last-child {
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.tt-truth-table th:last-child {
+    color: var(--accent-amber);
+}
+
+/* Cores de Verdadeiro / Falso */
+.val-true {
+    color: #22c55e !important; /* Verde brilhante */
+}
+
+.val-false {
+    color: #ef4444 !important; /* Vermelho brilhante */
+}
+
+/* Popover de Info */
+.tt-info-popover {
+    position: absolute;
+    z-index: 100;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--accent-amber);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    top: 10%;
+    left: 5%;
+    right: 5%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+    display: none;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    animation: fadeIn var(--transition-fast);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 
 
 

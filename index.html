@@ -278,7 +278,10 @@
 
                     <!-- LEGENDA LÓGICA (Exibida dinamicamente no modo lógico) -->
                     <div class="panel-box legend-box" id="legend-box" style="display: none;">
-                        <h4>📐 Guia de Tradução Lógica</h4>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--border-color); padding-bottom: 0.4rem;">
+                            <h4 style="margin: 0; font-family: var(--font-sans);">📐 Guia de Tradução Lógica</h4>
+                            <button class="btn btn-secondary" id="btn-open-truth-tables" onclick="openTruthTablesModal()" style="font-family: var(--font-mono); font-size: 0.75rem; padding: 0.25rem 0.5rem; background: var(--bg-tertiary); border: 1px solid var(--accent-amber); color: var(--accent-amber); cursor: pointer; border-radius: var(--radius-sm); transition: all var(--transition-fast);">📊 Tabelas Verdade</button>
+                        </div>
                         <div class="legend-grid">
                             <div class="legend-item"><strong>p, q, r...</strong> Proposições simples (Ex: <em>J_plum</em> = Plum estava no Jardim)</div>
                             <div class="legend-item"><strong>¬ p</strong> Negação (Não p / É falso que p)</div>
@@ -784,6 +787,37 @@
                             Continuar Investigação ➡️
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE TABELAS VERDADE -->
+        <div id="truth-tables-modal" class="modal">
+            <div class="modal-content" style="max-width: 800px; border-color: var(--accent-amber); max-height: 90vh;">
+                <span class="modal-close" onclick="closeTruthTablesModal()">&times;</span>
+                <div class="modal-body text-left" style="display: flex; flex-direction: column; height: 100%; gap: 1rem;">
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+                        <span style="font-size: 1.8rem;">📊</span>
+                        <h3 style="color: var(--accent-amber); margin: 0; font-family: var(--font-sans);">Tabelas Verdade</h3>
+                    </div>
+
+                    <!-- ABAS PRINCIPAIS -->
+                    <div class="modal-tabs-header" style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button class="btn btn-tab active" id="tab-tt-basic" onclick="switchTTTab('basic')" style="flex: 1; font-family: var(--font-mono); font-weight: bold;">Nível Básica</button>
+                        <button class="btn btn-tab" id="tab-tt-advanced" onclick="switchTTTab('advanced')" style="flex: 1; font-family: var(--font-mono); font-weight: bold;">Nível Avançado</button>
+                    </div>
+
+                    <!-- SUBABAS NAV WRAPPER (Rolável horizontalmente se transbordar) -->
+                    <div id="tt-subtabs-container" class="tt-subtabs-nav" style="display: flex; gap: 0.35rem; overflow-x: auto; padding: 0.25rem 0; margin-top: 0.25rem; border-bottom: 1px solid var(--border-color); white-space: nowrap;">
+                        <!-- Inserido dinamicamente via JS -->
+                    </div>
+
+                    <!-- CORPO DA SUBABA -->
+                    <div id="tt-content-body" style="display: flex; flex-direction: column; gap: 1.25rem; overflow-y: auto; flex: 1; padding-top: 0.5rem; position: relative;">
+                        <!-- Inserido dinamicamente via JS -->
+                    </div>
+
                 </div>
             </div>
         </div>
